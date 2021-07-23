@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  mysql1:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - mysql1:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_1
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user1234
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - 3307:3307
+    expose:
+      - 3307
+    networks:
+      - cinema-app-network
+
+  cinema-app:
+    image: cinema-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - cinema-app-network
+
+volumes:
+  mysql1:
+
+networks:
+  cinema-app-network:
+
