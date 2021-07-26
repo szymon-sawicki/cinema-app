@@ -1,2 +1,9 @@
-package com.cinema.app.domain.configs.validator;public class ValidatorException {
+package com.cinema.app.domain.configs.validator;
+
+public class ValidatorException extends RuntimeException{
+
+    public ValidatorException(String message) {
+        super(message);
+    }
+
 }
