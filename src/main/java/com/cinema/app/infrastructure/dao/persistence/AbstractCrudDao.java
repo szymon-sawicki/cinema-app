@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class AbstractCrudDao<T,ID> implements CrudDao<T,ID> {
+public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
 
     protected final Jdbi jdbi;
 
@@ -21,14 +21,16 @@ public abstract class AbstractCrudDao<T,ID> implements CrudDao<T,ID> {
     private final Class<T> entityType = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
 
-
     private String tableName() {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, English.plural(entityType.getSimpleName()));
     }
 
 
+    protected AbstractCrudDao(Jdbi jdbi) {
+        this.jdbi = jdbi;
+    }
 
-    protected AbstractCrudDao(Jdbi jdbi) { this.jdbi = jdbi; };
+    ;
 
     @Override
     public Optional<T> save(T t) {
@@ -52,22 +54,53 @@ public abstract class AbstractCrudDao<T,ID> implements CrudDao<T,ID> {
 
     @Override
     public List<T> findAllById(List<ID> ids) {
-        return null;
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from " + tableName() + " where id in (<ids>)"))
+                .bindList("ids", ids)
+                .mapToBean(entityType)
+                .list();
     }
 
     @Override
     public List<T> findAll() {
-        return null;
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from " + tableName())
+                .mapToBean(entityType)
+                .list());
     }
 
     @Override
     public Optional<T> deleteById(ID id) {
-        return Optional.empty();
+        var itemToDelete = findById(id);
+        var inserted = jdbi
+                .withHandle(handle -> handle.createUpdate("delete from " + tableName() + " where id = " + id).execute());
+        if(inserted == 0) {
+            throw new AbstractCrudDaoException("Cannot delete item with id " + id);
+        }
+        return itemToDelete;
     }
 
     @Override
     public List<T> deleteAllById(List<ID> ids) {
-        return null;
+        var elementsToDelete = findAllById(ids);
+        var result = jdbi.withHandle(handle ->
+            handle
+                    .createUpdate("delete from " + tableName() + " where id in (<ids)")
+                    .bindList("ids",ids)
+                    .execute()
+        );
+        if(result == 0) {
+            throw new AbstractCrudDaoException("cannot find elements to delete");
+        }
+        return elementsToDelete;
+    }
+
+    private List<T> findNLastElements(int n) {
+        var sql = "select * from " + tableName() + " order by id limit " + n;
+        return jdbi.withHandle(handle -> handle
+                .createQuery(sql)
+                .mapToBean(entityType)
+                .list());
     }
 
     private String columnNamesForSave() {
@@ -87,10 +120,10 @@ public abstract class AbstractCrudDao<T,ID> implements CrudDao<T,ID> {
             return " ( " + Arrays
                     .stream(entityType.getDeclaredFields())
                     .filter(field -> !field.getName().equalsIgnoreCase("id"))
-                    .map(field ->{
+                    .map(field -> {
                         field.setAccessible(true);
                         try {
-                            if(field.getType().equals(String.class) || field.getType().equals(LocalDate.class)) {
+                            if (field.getType().equals(String.class) || field.getType().equals(LocalDate.class)) {
                                 return "'" + field.get(t) + "'";
                             }
                             return field.get(t).toString();
@@ -111,7 +144,7 @@ public abstract class AbstractCrudDao<T,ID> implements CrudDao<T,ID> {
                     .map(field -> {
                         field.setAccessible(true);
                         try {
-                            if(field.getType().equals(String.class) || field.getType().equals(LocalDate.class)) {
+                            if (field.getType().equals(String.class) || field.getType().equals(LocalDate.class)) {
                                 return field.getName() + " = '" + field.get(t) + "'";
                             }
                             return field.getName() + " = " + field.get(t).toString();
