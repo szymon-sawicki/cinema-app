@@ -1,4 +1,4 @@
-package com.cinema.app.infrastructure.dao.persistence.exception;
+package com.cinema.app.infrastructure.persistence.exception;
 
 public class AbstractCrudDaoException extends RuntimeException {
     public AbstractCrudDaoException(String message) {

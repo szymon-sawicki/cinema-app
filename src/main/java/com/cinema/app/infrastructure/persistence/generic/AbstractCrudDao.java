@@ -1,6 +1,6 @@
-package com.cinema.app.infrastructure.dao.persistence;
+package com.cinema.app.infrastructure.persistence.generic;
 
-import com.cinema.app.infrastructure.dao.persistence.exception.AbstractCrudDaoException;
+import com.cinema.app.infrastructure.persistence.exception.AbstractCrudDaoException;
 import com.google.common.base.CaseFormat;
 import org.atteo.evo.inflector.English;
 import org.jdbi.v3.core.Jdbi;
