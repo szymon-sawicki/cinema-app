@@ -1,4 +1,4 @@
-package com.cinema.app.infrastructure.dao.persistence;
+package com.cinema.app.infrastructure.persistence.generic;
 
 import java.util.List;
 import java.util.Optional;

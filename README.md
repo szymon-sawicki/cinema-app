@@ -2,7 +2,7 @@
 
 ##TODO
 
-Domain branch:
-
-- write java doc comments and add lombok annotations
-- make dto's i and validators
+- create tables for all domain classes
+- write abstract methods in dao interfaces
+- write dao implementations for all classes
+- make validators
