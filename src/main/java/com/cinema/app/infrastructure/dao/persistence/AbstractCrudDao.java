@@ -30,26 +30,52 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
         this.jdbi = jdbi;
     }
 
-    ;
 
     @Override
     public Optional<T> save(T t) {
-        return Optional.empty();
+        var sql = "insert into " + tableName() + " " + columnNamesForSave() + " values " + valuesForSave(t) + ";";
+        var insertedCounter = jdbi.withHandle(handle -> handle.execute(sql));
+        if (insertedCounter == 0) {
+            throw new AbstractCrudDaoException("cannot insert data into db");
+        }
+        return findNLastElements(insertedCounter)
+                .stream()
+                .findFirst();
     }
 
     @Override
     public Optional<T> update(ID id, T t) {
-        return Optional.empty();
+        var updatedRows = jdbi.withHandle(handle -> handle
+                .execute("update " + tableName() + " set " + columnsAndValuesForUpdate(t) + whereIdExpression(id)));
+        if (updatedRows == 0) {
+            throw new AbstractCrudDaoException("cannot find element with id = " + id);
+        }
+
+        return findById(id);
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        return Optional.empty();
+
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from " + tableName() + " where id = :id")
+                .bind("id", id)
+                .mapToBean(entityType)
+                .findFirst());
     }
 
     @Override
     public List<T> saveAll(List<T> items) {
-        return null;
+
+        items.forEach(row -> {
+            var sql = "insert into " + tableName() + " " + columnNamesForSave() + " values " + valuesForSave(row) + ";";
+            int insertedCounter = jdbi.withHandle(handle -> handle.execute(sql));
+            if (insertedCounter == 0) {
+                throw new AbstractCrudDaoException("Cannot insert data to db");
+            }
+        });
+
+        return items;
     }
 
     @Override
@@ -73,8 +99,10 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
     public Optional<T> deleteById(ID id) {
         var itemToDelete = findById(id);
         var inserted = jdbi
-                .withHandle(handle -> handle.createUpdate("delete from " + tableName() + " where id = " + id).execute());
-        if(inserted == 0) {
+                .withHandle(handle -> handle
+                        .createUpdate("delete from " + tableName() + " where id = " + id)
+                        .execute());
+        if (inserted == 0) {
             throw new AbstractCrudDaoException("Cannot delete item with id " + id);
         }
         return itemToDelete;
@@ -84,12 +112,12 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
     public List<T> deleteAllById(List<ID> ids) {
         var elementsToDelete = findAllById(ids);
         var result = jdbi.withHandle(handle ->
-            handle
-                    .createUpdate("delete from " + tableName() + " where id in (<ids)")
-                    .bindList("ids",ids)
-                    .execute()
+                handle
+                        .createUpdate("delete from " + tableName() + " where id in (<ids)")
+                        .bindList("ids", ids)
+                        .execute()
         );
-        if(result == 0) {
+        if (result == 0) {
             throw new AbstractCrudDaoException("cannot find elements to delete");
         }
         return elementsToDelete;
