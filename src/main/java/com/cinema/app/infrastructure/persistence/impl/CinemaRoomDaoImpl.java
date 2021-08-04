@@ -1,14 +1,11 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
-import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
-import com.cinema.app.infrastructure.persistence.generic.CrudDao;
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
-import java.util.Optional;
 
 public class CinemaRoomDaoImpl extends AbstractCrudDao<CinemaRoom,Long> implements CinemaRoomDao {
 

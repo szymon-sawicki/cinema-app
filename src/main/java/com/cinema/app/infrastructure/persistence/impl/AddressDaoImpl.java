@@ -23,4 +23,5 @@ public class AddressDaoImpl extends AbstractCrudDao<Address, Long> implements Ad
                 .mapToBean(Address.class)
                 .list());
     }
+
 }
