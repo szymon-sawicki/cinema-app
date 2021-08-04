@@ -1,5 +1,6 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
+
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.infrastructure.persistence.SeatDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
@@ -19,4 +20,5 @@ public class SeatDaoImpl extends AbstractCrudDao<Seat, Long> implements SeatDao 
                 .mapToBean(Seat.class)
                 .list());
     }
+
 }

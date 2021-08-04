@@ -11,5 +11,4 @@ public interface CinemaDao extends CrudDao<Cinema, Long> {
     Optional<Cinema> findByAddress(Long addressId);
     Optional<Cinema> findByName(String name);
 
-
 }

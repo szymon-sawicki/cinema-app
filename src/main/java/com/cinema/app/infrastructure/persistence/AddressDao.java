@@ -10,5 +10,4 @@ public interface AddressDao extends CrudDao<Address, Long> {
 
     List<Address> findAllFromCity(String city);
 
-
 }
