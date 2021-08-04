@@ -4,8 +4,23 @@ import com.cinema.app.domain.address.Address;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
-public class AddressDaoImpl extends AbstractCrudDao<Address,Long> implements AddressDao {
+import java.util.List;
 
-    protected AddressDaoImpl(Jdbi jdbi) { super(jdbi);  }
+@Repository
+public class AddressDaoImpl extends AbstractCrudDao<Address, Long> implements AddressDao {
+
+    protected AddressDaoImpl(Jdbi jdbi) {
+        super(jdbi);
+    }
+
+    @Override
+    public List<Address> findAllFromCity(String city) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from addresses where city = :city")
+                .bind("city",city)
+                .mapToBean(Address.class)
+                .list());
+    }
 }

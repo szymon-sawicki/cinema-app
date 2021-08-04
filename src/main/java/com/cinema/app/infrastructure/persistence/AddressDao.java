@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AddressDao extends CrudDao<Address, Long> {
 
-    List<Address> findAllFromCity();
+    List<Address> findAllFromCity(String city);
 
 
 }
