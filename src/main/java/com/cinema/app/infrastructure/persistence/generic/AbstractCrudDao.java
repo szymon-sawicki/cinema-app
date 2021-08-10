@@ -8,6 +8,7 @@ import org.jdbi.v3.core.Jdbi;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -130,6 +131,21 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                 .mapToBean(entityType)
                 .list());
     }
+
+/*    private List<String> listWithProperFieldNames() {
+        try {
+
+            var newList = new ArrayList<String>();
+
+            Arrays.stream(entityType.getDeclaredFields())
+                  .forEach(field -> newList.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName())));
+
+            return newList;
+
+        } catch (Exception e) {
+            throw new AbstractCrudDaoException(e.getMessage());
+        }
+    }*/
 
     private String columnNamesForSave() {
         try {

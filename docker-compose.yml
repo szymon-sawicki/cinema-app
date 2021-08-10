@@ -20,16 +20,16 @@ services:
     networks:
       - cinema-app-network
 
-  cinema-app:
-    image: cinema-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - cinema-app-network
+  #cinema-app:
+  # image: cinema-app
+  # build:
+  #   context: .
+  #   dockerfile: Dockerfile
+  # restart: always
+  # ports:
+  #   - 8080:8080
+  # networks:
+  #   - cinema-app-network
 
 volumes:
   mysql1:
