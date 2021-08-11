@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Seat {
 
     Long id;
-    Integer row;
+    Integer rowNum;
     Integer place;
     SeatType seatType;
     CinemaRoom cinemaRoom;

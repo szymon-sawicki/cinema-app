@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
 
     protected final Jdbi jdbi;
@@ -132,28 +134,13 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                 .list());
     }
 
-/*    private List<String> listWithProperFieldNames() {
-        try {
-
-            var newList = new ArrayList<String>();
-
-            Arrays.stream(entityType.getDeclaredFields())
-                  .forEach(field -> newList.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName())));
-
-            return newList;
-
-        } catch (Exception e) {
-            throw new AbstractCrudDaoException(e.getMessage());
-        }
-    }*/
-
     private String columnNamesForSave() {
         try {
-            return " ( " + Arrays
-                    .stream(entityType.getDeclaredFields())
-                    .map(Field::getName)
+            return " ( " + Arrays.stream(entityType.getDeclaredFields())
+                    .map(field -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName()))
                     .filter(name -> !name.equalsIgnoreCase("id"))
                     .collect(Collectors.joining(", ")) + " ) ";
+
         } catch (Exception e) {
             throw new AbstractCrudDaoException(e.getMessage());
         }

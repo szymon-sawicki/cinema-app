@@ -28,7 +28,7 @@ public class AppSpringConfig {
 
         Jdbi jdbi = Jdbi.create(jdbiUrl, jdbiUsername, jdbiPassword);
 
-        var addressesTableSql = """
+/*        var addressesTableSql = """
                 create table if not exists addresses (
                     id integer primary key auto_increment,
                     street varchar(50) not null,
@@ -72,7 +72,7 @@ public class AppSpringConfig {
         jdbi.useHandle(handle -> handle.execute(addressesTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemasTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemaRoomsTableSql));
-        jdbi.useHandle(handle -> handle.execute(seatsTableSql));
+        jdbi.useHandle(handle -> handle.execute(seatsTableSql));*/
 
 
         return jdbi;

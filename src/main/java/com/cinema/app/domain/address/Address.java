@@ -17,11 +17,12 @@ import lombok.NoArgsConstructor;
 
 public class Address {
 
-
     Long id;
     String street;
     String houseNumber;
     String city;
     String zipCode;
+
+
 
 }

@@ -1,0 +1,33 @@
+package com.cinema.app.domain.address.dto;
+
+import com.cinema.app.domain.address.Address;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
+public class CreateAddressDto {
+
+    private Long id;
+    private String street;
+    private String houseNumber;
+    private String city;
+    private String zipCode;
+
+    public Address toAddress() {
+        return Address.builder()
+                .street(street)
+                .houseNumber(houseNumber)
+                .city(city)
+                .zipCode(zipCode)
+                .build();
+    }
+
+
+}
+
