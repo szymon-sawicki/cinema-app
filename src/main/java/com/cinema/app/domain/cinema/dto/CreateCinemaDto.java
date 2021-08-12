@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 
 public class CreateCinemaDto {
 
-    String name;
-    Address address;
+    private String name;
+    private Address address;
 
     public Cinema toCinema() {
         return Cinema.builder()

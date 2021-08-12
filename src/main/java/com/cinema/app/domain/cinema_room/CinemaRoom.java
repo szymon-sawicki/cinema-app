@@ -2,6 +2,7 @@ package com.cinema.app.domain.cinema_room;
 
 import com.cinema.app.domain.cinema.Cinema;
 
+import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -24,5 +25,16 @@ public class CinemaRoom {
     Integer rows;
     Integer placeNumber;
     Cinema cinema;
+
+
+    public GetCinemaRoomDto toGetCinemaRoomDto() {
+        return GetCinemaRoomDto.builder()
+                .id(id)
+                .name(name)
+                .rows(rows)
+                .placeNumber(placeNumber)
+                .cinema(cinema)
+                .build();
+    }
 
 }

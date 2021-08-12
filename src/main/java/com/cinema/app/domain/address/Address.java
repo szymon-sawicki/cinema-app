@@ -1,5 +1,7 @@
 package com.cinema.app.domain.address;
 
+import com.cinema.app.domain.address.dto.GetAddressDto;
+import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,6 +25,15 @@ public class Address {
     String city;
     String zipCode;
 
+    public GetAddressDto toGetAddressDto() {
+        return GetAddressDto.builder()
+                .id(id)
+                .street(street)
+                .houseNumber(houseNumber)
+                .city(city)
+                .zipCode(zipCode)
+                .build();
+    }
 
 
 }

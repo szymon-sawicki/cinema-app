@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 public class CreateSeatDto {
 
-    private Long id;
     private Integer rowNum;
     private Integer place;
     private SeatType seatType;

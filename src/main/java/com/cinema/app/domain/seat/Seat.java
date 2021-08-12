@@ -1,6 +1,7 @@
 package com.cinema.app.domain.seat;
 
 import com.cinema.app.domain.cinema_room.CinemaRoom;
+import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.domain.seat.type.SeatType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,15 @@ public class Seat {
     Integer place;
     SeatType seatType;
     CinemaRoom cinemaRoom;
+
+    public GetSeatDto toGetSeatDto() {
+        return GetSeatDto.builder()
+                .id(id)
+                .rowNum(rowNum)
+                .place(place)
+                .seatType(seatType)
+                .cinemaRoom(cinemaRoom)
+                .build();
+    }
 
 }

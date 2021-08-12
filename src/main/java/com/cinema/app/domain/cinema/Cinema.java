@@ -1,6 +1,7 @@
 package com.cinema.app.domain.cinema;
 
 import com.cinema.app.domain.address.Address;
+import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -21,5 +22,13 @@ public class Cinema {
     Long id;
     String name;
     Address address;
+
+    public GetCinemaDto toGetCinemaDto() {
+        return GetCinemaDto.builder()
+                .id(id)
+                .name(name)
+                .address(address)
+                .build();
+    }
 
 }
