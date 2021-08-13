@@ -3,6 +3,7 @@ package com.cinema.app;
 import com.cinema.app.domain.address.Address;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
 import com.cinema.app.infrastructure.persistence.impl.AddressDaoImpl;
+import org.eclipse.jetty.client.Origin;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,20 +14,16 @@ public class App {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
         var addressDao = context.getBean("addressDaoImpl", AddressDaoImpl.class);
-/*        var cinemaDao = context.getBean("cinemaDaoImpl", CinemaDaoImpl.class);
-        var cinemaRoomDao = context.getBean("cinemaRoomDaoImpl", CinemaRoomDaoImpl.class);
-        var seatDao = context.getBean("seatDaoImpl", SeatDaoImpl.class);*/
 
-/*         var address = Address.builder()
+         var address = Address.builder()
             .city("Gniezno")
             .houseNumber("26A")
             .zipCode("62-200")
-            .build();*/
+            .build();
+
+        System.out.println(addressDao.save(address));
 
         System.out.println(addressDao.findAll());
-
-
-     //  System.out.println(addressDao.listWithProperFieldNames());
 
 
 

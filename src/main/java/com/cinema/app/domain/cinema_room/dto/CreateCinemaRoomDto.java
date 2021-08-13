@@ -17,14 +17,14 @@ public class CreateCinemaRoomDto {
     private String name;
     private Integer rows;
     private Integer placeNumber;
-    private Cinema cinema;
+    private Long cinemaId;
 
     public CinemaRoom toCinemaRoom() {
         return CinemaRoom.builder()
                 .name(name)
                 .rows(rows)
                 .placeNumber(placeNumber)
-                .cinema(cinema)
+                .cinemaId(cinemaId)
                 .build();
     }
 

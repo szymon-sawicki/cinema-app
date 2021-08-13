@@ -24,7 +24,18 @@ public class CinemaRoom {
     String name;
     Integer rows;
     Integer placeNumber;
-    Cinema cinema;
+    Long cinemaId;
+
+    public CinemaRoom withCinemaId(Long newCinemaId) {
+        return CinemaRoom
+                .builder()
+                .id(id)
+                .name(name)
+                .rows(rows)
+                .placeNumber(placeNumber)
+                .cinemaId(newCinemaId)
+                .build();
+    }
 
 
     public GetCinemaRoomDto toGetCinemaRoomDto() {
@@ -33,7 +44,7 @@ public class CinemaRoom {
                 .name(name)
                 .rows(rows)
                 .placeNumber(placeNumber)
-                .cinema(cinema)
+                .cinemaId(cinemaId)
                 .build();
     }
 

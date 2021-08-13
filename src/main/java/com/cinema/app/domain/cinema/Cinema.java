@@ -21,13 +21,22 @@ public class Cinema {
 
     Long id;
     String name;
-    Address address;
+    Long addressId;
+
+    public Cinema withAddress(Long newAddressId) {
+        return Cinema
+                .builder()
+                .id(id)
+                .name(name)
+                .addressId(newAddressId)
+                .build();
+    }
 
     public GetCinemaDto toGetCinemaDto() {
         return GetCinemaDto.builder()
                 .id(id)
                 .name(name)
-                .address(address)
+                .addressId(addressId)
                 .build();
     }
 

@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface AddressDao extends CrudDao<Address, Long> {
 
     List<Address> findAllFromCity(String city);
+    Optional<Address> findAddress(String street, String houseNumber, String city, String zipCode);
 
 }

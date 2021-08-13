@@ -41,6 +41,11 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
         if (insertedCounter == 0) {
             throw new AbstractCrudDaoException("cannot insert data into db");
         }
+
+        System.out.println("----------------------------------------------");
+        System.out.println(Arrays.stream(entityType.getDeclaredFields()).map(Field::getName).toList());
+        System.out.println("----------------------------------------------");
+
         return findNLastElements(insertedCounter)
                 .stream()
                 .findFirst();

@@ -15,6 +15,6 @@ public class GetCinemaDto {
 
     private Long id;
     private String name;
-    private Address address;
+    private Long addressId;
 
 }
