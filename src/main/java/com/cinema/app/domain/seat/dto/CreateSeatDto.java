@@ -18,14 +18,14 @@ public class CreateSeatDto {
     private Integer rowNum;
     private Integer place;
     private SeatType seatType;
-    private CinemaRoom cinemaRoom;
+    private Long cinemaRoomId;
 
     public Seat toSeat() {
         return Seat.builder()
                 .rowNum(rowNum)
                 .place(place)
                 .seatType(seatType)
-                .cinemaRoom(cinemaRoom)
+                .cinemaRoomId(cinemaRoomId)
                 .build();
     }
 

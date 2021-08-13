@@ -24,7 +24,8 @@ public class Seat {
     Integer rowNum;
     Integer place;
     SeatType seatType;
-    CinemaRoom cinemaRoom;
+    Long cinemaRoomId;
+
 
     public GetSeatDto toGetSeatDto() {
         return GetSeatDto.builder()
@@ -32,7 +33,7 @@ public class Seat {
                 .rowNum(rowNum)
                 .place(place)
                 .seatType(seatType)
-                .cinemaRoom(cinemaRoom)
+                .cinemaRoomId(cinemaRoomId)
                 .build();
     }
 

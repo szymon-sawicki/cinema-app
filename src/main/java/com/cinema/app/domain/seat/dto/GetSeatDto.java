@@ -18,6 +18,6 @@ public class GetSeatDto {
     private Integer rowNum;
     private Integer place;
     private SeatType seatType;
-    private CinemaRoom cinemaRoom;
+    private Long cinemaRoomId;
 
 }

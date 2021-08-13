@@ -8,8 +8,9 @@ import java.util.Map;
 
 /**
  * implementation of Validator interface used to validate CreateAddressDto objects
- * @see Validator
+ *
  * @author Szymon Sawicki
+ * @see Validator
  */
 
 public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
@@ -25,36 +26,29 @@ public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
 
         if (createAddressDto.getStreet() == null) {
             errors.put("street", "is null");
-        } else if (createAddressDto.getStreet().length() > 30) {
-            errors.put("street", "is too long");
+        } else if (createAddressDto.getStreet().matches("[A-Za-z-,'.]{3,20}+")) {
+            errors.put("street","have wrong format");
         }
 
         if (createAddressDto.getHouseNumber() == null) {
             errors.put("house number", "is null");
-        } else if(createAddressDto.getHouseNumber().replaceAll("[^0-9/]+","").length() > 0) {
-            errors.put("house number","have wrong format");
+        } else if (!createAddressDto.getHouseNumber().matches("[^0-9/]*")) {
+            errors.put("house number", "have wrong format");
         }
 
-        if(createAddressDto.getCity() == null) {
-            errors.put("city","is null");
+        if (createAddressDto.getCity() == null) {
+            errors.put("city", "is null");
         } else {
-            if(createAddressDto.getCity().replaceAll("[^A-Za-z-]+","").length() > 0){
-                errors.put("city","have wrong format");
-            }
-            if(createAddressDto.getCity().length() > 20) {
-                errors.put("city","is too long");
+            if (!createAddressDto.getCity().matches("[A-Za-z-]{3,20}+")) {
+                errors.put("city", "have wrong format");
             }
         }
 
-        if(createAddressDto.getZipCode() == null) {
-            errors.put("zip code","is null");
+        if (createAddressDto.getZipCode() == null) {
+            errors.put("zip code", "is null");
         } else {
-            var zipCode = createAddressDto.getZipCode();
-            if(zipCode.replaceAll("[^0-9-]+","").length() > 0) {
-                errors.put("zip code","have wrong format");
-            }
-            if(zipCode.length() > 6) {
-                errors.put("zip code","is too long");
+            if (!createAddressDto.getZipCode().matches("[^0-9-]{2,6}+")) {
+                errors.put("zip code", "have wrong format");
             }
         }
 
