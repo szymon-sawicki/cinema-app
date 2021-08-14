@@ -34,5 +34,4 @@ public class CinemaDomainTest {
 
         Assertions.assertThat(getCinemaDto).isEqualTo(expectedCinemaDto);
     }
-
 }
