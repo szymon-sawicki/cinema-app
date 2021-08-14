@@ -1,8 +1,8 @@
-# beauty-salon
+# cinema app
 
 ##TODO
 
-- create tables for all domain classes
-- write javadoc comments in persistence layer
-- make validators
+- test validators, domain objects and dtos
+- write domain classes - movie and seans
+
 
