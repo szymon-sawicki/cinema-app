@@ -1,16 +1,14 @@
-package com.cinema.app.domain.address.dto;
+package com.cinema.app.domain.address;
 
-import com.cinema.app.domain.address.Address;
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.GetAddressDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateAddressDtoTest {
-
+public class AddressDomainTest {
 
     @Test
-    @DisplayName("when conversion to address is successfully")
+    @DisplayName("when converiot to GetAddressDto is correct")
     public void test1() {
 
         var city = "Berlin";
@@ -18,25 +16,22 @@ public class CreateAddressDtoTest {
         var houseNumber = "32/5";
         var zipCode = "62-200";
 
-        var createAddressDto = CreateAddressDto.builder()
+        var address = Address.builder()
                 .city(city)
                 .street(street)
                 .zipCode(zipCode)
                 .houseNumber(houseNumber)
                 .build();
 
-        var address = createAddressDto.toAddress();
-
-        var expectedAddress = Address.builder()
+        var expectedAddress = GetAddressDto.builder()
                 .city(city)
                 .street(street)
                 .zipCode(zipCode)
                 .houseNumber(houseNumber)
                 .build();
 
-        Assertions.assertThat(address)
-                .isEqualTo(expectedAddress);
+        var getAddressDto = address.toGetAddressDto();
+
+        Assertions.assertThat(getAddressDto).isEqualTo(expectedAddress);
     }
-
-
 }
