@@ -1,5 +1,6 @@
 package com.cinema.app.domain.cinema_room;
 
+import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,5 +38,4 @@ public class CinemaRoomDomainTest {
         assertThat(getCinemaRoomDto).isEqualTo(expectedGetCinemaRomDto);
 
     }
-
 }
