@@ -48,7 +48,7 @@ public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
         if (createAddressDto.getZipCode() == null) {
             errors.put("zip code", "is null");
         } else {
-            if (!createAddressDto.getZipCode().matches("[^0-9-]{2,6}+")) {
+            if (!createAddressDto.getZipCode().matches("[0-9-]{2,6}+")) {
                 errors.put("zip code", "have wrong format");
             }
         }

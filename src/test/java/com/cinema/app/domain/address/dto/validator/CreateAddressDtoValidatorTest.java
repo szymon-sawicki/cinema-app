@@ -48,7 +48,7 @@ public class CreateAddressDtoValidatorTest {
     }
 
     @Test
-    @DisplayName("when house number have wrong format")
+    @DisplayName("when house number contains illegal characters")
     public void test4() {
         var createAddressDtoValidator = new CreateAddressDtoValidator();
         var createAddressDto = CreateAddressDto.builder()
@@ -60,4 +60,63 @@ public class CreateAddressDtoValidatorTest {
                 .hasMessageStartingWith("[VALIDATION ERRORS]: ")
                 .hasMessageContaining("house number: have wrong format");
     }
+
+    @Test
+    @DisplayName("when city is too short")
+    public void test5() {
+        var createAddressDtoValidator = new CreateAddressDtoValidator();
+        var createAddressDto = CreateAddressDto.builder()
+                .city("sa")
+                .build();
+
+        Assertions.assertThatThrownBy(() -> Validator.validate(createAddressDtoValidator,createAddressDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]: ")
+                .hasMessageContaining("city: have wrong format");
+    }
+
+
+
+    @Test
+    @DisplayName("when city contains illegal characters")
+    public void test6() {
+        var createAddressDtoValidator = new CreateAddressDtoValidator();
+        var createAddressDto = CreateAddressDto.builder()
+                .city("&%$ alesławice")
+                .build();
+
+        Assertions.assertThatThrownBy(() -> Validator.validate(createAddressDtoValidator,createAddressDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]: ")
+                .hasMessageContaining("city: have wrong format");
+    }
+
+    @Test
+    @DisplayName("when zip code is correct")
+    public void test7() {
+        var createAddressDtoValidator = new CreateAddressDtoValidator();
+        var createAddressDto = CreateAddressDto.builder()
+                .zipCode("62-200")
+                .build();
+
+        Assertions.assertThatThrownBy(() -> Validator.validate(createAddressDtoValidator,createAddressDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]: ")
+                .hasMessageNotContaining("zip code:");
+    }
+
+    @Test
+    @DisplayName("when city is correct")
+    public void test8() {
+        var createAddressDtoValidator = new CreateAddressDtoValidator();
+        var createAddressDto = CreateAddressDto.builder()
+                .city("Gorzkie Pole")
+                .build();
+
+        Assertions.assertThatThrownBy(() -> Validator.validate(createAddressDtoValidator,createAddressDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]: ")
+                .hasMessageNotContaining("city:");
+    }
+
 }
