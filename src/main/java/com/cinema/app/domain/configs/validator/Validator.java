@@ -12,7 +12,7 @@ public interface Validator<T> {
         var errors = validator.validate(t);
 
         if(!errors.isEmpty()) {
-            var message = errors
+            var message = "[VALIDATION ERRORS]: " + errors
                     .entrySet()
                     .stream()
                     .map(e->e.getKey() + ": " + e.getValue())
@@ -20,9 +20,5 @@ public interface Validator<T> {
             throw new ValidatorException(message);
         }
 
-
     }
-
-
-
 }
