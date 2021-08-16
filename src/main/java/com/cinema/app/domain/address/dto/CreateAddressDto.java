@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 
 public class CreateAddressDto {
 
-    private Long id;
     private String street;
     private String houseNumber;
     private String city;

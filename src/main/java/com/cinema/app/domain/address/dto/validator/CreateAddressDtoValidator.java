@@ -27,20 +27,21 @@ public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
 
         if (createAddressDto.getStreet() == null) {
             errors.put("street", "is null");
-        } else if (!createAddressDto.getStreet().matches("[A-Za-z ]{3,20}+")) {
+        } else if (!createAddressDto.getStreet().matches("[\\-\\w\\s]{3,40}+")) {
+            System.out.println();
             errors.put("street","have wrong format");
         }
 
         if (createAddressDto.getHouseNumber() == null) {
             errors.put("house number", "is null");
-        } else if (!createAddressDto.getHouseNumber().matches("[0-9/]*")) {
+        } else if (!createAddressDto.getHouseNumber().matches("[0-9/]{1,6}+")) {
             errors.put("house number", "have wrong format");
         }
 
         if (createAddressDto.getCity() == null) {
             errors.put("city", "is null");
         } else {
-            if (!createAddressDto.getCity().matches("[A-Za-z ]{3,20}+")) {
+            if (!createAddressDto.getCity().matches("[\\-\\w\\s]{3,20}+")) {
                 errors.put("city", "have wrong format");
             }
         }

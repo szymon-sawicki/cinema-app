@@ -1,0 +1,61 @@
+package com.cinema.app.domain.cinema_room.dto.validator;
+
+import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.configs.validator.Validator;
+import com.cinema.app.domain.configs.validator.ValidatorException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class CreateCinemaRoomDtoValidatorTest {
+
+    @Test
+    @DisplayName("when create cinema room dto is null")
+    public void test1() {
+
+        var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
+
+        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator,null))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]: ")
+                .hasMessageContaining("create cinema room dto: is null");
+
+    }
+
+    @Test
+    @DisplayName("when cinema room name is null")
+    public void test2() {
+
+        var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
+
+        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+                .name(null)
+                .build();
+
+        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator,createCinemaRoomDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
+                .hasMessageContaining("cinema room name", "is null");
+
+    }
+
+    @Test
+    @DisplayName("when cinema room name have wrong format")
+    public void test3() {
+
+        var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
+
+        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+                .name("kie%^ omafa")
+                .build();
+
+        assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator,createCinemaRoomDto))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
+                .hasMessageContaining("cinema room name", "have wrong format");
+
+    }
+
+}

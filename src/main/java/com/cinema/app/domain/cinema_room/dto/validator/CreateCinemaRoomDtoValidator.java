@@ -18,15 +18,17 @@ public class CreateCinemaRoomDtoValidator implements Validator<CreateCinemaRoomD
 
     @Override
     public Map<String, String> validate(CreateCinemaRoomDto createCinemaRoomDto) {
+
         var errors = new HashMap<String, String>();
 
         if (createCinemaRoomDto == null) {
             errors.put("create cinema room dto", "is null");
+            return errors;
         }
 
         if (createCinemaRoomDto.getName() == null) {
-            errors.put("create cinema dto name", "is null");
-        } else if (!createCinemaRoomDto.getName().matches("[A-Za-z-,'.]{3,20}+")) {
+            errors.put("cinema room name", "is null");
+        } else if (!createCinemaRoomDto.getName().matches("[\\w\\s\\-]{3,30}+")) {
             errors.put("cinema room name", "have wrong format");
         }
 
