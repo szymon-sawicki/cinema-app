@@ -34,8 +34,6 @@ public class SeatDomainTest {
                 .build();
 
         Assertions.assertThat(getSeatDto).isEqualTo(expectedGetSeatDao);
-
-
     }
 
 }
