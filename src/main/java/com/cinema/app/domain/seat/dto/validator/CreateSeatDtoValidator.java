@@ -22,6 +22,7 @@ public class CreateSeatDtoValidator implements Validator<CreateSeatDto> {
 
         if (createSeatDto == null) {
             errors.put("create seat dto", "is null");
+            return errors;
         }
 
         if (createSeatDto.getSeatType() == null) {

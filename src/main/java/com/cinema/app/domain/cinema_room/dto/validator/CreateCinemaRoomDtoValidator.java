@@ -33,15 +33,15 @@ public class CreateCinemaRoomDtoValidator implements Validator<CreateCinemaRoomD
         }
 
         if (createCinemaRoomDto.getRows() == null) {
-            errors.put("cinema room rows", "is null");
+            errors.put("rows", "is null");
         } else if (createCinemaRoomDto.getRows() <= 0) {
-            errors.put("cinema room rows", "is equal or smaller than 0");
+            errors.put("rows", "is equal or smaller than 0");
         }
 
         if (createCinemaRoomDto.getPlaceNumber() == null) {
-            errors.put("cinema room place number", "is null");
+            errors.put("place number", "is null");
         } else if (createCinemaRoomDto.getPlaceNumber() <= 0) {
-            errors.put("cinema room place number", "is equal or smaller than 0");
+            errors.put("place number", "is equal or smaller than 0");
         }
 
         if (createCinemaRoomDto.getCinemaId() == null) {

@@ -23,6 +23,7 @@ public class CreateCinemaDtoValidator implements Validator<CreateCinemaDto> {
 
         if(createCinemaDto == null) {
             errors.put("create cinema dto","is null");
+            return errors;
         }
 
         if(createCinemaDto.getCreateAddressDto() == null) {
@@ -32,7 +33,7 @@ public class CreateCinemaDtoValidator implements Validator<CreateCinemaDto> {
         }
 
         if(createCinemaDto.getCinemaRoomDtos() == null) {
-            errors.put("cinema room dto's","is mull");
+            errors.put("cinema room dtos","are null");
         } else {
             var cinemaRoomDtos = createCinemaDto.getCinemaRoomDtos();
 
