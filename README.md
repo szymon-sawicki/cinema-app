@@ -1,8 +1,12 @@
 # cinema app
 
+!! App is not finished !!
+
+Application used for management of cinema network with multiple cinema rooms. 
+
 ##TODO
 
-- test validators, domain objects and dtos
-- write domain classes - movie and seans
+- WRITE TESTS FOR CINEMAS SERVICE !!
+- write domain whole classes - movie and screening
 
 

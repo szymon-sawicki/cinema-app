@@ -2,6 +2,7 @@ package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.domain.address.AddressUtils;
+import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.CinemaUtils;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
@@ -14,6 +15,7 @@ import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,7 +61,24 @@ public class CinemasService {
 
     }
 
-    // TODO
-    // Wyszukiwanie kina po nazwie miejscowosci
-    // Wyszukiwanie kina po nazwie kina
+    List<GetCinemaDto> findByCity(String city) {
+        if(city == null) {
+            throw new CinemaServiceException("city is null");
+        }
+
+        return cinemaDao.findAll().stream()
+                .map(Cinema::toGetCinemaDto)
+                .toList();
+    }
+
+    GetCinemaDto findByName(String name) {
+        if(name == null) {
+            throw new CinemaServiceException("name is null");
+        }
+        return cinemaDao
+                .findByName(name)
+                .orElseThrow(() -> new CinemaServiceException("Cannot find cinema with name: " +name))
+                .toGetCinemaDto();
+    }
+
 }
