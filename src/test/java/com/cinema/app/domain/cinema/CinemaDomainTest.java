@@ -16,7 +16,7 @@ public class CinemaDomainTest {
 
         var id = 1L;
         var name = "Helios";
-        var addressId = 1L;
+        var addressId = 2L;
 
         var cinema = Cinema.builder()
                 .id(id)
@@ -28,8 +28,8 @@ public class CinemaDomainTest {
 
         var expectedCinemaDto = GetCinemaDto.builder()
                 .id(id)
-                .name("Helios")
-                .addressId(2L)
+                .name(name)
+                .addressId(addressId)
                 .build();
 
         Assertions.assertThat(getCinemaDto).isEqualTo(expectedCinemaDto);

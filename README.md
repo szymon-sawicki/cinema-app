@@ -4,9 +4,11 @@
 
 Application used for management of cinema network with multiple cinema rooms. 
 
-##TODO
+## TODO
 
+- Write tests of create movie dto validator
+- Write screening domain object
 - WRITE TESTS FOR CINEMAS SERVICE !!
-- write domain whole classes - movie and screening
+
 
 
