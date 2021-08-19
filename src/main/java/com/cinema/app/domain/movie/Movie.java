@@ -15,6 +15,11 @@ import java.time.LocalDate;
 @Builder
 @EqualsAndHashCode
 
+/**
+ * class representing movie
+ * @author Szymon Sawicki
+ */
+
 public class Movie {
 
     Long id;
