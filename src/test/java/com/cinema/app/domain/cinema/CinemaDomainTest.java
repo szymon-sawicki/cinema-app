@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
+
 public class CinemaDomainTest {
 
     @Test
@@ -32,6 +34,34 @@ public class CinemaDomainTest {
                 .addressId(addressId)
                 .build();
 
-        Assertions.assertThat(getCinemaDto).isEqualTo(expectedCinemaDto);
+        assertThat(getCinemaDto).isEqualTo(expectedCinemaDto);
+    }
+
+    @Test
+    @DisplayName("when new address is given")
+    public void test2() {
+
+        var id = 1L;
+        var name = "Helios";
+        var addressId = 2L;
+
+        var cinema = Cinema.builder()
+                .id(id)
+                .name(name)
+                .addressId(addressId)
+                .build();
+
+        var newAddressId = 3L;
+
+        var cinemaWithNewAddress = cinema.withAddress(newAddressId);
+
+        var expectedCinema = Cinema.builder()
+                .id(id)
+                .name(name)
+                .addressId(newAddressId)
+                .build();
+
+        assertThat(cinemaWithNewAddress)
+                .isEqualTo(expectedCinema);
     }
 }
