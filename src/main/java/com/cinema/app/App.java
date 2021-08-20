@@ -25,7 +25,7 @@ public class App {
 
         System.out.println(addressDao.findAll());
 
-
+        // TODO wyszukiwanie wszystkich kin z miasta za pomoca dao ? Trzeba zrobic join i specjalny obiekt?
 
 
     }
