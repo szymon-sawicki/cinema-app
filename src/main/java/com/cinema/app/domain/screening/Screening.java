@@ -1,10 +1,7 @@
 package com.cinema.app.domain.screening;
 
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,6 +10,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Setter
 
 /**
  * class representing screening in cinema room

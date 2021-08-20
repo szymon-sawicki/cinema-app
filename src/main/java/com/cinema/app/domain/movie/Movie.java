@@ -3,10 +3,7 @@ package com.cinema.app.domain.movie;
 
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Setter
 
 /**
  * class representing movie

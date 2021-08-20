@@ -4,9 +4,11 @@ import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.infrastructure.persistence.MovieDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public class MovieDaoImpl extends AbstractCrudDao<Movie,Long> implements MovieDao {
 
     public MovieDaoImpl(Jdbi jdbi) { super(jdbi); }

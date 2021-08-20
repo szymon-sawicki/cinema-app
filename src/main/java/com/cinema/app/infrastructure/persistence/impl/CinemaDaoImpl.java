@@ -4,10 +4,11 @@ import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-
+@Repository
 public class CinemaDaoImpl extends AbstractCrudDao<Cinema, Long> implements CinemaDao {
 
     protected CinemaDaoImpl(Jdbi jdbi) {

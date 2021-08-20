@@ -2,15 +2,13 @@ package com.cinema.app.domain.cinema;
 
 import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Setter
 
 /**
  * class representing cinema objects

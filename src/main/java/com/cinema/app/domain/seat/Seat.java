@@ -3,15 +3,20 @@ package com.cinema.app.domain.seat;
 import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.domain.seat.type.SeatType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.jdbi.v3.core.mapper.Nested;
 
-@AllArgsConstructor
+/*@AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode*/
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
 @EqualsAndHashCode
+@ToString
 
 /**
  * class representing one seat in CinemaRoom

@@ -1,6 +1,5 @@
 package com.cinema.app.domain.cinema_room.dto;
 
-import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema_room.CinemaRoom;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,7 @@ public class CreateCinemaRoomDto {
     public CinemaRoom toCinemaRoom() {
         return CinemaRoom.builder()
                 .name(name)
-                .rows(rows)
+                .rowsNum(rows)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();

@@ -1,17 +1,13 @@
 package com.cinema.app.domain.cinema_room;
 
-import com.cinema.app.domain.cinema.Cinema;
-
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Setter
 
 /**
  * class representing one room of the cinema
@@ -22,7 +18,7 @@ public class CinemaRoom {
 
     Long id;
     String name;
-    Integer rows;
+    Integer rowsNum;
     Integer placeNumber;
     Long cinemaId;
 
@@ -31,7 +27,7 @@ public class CinemaRoom {
                 .builder()
                 .id(id)
                 .name(name)
-                .rows(rows)
+                .rowsNum(rowsNum)
                 .placeNumber(placeNumber)
                 .cinemaId(newCinemaId)
                 .build();
@@ -42,7 +38,7 @@ public class CinemaRoom {
         return GetCinemaRoomDto.builder()
                 .id(id)
                 .name(name)
-                .rows(rows)
+                .rows(rowsNum)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();

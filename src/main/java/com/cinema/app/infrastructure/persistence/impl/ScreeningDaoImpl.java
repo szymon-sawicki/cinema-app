@@ -4,9 +4,11 @@ import com.cinema.app.domain.screening.Screening;
 import com.cinema.app.infrastructure.persistence.ScreeningDao;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ScreeningDaoImpl extends AbstractCrudDao<Screening,Long> implements ScreeningDao {
 
     public ScreeningDaoImpl(Jdbi jdbi) { super(jdbi); }

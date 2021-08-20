@@ -26,7 +26,7 @@ public class CreateCinemaRoomDtoTest {
 
         var expectedCinemaRoom = CinemaRoom.builder()
                 .name(name)
-                .rows(rows)
+                .rowsNum(rows)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();
