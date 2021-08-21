@@ -38,9 +38,9 @@ public class App {
                 .zipCode("62-200")
                 .build();
 
-        System.out.println(addressDao.save(address));
 
-        /* var address2 = Address.builder()
+
+        var address2 = Address.builder()
                 .city("Poznan")
                 .houseNumber("45")
                 .zipCode("41-920")
@@ -50,14 +50,14 @@ public class App {
                 .cinemaId(1L)
                 .rows(5)
                 .placeNumber(10)
-                .name("eeee")
+                .name("mmmm")
                 .build();
 
         var cinemaRoom2 = CreateCinemaRoomDto.builder()
                 .cinemaId(1L)
                 .rows(8)
                 .placeNumber(18)
-                .name("bbbb")
+                .name("oooo")
                 .build();
 
         var cinemaRooms = List.of(cinemaRoom, cinemaRoom2);
@@ -70,6 +70,7 @@ public class App {
                 .build();
 
         var createCinemaDto = CreateCinemaDto.builder()
+                .name("fajne")
                 .createAddressDto(createAddressDto)
                 .cinemaRoomDtos(cinemaRooms)
                 .build();
@@ -84,9 +85,14 @@ public class App {
                 .place(place)
                 .seatType(seatType)
                 .cinemaRoomId(cinemaRoomId)
-                .build();*/
+                .build();
 
+     /*   System.out.println(addressDao.save(address));
+        System.out.println(addressDao.save(address2));*/
+/*        System.out.println(cinemaService.addCinema(createCinemaDto));
+        System.out.println(seatDao.save(seat));*/
 
+        System.out.println(cinemaService.findByName("fajne"));
 
         // TODO wyszukiwanie wszystkich kin z miasta za pomoca dao ? Trzeba zrobic join i specjalny obiekt?
         // TODO do działania abstract crud dao potrzebne sa settery w klasie mapowanej, jak to ogarnac ? entity?

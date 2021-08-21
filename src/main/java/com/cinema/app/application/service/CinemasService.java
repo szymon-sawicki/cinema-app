@@ -1,6 +1,7 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.CinemaServiceException;
+import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.address.AddressUtils;
 import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.CinemaUtils;
@@ -52,8 +53,8 @@ public class CinemasService {
         var cinemaRoomsToInsert = createCinemaDto.getCinemaRoomDtos()
                 .stream()
                 .map(createCinemaRoomDto -> createCinemaRoomDto
-                            .toCinemaRoom()
-                            .withCinemaId(CinemaUtils.toId.apply(cinemaFromDb))
+                        .toCinemaRoom()
+                        .withCinemaId(CinemaUtils.toId.apply(cinemaFromDb))
                 ).collect(Collectors.toList());
         cinemaRoomDao.saveAll(cinemaRoomsToInsert);
 
@@ -61,23 +62,25 @@ public class CinemasService {
 
     }
 
-    List<GetCinemaDto> findByCity(String city) {
-        if(city == null) {
+    public List<GetCinemaDto> findByCity(String city) {
+        if (city == null) {
             throw new CinemaServiceException("city is null");
         }
-
-        return cinemaDao.findAll().stream()
-                .map(Cinema::toGetCinemaDto)
+        return addressDao.findAllFromCity(city).stream()
+                .map(address -> cinemaDao
+                        .findByAddress(AddressUtils.toId.apply(address))
+                        .orElseThrow(() -> new CinemaServiceException("cannot find element"))
+                        .toGetCinemaDto())
                 .toList();
     }
 
-    GetCinemaDto findByName(String name) {
-        if(name == null) {
+    public GetCinemaDto findByName(String name) {
+        if (name == null) {
             throw new CinemaServiceException("name is null");
         }
         return cinemaDao
                 .findByName(name)
-                .orElseThrow(() -> new CinemaServiceException("Cannot find cinema with name: " +name))
+                .orElseThrow(() -> new CinemaServiceException("Cannot find cinema with name: " + name))
                 .toGetCinemaDto();
     }
 
