@@ -66,7 +66,7 @@ public class CreateCinemaRoomDtoValidatorTest {
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
         var createCinemaRoomDto = CreateCinemaRoomDto.builder()
-                .rows(-5)
+                .rowsNum(-5)
                 .build();
 
         assertThatThrownBy(() -> Validator.validate(createCinemaRoomDtoValidator,createCinemaRoomDto))
@@ -134,7 +134,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDto = CreateCinemaRoomDto.builder()
                 .name("magic room")
-                .rows(30)
+                .rowsNum(30)
                 .placeNumber(20)
                 .cinemaId(3L)
                 .build();

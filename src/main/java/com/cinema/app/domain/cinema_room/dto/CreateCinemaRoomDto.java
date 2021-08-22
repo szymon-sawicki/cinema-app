@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 public class CreateCinemaRoomDto {
 
     private String name;
-    private Integer rows;
+    private Integer rowsNum;
     private Integer placeNumber;
     private Long cinemaId;
 
     public CinemaRoom toCinemaRoom() {
         return CinemaRoom.builder()
                 .name(name)
-                .rowsNum(rows)
+                .rowsNum(rowsNum)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();

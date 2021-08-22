@@ -38,7 +38,7 @@ public class CinemaRoom {
         return GetCinemaRoomDto.builder()
                 .id(id)
                 .name(name)
-                .rows(rowsNum)
+                .rowsNum(rowsNum)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();

@@ -15,7 +15,7 @@ public class GetCinemaRoomDto {
 
     private Long id;
     private String name;
-    private Integer rows;
+    private Integer rowsNum;
     private Integer placeNumber;
     private Long cinemaId;
 

@@ -4,17 +4,13 @@ import com.cinema.app.application.service.CinemasService;
 import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.address.dto.CreateAddressDto;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
-import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.seat.Seat;
-import com.cinema.app.domain.seat.dto.CreateSeatDto;
 import com.cinema.app.domain.seat.type.SeatType;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
-import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
 import com.cinema.app.infrastructure.persistence.impl.AddressDaoImpl;
 import com.cinema.app.infrastructure.persistence.impl.CinemaRoomDaoImpl;
 import com.cinema.app.infrastructure.persistence.impl.SeatDaoImpl;
-import org.eclipse.jetty.client.Origin;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -48,14 +44,14 @@ public class App {
 
         var cinemaRoom = CreateCinemaRoomDto.builder()
                 .cinemaId(1L)
-                .rows(5)
+                .rowsNum(5)
                 .placeNumber(10)
                 .name("mmmm")
                 .build();
 
         var cinemaRoom2 = CreateCinemaRoomDto.builder()
                 .cinemaId(1L)
-                .rows(8)
+                .rowsNum(8)
                 .placeNumber(18)
                 .name("oooo")
                 .build();
@@ -92,10 +88,11 @@ public class App {
 /*        System.out.println(cinemaService.addCinema(createCinemaDto));
         System.out.println(seatDao.save(seat));*/
 
-        System.out.println(cinemaService.findByName("fajne"));
+    //    System.out.println(cinemaService.findByName("fajne"));
 
         // TODO wyszukiwanie wszystkich kin z miasta za pomoca dao ? Trzeba zrobic join i specjalny obiekt?
         // TODO do działania abstract crud dao potrzebne sa settery w klasie mapowanej, jak to ogarnac ? entity?
+        // TODO jak przechować datę i godzinę seansu w bazie danych i obiekcie ?
 
     }
 

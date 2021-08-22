@@ -27,7 +27,7 @@ public class AppSpringConfig {
     public Jdbi jdbi() {
 
         Jdbi jdbi = Jdbi.create(jdbiUrl, jdbiUsername, jdbiPassword);
-       var addressesTableSql = """
+        var addressesTableSql = """
                 create table if not exists addresses (
                     id integer primary key auto_increment,
                     street varchar(50) not null,
@@ -67,6 +67,30 @@ public class AppSpringConfig {
                     foreign key (cinema_room_id) references cinema_rooms(id) on delete cascade on update cascade
                   );
                   """;
+
+
+        var moviesTableSql = """
+                  create table if not exists movies (
+                  id integer primary key auto_increment,
+                  name varchar(40) not null ,
+                  movie_genre varchar(15) not null,
+                  premiere_date date not null,
+                  length integer not null
+                  );               
+                """;
+
+        var screeningsTableSql = """
+                create table if not exists screenings (
+                    id integer primary key auto_increment,
+                    movie_id integer not null,
+                    cinema_room_id integer not null,
+                    date date not null,
+                    time time not null,
+                    foreign key (movie_id) references movies(id) on delete cascade on update cascade,
+                    foreign key (cinema_room_id) references cinema_rooms(id) on delete cascade on update cascade
+                );
+                """;
+
 
 /*        var addressesTableSql = """
                 create table if not exists addresses (
@@ -110,12 +134,12 @@ public class AppSpringConfig {
                   """;*/
 
 
-
         jdbi.useHandle(handle -> handle.execute(addressesTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemasTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemaRoomsTableSql));
         jdbi.useHandle(handle -> handle.execute(seatsTableSql));
-
+        jdbi.useHandle(handle -> handle.execute(screeningsTableSql));
+        jdbi.useHandle(handle -> handle.execute(moviesTableSql));
 
 
         return jdbi;

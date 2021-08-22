@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class AddressDomainTest {
 
     @Test
-    @DisplayName("when converiot to GetAddressDto is correct")
+    @DisplayName("when convertion to GetAddressDto is correct")
     public void test1() {
 
         var city = "Berlin";

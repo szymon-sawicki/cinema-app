@@ -32,9 +32,9 @@ public class CreateCinemaRoomDtoValidator implements Validator<CreateCinemaRoomD
             errors.put("cinema room name", "have wrong format");
         }
 
-        if (createCinemaRoomDto.getRows() == null) {
+        if (createCinemaRoomDto.getRowsNum() == null) {
             errors.put("rows", "is null");
-        } else if (createCinemaRoomDto.getRows() <= 0) {
+        } else if (createCinemaRoomDto.getRowsNum() <= 0) {
             errors.put("rows", "is equal or smaller than 0");
         }
 

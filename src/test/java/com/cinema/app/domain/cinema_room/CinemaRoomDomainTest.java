@@ -28,7 +28,7 @@ public class CinemaRoomDomainTest {
 
         var expectedGetCinemaRomDto = GetCinemaRoomDto.builder()
                 .name(name)
-                .rows(rows)
+                .rowsNum(rows)
                 .placeNumber(placeNumber)
                 .cinemaId(cinemaId)
                 .build();
