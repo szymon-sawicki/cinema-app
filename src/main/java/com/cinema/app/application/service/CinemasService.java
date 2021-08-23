@@ -8,7 +8,11 @@ import com.cinema.app.domain.cinema.CinemaUtils;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import com.cinema.app.domain.cinema.dto.validator.CreateCinemaDtoValidator;
+import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.CinemaRoomUtils;
+import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
+import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
@@ -30,6 +34,7 @@ public class CinemasService {
         Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
 
         var addressDto = createCinemaDto.getCreateAddressDto();
+        var cinemaRoomDtos = createCinemaDto.getCinemaRoomDtos();
         var address = addressDto.toAddress();
 
         var addressFromDb = addressDao
@@ -50,15 +55,37 @@ public class CinemasService {
                 .save(cinemaToInsert)
                 .orElseThrow(() -> new CinemaServiceException("Cannot add new cinema"));
 
-        var cinemaRoomsToInsert = createCinemaDto.getCinemaRoomDtos()
+        if(cinemaRoomDtos != null || !cinemaRoomDtos.isEmpty()) {
+            addCinemaRoomsToCinema(CinemaUtils.toId.apply(cinemaFromDb),cinemaRoomDtos);
+        }
+
+        return cinemaFromDb.toGetCinemaDto();
+
+    }
+
+    public List<GetCinemaRoomDto> addCinemaRoomsToCinema(Long cinemaId, List<CreateCinemaRoomDto> cinemaRooms) {
+        if(cinemaId == null) {
+            throw new CinemaServiceException("cinema id is null");
+        }
+        if(cinemaId <= 0) {
+            throw new CinemaServiceException("cinema id is lequal or lower than 0");
+        }
+        if(cinemaRooms == null) {
+            throw new CinemaServiceException("cinema rooms list is null");
+        }
+        if(cinemaRooms.isEmpty()) {
+            throw new CinemaServiceException("cinema rooms list is empty");
+        }
+
+        cinemaRooms.forEach(cinemaRoom -> Validator.validate(new CreateCinemaRoomDtoValidator(),cinemaRoom));
+
+        var cinemaRoomsToInsert = cinemaRooms
                 .stream()
                 .map(createCinemaRoomDto -> createCinemaRoomDto
                         .toCinemaRoom()
-                        .withCinemaId(CinemaUtils.toId.apply(cinemaFromDb))
+                        .withCinemaId(cinemaId)
                 ).collect(Collectors.toList());
-        cinemaRoomDao.saveAll(cinemaRoomsToInsert);
-
-        return cinemaFromDb.toGetCinemaDto();
+       return cinemaRoomDao.saveAll(cinemaRoomsToInsert).stream().map(CinemaRoom::toGetCinemaRoomDto).toList();
 
     }
 
@@ -77,6 +104,9 @@ public class CinemasService {
     public GetCinemaDto findByName(String name) {
         if (name == null) {
             throw new CinemaServiceException("name is null");
+        }
+        if(!name.matches("[\\w\\s\\-]{3,30}+")) {
+            throw new CinemaServiceException("name have wrong format");
         }
         return cinemaDao
                 .findByName(name)

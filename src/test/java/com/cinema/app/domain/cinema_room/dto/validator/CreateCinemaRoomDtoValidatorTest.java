@@ -127,7 +127,7 @@ public class CreateCinemaRoomDtoValidatorTest {
     }
 
     @Test
-    @DisplayName("when cinema room id is correct")
+    @DisplayName("when cinema room is correct")
     public void test8() {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();

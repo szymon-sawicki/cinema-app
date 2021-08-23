@@ -5,15 +5,19 @@ import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.address.dto.CreateAddressDto;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.movie.Movie;
+import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
 import com.cinema.app.infrastructure.persistence.impl.AddressDaoImpl;
 import com.cinema.app.infrastructure.persistence.impl.CinemaRoomDaoImpl;
+import com.cinema.app.infrastructure.persistence.impl.MovieDaoImpl;
 import com.cinema.app.infrastructure.persistence.impl.SeatDaoImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class App {
@@ -26,6 +30,7 @@ public class App {
         var seatDao = context.getBean("seatDaoImpl", SeatDaoImpl.class);
         var cinemaService = context.getBean("cinemasService", CinemasService.class);
         var cinemaRoomDao = context.getBean("cinemaRoomDaoImpl", CinemaRoomDaoImpl.class);
+        var movieDao = context.getBean("movieDaoImpl", MovieDaoImpl.class);
 
         var address = Address.builder()
                 .city("Gniezno")
@@ -83,6 +88,16 @@ public class App {
                 .cinemaRoomId(cinemaRoomId)
                 .build();
 
+       var movie = Movie.builder()
+               .movieGenre(MovieGenre.ACTION)
+               .length(30)
+               .premiereDate(LocalDate.of(2020,11,23))
+               .name("Indiana Jones")
+               .build();
+
+        System.out.println(movieDao.save(movie));
+        System.out.println(movieDao.findByName("Bourne Ultimatum"));
+
      /*   System.out.println(addressDao.save(address));
         System.out.println(addressDao.save(address2));*/
 /*        System.out.println(cinemaService.addCinema(createCinemaDto));
@@ -92,7 +107,7 @@ public class App {
 
         // TODO wyszukiwanie wszystkich kin z miasta za pomoca dao ? Trzeba zrobic join i specjalny obiekt?
         // TODO do działania abstract crud dao potrzebne sa settery w klasie mapowanej, jak to ogarnac ? entity?
-        // TODO jak przechować datę i godzinę seansu w bazie danych i obiekcie ?
+        // TODO jak najlepiej przechować datę i godzinę seansu w bazie danych i obiekcie ?
 
     }
 

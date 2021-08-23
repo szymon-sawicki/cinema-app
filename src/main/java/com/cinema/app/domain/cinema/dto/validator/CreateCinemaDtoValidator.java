@@ -44,6 +44,13 @@ public class CreateCinemaDtoValidator implements Validator<CreateCinemaDto> {
             }
         }
 
+        if (createCinemaDto.getName() == null) {
+            errors.put("cinema room name", "is null");
+        } else if (!createCinemaDto.getName().matches("[\\w\\s\\-]{3,30}+")) {
+            errors.put("cinema name", "have wrong format");
+        }
+
+
         return errors;
 
     }

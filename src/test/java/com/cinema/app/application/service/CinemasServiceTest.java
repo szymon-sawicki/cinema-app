@@ -1,14 +1,17 @@
 package com.cinema.app.application.service;
 
+import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.address.dto.CreateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
+import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
 import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +82,12 @@ public class CinemasServiceTest {
         var addressId = 5L;
 
         when(cinemaDao.findByName("Gutkino"))
-                .thenReturn(Optional.of(Cinema.builder().id(3L).name("Gutkino").addressId(5L).build()));
+                .thenReturn(Optional.of(Cinema.builder()
+                        .id(3L)
+                        .name("Gutkino")
+                        .addressId(5L)
+                        .build()
+                ));
 
         var expectedGetCinemaDto = GetCinemaDto.builder()
                 .id(id)
@@ -110,7 +119,12 @@ public class CinemasServiceTest {
 
         when(addressDao.findAddress(street, houseNumber, city, zipCode))
                 .thenReturn(Optional.of(
-                        Address.builder().id(addressId).city(city).street(street).zipCode(zipCode).houseNumber(houseNumber).build()
+                        Address.builder()
+                                .id(addressId)
+                                .city(city).street(street)
+                                .zipCode(zipCode)
+                                .houseNumber(houseNumber)
+                                .build()
                 ));
 
         var createCinemaRoomDto = CreateCinemaRoomDto.builder()
@@ -129,7 +143,9 @@ public class CinemasServiceTest {
 
         var createCinemaRoomDtos = List.of(createCinemaRoomDto, createCinemaRoomDto1);
 
-        var cinemaRooms = createCinemaRoomDtos.stream().map(CreateCinemaRoomDto::toCinemaRoom).toList();
+        var cinemaRooms = createCinemaRoomDtos.stream()
+                .map(CreateCinemaRoomDto::toCinemaRoom)
+                .toList();
 
         when(cinemaRoomDao.saveAll(cinemaRooms))
                 .thenReturn(cinemaRooms);
@@ -143,7 +159,11 @@ public class CinemasServiceTest {
                 .cinemaRoomDtos(createCinemaRoomDtos)
                 .build();
 
-        var cinema = Cinema.builder().id(cinemaId).name(name).addressId(addressId).build();
+        var cinema = Cinema.builder()
+                .id(cinemaId)
+                .name(name)
+                .addressId(addressId)
+                .build();
 
         when(cinemaDao.save(any(Cinema.class)))
                 .thenReturn(Optional.of(cinema));
@@ -151,6 +171,74 @@ public class CinemasServiceTest {
         assertThat(cinemasService.addCinema(createCinemaDto))
                 .isEqualTo(cinema.toGetCinemaDto());
 
+
+    }
+
+    @Test
+    @DisplayName("when cinema id is null (by creating cinema rooms)")
+    public void test3() {
+
+        assertThatThrownBy(() -> cinemasService
+                .addCinemaRoomsToCinema(null, List.of(CreateCinemaRoomDto.builder().build()
+                )))
+                .isInstanceOf(CinemaServiceException.class)
+                .hasMessageContaining("cinema id is null");
+    }
+
+    @Test
+    @DisplayName("when cinema rooms list is null (by creating cinema rooms)")
+    public void test4() {
+
+        assertThatThrownBy(() -> cinemasService
+                .addCinemaRoomsToCinema(1L, null))
+                .isInstanceOf(CinemaServiceException.class)
+                .hasMessageContaining("cinema rooms list is null");
+    }
+
+    @Test
+    @DisplayName("when cinema rooms list is empty (by creating cinema rooms)")
+    public void test5() {
+
+        assertThatThrownBy(() -> cinemasService
+                .addCinemaRoomsToCinema(1L, Collections.emptyList()))
+                .isInstanceOf(CinemaServiceException.class)
+                .hasMessageContaining("cinema rooms list is empty");
+    }
+
+    @Test
+    @DisplayName("when saving cinema rooms is correct")
+    public void test6() {
+
+        var cinemaId = 1L;
+
+        var createCinemaDto1 = CreateCinemaRoomDto.builder().name("test room")
+                .cinemaId(cinemaId)
+                .placeNumber(5)
+                .rowsNum(6)
+                .build();
+
+        var createCinemaDto2 = CreateCinemaRoomDto.builder()
+                .cinemaId(1L)
+                .name("test room2")
+                .placeNumber(8)
+                .rowsNum(16)
+                .build();
+
+        var createCinemaRoomDtos = List.of(createCinemaDto1, createCinemaDto2);
+
+        var cinemaRoomList = createCinemaRoomDtos.stream()
+                .map(CreateCinemaRoomDto::toCinemaRoom)
+                .toList();
+
+        var getCinemaRoomsDto = createCinemaRoomDtos.stream()
+                .map(cinemaRoom -> cinemaRoom.toCinemaRoom().withCinemaId(1L).toGetCinemaRoomDto())
+                .toList();
+
+        when(cinemaRoomDao.saveAll(cinemaRoomList))
+                .thenReturn(cinemaRoomList);
+
+        assertThat(cinemasService.addCinemaRoomsToCinema(1L, createCinemaRoomDtos))
+                .isEqualTo(getCinemaRoomsDto);
 
     }
 

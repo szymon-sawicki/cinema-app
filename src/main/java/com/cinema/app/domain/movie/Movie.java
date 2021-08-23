@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@ToString
 @Setter
 
 /**
