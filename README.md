@@ -26,8 +26,8 @@ Testing:
 Progress in development: ~40%  
 Lines of code: 3900  
 Classes: 72  
-Unit test: 63  
-Test-coverage: ~65%
+Unit test: 63    
+Test-coverage: ~65%  git commit
 
 ## Implemented domain objects
 
