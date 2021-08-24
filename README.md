@@ -24,10 +24,10 @@ Testing:
 ## Some statistics
 
 Progress in development: ~40%  
-Lines of code: 3900  
+Lines of code: 4100  
 Classes: 72  
-Unit test: 63    
-Test-coverage: ~65%  git commit
+Unit test: 67  
+Test-coverage: ~65% 
 
 ## Implemented domain objects
 
@@ -51,7 +51,6 @@ I'm planning to add some in next time
 ## NEXT TASKS TO DO
 
 - refactor test of adding cinema
-- write more tests of cinema service
 - find good way to avoid setters in domain objects
 
 

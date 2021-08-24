@@ -6,12 +6,10 @@ import com.cinema.app.domain.address.dto.CreateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
-import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
 import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,16 +18,22 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.mockito.junit.MockitoJUnitRunner;
+
+
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+
 public class CinemasServiceTest {
 
     @Mock
@@ -65,6 +69,7 @@ public class CinemasServiceTest {
                 .build();
 
     }*/
+
 
     @Test
     @DisplayName("when cinema is searched by name")
@@ -242,5 +247,114 @@ public class CinemasServiceTest {
 
     }
 
+    @Test
+    @DisplayName("when all cinemas from city are searched, should return 2 cinemas")
+    public void test7() {
 
+        var searchedCity = "Salzburg";
+
+        var address1 = Address.builder()
+                .id(1L)
+                .city("Salzburg")
+                .street("Lange Strasse")
+                .houseNumber("345/7")
+                .build();
+
+        var address2 = Address.builder()
+                .id(2L)
+                .city("Salzburg")
+                .street("Strass")
+                .houseNumber("3")
+                .build();
+
+        var address3 = Address.builder()
+                .id(3L)
+                .city("Wien")
+                .street("Wagramer Strasse")
+                .houseNumber("205")
+                .build();
+
+        var cinema1 = Cinema.builder()
+                .name("Cineplexxx")
+                .addressId(1L)
+                .build();
+
+        var cinema2 = Cinema.builder()
+                .name("Cineplexxx2")
+                .addressId(2L)
+                .build();
+
+        var cinema3 = Cinema.builder()
+                .name("Cineplexxx3")
+                .addressId(3L)
+                .build();
+
+        when(addressDao.findAllFromCity("Salzburg"))
+                .thenReturn(List.of(address1, address2));
+
+        when(cinemaDao.findByAddress(1L))
+                .thenReturn(Optional.of(cinema1));
+
+        when(cinemaDao.findByAddress(2L))
+                .thenReturn(Optional.of(cinema2));
+
+        when(cinemaDao.findByAddress(3L))
+                .thenReturn(Optional.of(cinema3));
+
+        assertThat(cinemasService.findByCity(searchedCity))
+                .isNotEmpty()
+                .hasSize(2)
+                .containsAll(List.of(cinema1.toGetCinemaDto(), cinema2.toGetCinemaDto()));
+    }
+
+    @Test
+    @DisplayName("when searched city name has incorrect format")
+    public void test8() {
+
+        var cityName = "blp&-.@%";
+
+        assertThatThrownBy(() -> cinemasService.findByCity(cityName))
+                .isInstanceOf(CinemaServiceException.class)
+                .hasMessageContaining("city have wrong format");
+
+    }
+
+    @Test
+    @DisplayName("when searched city name is null")
+    public void test9() {
+
+        assertThatThrownBy(() -> cinemasService.findByCity(null))
+                .isInstanceOf(CinemaServiceException.class)
+                .hasMessageContaining("city is null");
+
+    }
+
+    @Test
+    @DisplayName("when searching by name is succesfull")
+    public void test10() {
+
+        var id = 1L;
+        var addressId = 2L;
+        var name = "Nice cinema";
+
+        var cinema = Cinema.builder()
+                .id(id)
+                .name(name)
+                .addressId(addressId)
+                .build();
+
+        var getCinemaDto = GetCinemaDto.builder()
+                .id(id)
+                .name(name)
+                .addressId(addressId)
+                .build();
+
+
+        when(cinemaDao.findByName(name))
+                .thenReturn(Optional.of(cinema));
+
+        assertThat(cinemasService.findByName(name))
+                .isEqualTo(getCinemaDto);
+
+    }
 }

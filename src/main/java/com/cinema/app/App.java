@@ -106,8 +106,10 @@ public class App {
     //    System.out.println(cinemaService.findByName("fajne"));
 
         // TODO wyszukiwanie wszystkich kin z miasta za pomoca dao ? Trzeba zrobic join i specjalny obiekt?
-        // TODO do działania abstract crud dao potrzebne sa settery w klasie mapowanej, jak to ogarnac ? entity?
+        // TODO do poprawnego działania abstract crud dao potrzebne sa settery w klasie mapowanej, jak to ogarnac ? entity?
         // TODO jak najlepiej przechować datę i godzinę seansu w bazie danych i obiekcie ?
+        // TODO struktura kontrolerów w warstwie sieciowej
+        // TODO testowanie dodawania kina w cinemas service - sprawdzić
 
     }
 

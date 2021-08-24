@@ -21,11 +21,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CinemasService {
+
     private final CinemaDao cinemaDao;
     private final CinemaRoomDao cinemaRoomDao;
     private final AddressDao addressDao;
@@ -93,6 +95,9 @@ public class CinemasService {
         if (city == null) {
             throw new CinemaServiceException("city is null");
         }
+        if(!city.matches("[\\w\\s\\-]{3,30}+")) {
+        throw new CinemaServiceException("city have wrong format");
+    }
         return addressDao.findAllFromCity(city).stream()
                 .map(address -> cinemaDao
                         .findByAddress(AddressUtils.toId.apply(address))
