@@ -1,15 +1,12 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.CinemaServiceException;
-import com.cinema.app.domain.address.Address;
 import com.cinema.app.domain.address.AddressUtils;
-import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.CinemaUtils;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import com.cinema.app.domain.cinema.dto.validator.CreateCinemaDtoValidator;
 import com.cinema.app.domain.cinema_room.CinemaRoom;
-import com.cinema.app.domain.cinema_room.CinemaRoomUtils;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
@@ -21,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service

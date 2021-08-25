@@ -110,6 +110,7 @@ public class App {
         // TODO jak najlepiej przechować datę i godzinę seansu w bazie danych i obiekcie ?
         // TODO struktura kontrolerów w warstwie sieciowej
         // TODO testowanie dodawania kina w cinemas service - sprawdzić
+        // TODO
 
     }
 

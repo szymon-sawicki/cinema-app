@@ -23,7 +23,7 @@ Testing:
 
 ## Some statistics
 
-Progress in development: ~40%  
+Progress in development: ~50%  
 Lines of code: 4100  
 Classes: 72  
 Unit test: 67  
@@ -46,6 +46,7 @@ I'm planning to add some in next time
 - creating new cinema with multiple rooms
 - searching cinema by name
 - searching all cinemas from city
+
 
 
 ## NEXT TASKS TO DO
