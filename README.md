@@ -24,9 +24,9 @@ Testing:
 ## Some statistics
 
 Progress in development: ~50%  
-Lines of code: 4100  
+Lines of code: 4300  
 Classes: 72  
-Unit test: 67  
+Unit test: 74  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -43,10 +43,18 @@ I'm planning to add some in next time
 
 ## Working features at the moment
 
+Cinemas service:
+
 - creating new cinema with multiple rooms
+- adding new rooms to existing cinema
 - searching cinema by name
 - searching all cinemas from city
 
+Movies service:
+
+- adding new movie
+- searching movie by name
+- finding all movies from given genre
 
 
 ## NEXT TASKS TO DO

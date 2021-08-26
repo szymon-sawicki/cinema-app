@@ -39,7 +39,7 @@ public class MoviesService {
         if (name == null) {
             throw new MoviesServiceException("name is null");
         }
-        if(!name.matches("[\\w\\s\\-]{3,30}+")) {
+        if(!name.matches("[\\w\\s\\-']{3,30}+")) {
             throw new MoviesServiceException("name have wrong format");
         }
         return  movieDao
@@ -58,6 +58,7 @@ public class MoviesService {
                 .map(Movie::toGetMovieDto)
                 .toList();
     }
+
 
 
 }
