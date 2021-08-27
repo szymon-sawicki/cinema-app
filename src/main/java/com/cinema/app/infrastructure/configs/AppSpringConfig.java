@@ -51,12 +51,23 @@ public class AppSpringConfig {
                 create table if not exists cinema_rooms (
                     id integer primary key auto_increment,
                     name varchar(20) not null,
-                    rows_number integer not null,
+                    rows_num integer not null,
                     place_number integer not null,
                     cinema_id integer not null,
                     foreign key (cinema_id) references cinemas (id) on delete cascade on update cascade
                 );
                 """;
+
+        var moviesTableSql = """
+                  create table if not exists movies (
+                  id integer primary key auto_increment,
+                  name varchar(40) not null ,
+                  movie_genre varchar(15) not null,
+                  premiere_date date not null,
+                  length integer not null
+                  );               
+                """;
+
 
         var seatsTableSql = """                
                 create table if not exists seats (
@@ -69,24 +80,12 @@ public class AppSpringConfig {
                   );
                   """;
 
-
-        var moviesTableSql = """
-                  create table if not exists movies (
-                  id integer primary key auto_increment,
-                  name varchar(40) not null ,
-                  movie_genre varchar(15) not null,
-                  premiere_date date not null,
-                  length integer not null
-                  );               
-                """;
-
         var screeningsTableSql = """
                 create table if not exists screenings (
                     id integer primary key auto_increment,
                     movie_id integer not null,
                     cinema_room_id integer not null,
-                    date date not null,
-                    time time not null,
+                    date_time datetime not null,
                     foreign key (movie_id) references movies(id) on delete cascade on update cascade,
                     foreign key (cinema_room_id) references cinema_rooms(id) on delete cascade on update cascade
                 );

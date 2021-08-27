@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -22,16 +23,14 @@ public class CreateScreeningDto {
     Long id;
     GetMovieDto getMovieDto;
     Long cinemaRoomId;
-    LocalDate date;
-    LocalTime time;
+    LocalDateTime dateTime;
 
     public Screening toScreening() {
         return Screening.builder()
                 .id(id)
                 .cinemaRoomId(cinemaRoomId)
                 .movieId(getMovieDto.getId())
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
 
     }

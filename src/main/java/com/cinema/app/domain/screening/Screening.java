@@ -4,6 +4,7 @@ import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 @Builder
 @EqualsAndHashCode
 @Setter
+@ToString
 
 /**
  * class representing screening in cinema room
@@ -22,16 +24,14 @@ public class Screening {
     Long id;
     Long movieId;
     Long cinemaRoomId;
-    LocalDate date;
-    LocalTime time;
+    LocalDateTime dateTime;
 
     public GetScreeningDto toGetScreeningDto() {
         return GetScreeningDto.builder()
                 .id(id)
                 .movieId(movieId)
                 .cinemaRoomId(cinemaRoomId)
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
     }
 

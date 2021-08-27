@@ -33,13 +33,14 @@ import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-
 public class CinemasServiceTest {
 
     @Mock
     private CinemaDao cinemaDao;
+
     @Mock
     private AddressDao addressDao;
+
     @Mock
     private CinemaRoomDao cinemaRoomDao;
 
@@ -111,7 +112,7 @@ public class CinemasServiceTest {
         var addressId = 6L;
         var city = "Berlin";
         var street = "Kurzweg";
-        var houseNumber = "32/5";
+        var houseNumber = "325";
         var zipCode = "62-200";
         var cinemaId = 3L;
 

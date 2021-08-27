@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.*;
@@ -19,15 +20,13 @@ public class CreateScreeningDtoTest {
         var id = 2L;
         var movieId = 5L;
         var cinemaRoomId = 6L;
-        var date = LocalDate.now();
-        var time = LocalTime.now();
+        var dateTime = LocalDateTime.now();
 
         var createScreeningDto = CreateScreeningDto.builder()
                 .id(id)
                 .getMovieDto(GetMovieDto.builder().id(5L).build())
                 .cinemaRoomId(cinemaRoomId)
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
 
         var screening = createScreeningDto.toScreening();
@@ -36,8 +35,7 @@ public class CreateScreeningDtoTest {
                 .id(id)
                 .movieId(movieId)
                 .cinemaRoomId(cinemaRoomId)
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
 
         assertThat(screening)

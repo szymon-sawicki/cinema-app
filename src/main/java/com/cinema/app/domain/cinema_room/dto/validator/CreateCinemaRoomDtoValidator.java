@@ -43,12 +43,14 @@ public class CreateCinemaRoomDtoValidator implements Validator<CreateCinemaRoomD
         } else if (createCinemaRoomDto.getPlaceNumber() <= 0) {
             errors.put("place number", "is equal or smaller than 0");
         }
+/*
 
         if (createCinemaRoomDto.getCinemaId() == null) {
             errors.put("cinema id", "is null");
         } else if (createCinemaRoomDto.getCinemaId() <= 0) {
             errors.put("cinema id", "is equal or smaller than 0");
         }
+*/
 
         return errors;
 

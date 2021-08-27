@@ -5,6 +5,7 @@ import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.screening.dto.CreateScreeningDto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,14 +30,10 @@ public class CreateScreeningDtoValidator implements Validator<CreateScreeningDto
             errors.put("cinema id","is lower or equal to 0");
         }
 
-        if(createScreeningDto.getDate() == null) {
-            errors.put("screening date","is null");
-        } else if(createScreeningDto.getDate().isBefore(LocalDate.now())) {
+        if(createScreeningDto.getDateTime() == null) {
+            errors.put("screening date and time","is null");
+        } else if(createScreeningDto.getDateTime().isBefore(LocalDateTime.now())) {
             errors.put("screening date","is in the past");
-        }
-
-        if(createScreeningDto.getTime() == null) {
-            errors.put("screening time","is null");
         }
 
         return errors;

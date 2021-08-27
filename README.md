@@ -24,7 +24,7 @@ Testing:
 ## Some statistics
 
 Progress in development: ~50%  
-Lines of code: 4300  
+Lines of code: 4500
 Classes: 72  
 Unit test: 74  
 Test-coverage: ~65% 
@@ -59,8 +59,10 @@ Movies service:
 
 ## NEXT TASKS TO DO
 
-- refactor test of adding cinema
-- find good way to avoid setters in domain objects
+- write entities (infrastructure) for all domain objects 
+- fix POM.XML
+- fix test of CinemasService
+- test manually inserting of seats by creating of cinema
 
 
 

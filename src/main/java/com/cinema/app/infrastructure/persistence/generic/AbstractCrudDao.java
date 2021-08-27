@@ -216,6 +216,7 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -354,7 +355,9 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                     .map(field -> {
                         field.setAccessible(true);
                         try {
-                            if (field.getType().equals(String.class) || field.getType().equals(LocalDate.class) || field.getType().isEnum()) {
+                            if (field.getType().equals(String.class) ||
+                                    field.getType().equals(LocalDateTime.class) || field.getType().equals(LocalDate.class)
+                                    || field.getType().isEnum()) {
                                 return "'" + field.get(t) + "'";
                             }
                             return field.get(t).toString();
@@ -378,7 +381,7 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                     .map(field -> {
                         field.setAccessible(true);
                         try {
-                            if (field.getType().equals(String.class) || field.getType().equals(LocalDate.class) || field.getType().isEnum()) {
+                            if (field.getType().equals(String.class) || field.getType().equals(LocalDateTime.class) || field.getType().isEnum()) {
                                 return field.getName() + " = '" + field.get(t) + "'";
                             }
                             return field.getName() + " = " + field.get(t).toString();

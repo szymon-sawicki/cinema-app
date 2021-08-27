@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -71,11 +72,11 @@ public class CreateScreeningDtoValidatorTest {
     }
 
     @Test
-    @DisplayName("when date is null")
+    @DisplayName("when date and time is null")
     public void test5() {
         var createScreeningDtoValidator = new CreateScreeningDtoValidator();
         var createScreeningDto = CreateScreeningDto.builder()
-                .date(null)
+                .dateTime(null)
                 .build();
 
         assertThatThrownBy(() -> Validator.validate(createScreeningDtoValidator, createScreeningDto))
@@ -89,7 +90,7 @@ public class CreateScreeningDtoValidatorTest {
     public void test6() {
         var createScreeningDtoValidator = new CreateScreeningDtoValidator();
         var createScreeningDto = CreateScreeningDto.builder()
-                .date(LocalDate.now().minusYears(2))
+                .dateTime(LocalDateTime.now().minusYears(2))
                 .build();
 
         assertThatThrownBy(() -> Validator.validate(createScreeningDtoValidator, createScreeningDto))
@@ -98,27 +99,13 @@ public class CreateScreeningDtoValidatorTest {
                 .hasMessageContaining("screening date: is in the past");
     }
 
-    @Test
-    @DisplayName("when time is null")
-    public void test7() {
-        var createScreeningDtoValidator = new CreateScreeningDtoValidator();
-        var createScreeningDto = CreateScreeningDto.builder()
-                .time(null)
-                .build();
-
-        assertThatThrownBy(() -> Validator.validate(createScreeningDtoValidator, createScreeningDto))
-                .isInstanceOf(ValidatorException.class)
-                .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("screening time: is null");
-    }
 
     @Test
     @DisplayName("when validation is correct")
     public void test8() {
         var createScreeningDtoValidator = new CreateScreeningDtoValidator();
         var createScreeningDto = CreateScreeningDto.builder()
-                .time(LocalTime.now())
-                .date(LocalDate.now().plusMonths(3))
+                .dateTime(LocalDateTime.now().plusMonths(3))
                 .getMovieDto(GetMovieDto.builder().build())
                 .cinemaRoomId(3L)
                 .build();

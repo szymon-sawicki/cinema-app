@@ -11,9 +11,12 @@ import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
 import com.cinema.app.domain.configs.validator.Validator;
+import com.cinema.app.domain.seat.Seat;
+import com.cinema.app.domain.seat.type.SeatType;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
 import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
+import com.cinema.app.infrastructure.persistence.SeatDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,7 @@ public class CinemasService {
     private final CinemaDao cinemaDao;
     private final CinemaRoomDao cinemaRoomDao;
     private final AddressDao addressDao;
+    private final SeatDao seatDao;
 
     public GetCinemaDto addCinema(CreateCinemaDto createCinemaDto) {
         Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
@@ -75,7 +79,10 @@ public class CinemasService {
             throw new CinemaServiceException("cinema rooms list is empty");
         }
 
-        cinemaRooms.forEach(cinemaRoom -> Validator.validate(new CreateCinemaRoomDtoValidator(),cinemaRoom));
+        cinemaRooms.forEach(cinemaRoom -> {
+            Validator.validate(new CreateCinemaRoomDtoValidator(),cinemaRoom);
+
+        });
 
         var cinemaRoomsToInsert = cinemaRooms
                 .stream()
@@ -84,6 +91,21 @@ public class CinemasService {
                         .withCinemaId(cinemaId)
                 ).collect(Collectors.toList());
        return cinemaRoomDao.saveAll(cinemaRoomsToInsert).stream().map(CinemaRoom::toGetCinemaRoomDto).toList();
+
+    }
+
+    private void addSeatsToCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto, Long cinemaRoomId) {
+
+        for (int row = 1; row < createCinemaRoomDto.getRowsNum()+1;row++) {
+            for (int place = 1; place < createCinemaRoomDto.getPlaceNumber()+1; place++) {
+                var seat = Seat.builder()
+                        .cinemaRoomId(cinemaRoomId)
+                        .rowNum(row)
+                        .place(place)
+                        .build();
+                seatDao.save(seat);
+            }
+        }
 
     }
 

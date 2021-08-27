@@ -34,7 +34,7 @@ public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
 
         if (createAddressDto.getHouseNumber() == null) {
             errors.put("house number", "is null");
-        } else if (!createAddressDto.getHouseNumber().matches("[0-9/]{1,6}+")) {
+        } else if (!createAddressDto.getHouseNumber().matches("[\\-\\w\\s]{1,6}+")) {
             errors.put("house number", "have wrong format");
         }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class ScreeningDomainTest {
@@ -16,15 +17,13 @@ public class ScreeningDomainTest {
         var id = 2L;
         var movieId = 3L;
         var cinemaRoomId = 6L;
-        var date = LocalDate.now();
-        var time = LocalTime.now();
+        var dateTime = LocalDateTime.now();
 
         var screening = Screening.builder()
                 .id(id)
                 .movieId(movieId)
                 .cinemaRoomId(cinemaRoomId)
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
 
         var getScreeningDto = screening.toGetScreeningDto();
@@ -33,8 +32,7 @@ public class ScreeningDomainTest {
                 .id(id)
                 .movieId(movieId)
                 .cinemaRoomId(cinemaRoomId)
-                .date(date)
-                .time(time)
+                .dateTime(dateTime)
                 .build();
     }
 

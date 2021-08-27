@@ -5,6 +5,7 @@ import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.infrastructure.persistence.MovieDao;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ public class MoviesServiceTest {
     @InjectMocks
     private MoviesService moviesService;
 
-/*    @Test
+    @Test
     @DisplayName("when movie with given name already exists")
     public void test1() {
 
@@ -40,11 +41,17 @@ public class MoviesServiceTest {
         when(movieDao.findByName(name))
                 .thenReturn(Optional.of(Movie.builder().name(name).build()));
 
+        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------");
+        System.out.println( moviesService.findByName(name));
+        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------");
+
         Assertions.assertThatThrownBy(() -> moviesService.findByName(name))
                 .isInstanceOf(MoviesServiceException.class)
                 .hasMessageContaining("is already present in database");
 
-    }*/
+    }
 
     @Test
     @DisplayName("when adding movie is correct")

@@ -146,7 +146,7 @@ public class CreateAddressDtoValidatorTest {
                 .zipCode("956-95")
                 .city("Prague")
                 .street("Main Street")
-                .houseNumber("234/5")
+                .houseNumber("2345")
                 .build();
 
         assertDoesNotThrow(() -> Validator.validate(createAddressDtoValidator,createAddressDto));
