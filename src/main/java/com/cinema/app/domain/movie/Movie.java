@@ -22,7 +22,7 @@ import java.time.LocalDate;
 public class Movie {
 
     Long id;
-    String name;
+    String title;
     MovieGenre movieGenre;
     LocalDate premiereDate;
     Integer length;
@@ -30,7 +30,7 @@ public class Movie {
     public GetMovieDto toGetMovieDto() {
         return GetMovieDto.builder()
                 .id(id)
-                .name(name)
+                .name(title)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

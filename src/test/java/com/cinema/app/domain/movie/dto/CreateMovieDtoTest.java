@@ -29,7 +29,7 @@ public class CreateMovieDtoTest {
         var movie = createMovieDto.toMovie();
 
         var expectedMovie = Movie.builder()
-                .name(name)
+                .title(name)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

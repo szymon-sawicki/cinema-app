@@ -81,7 +81,6 @@ public class CinemasService {
 
         cinemaRooms.forEach(cinemaRoom -> {
             Validator.validate(new CreateCinemaRoomDtoValidator(),cinemaRoom);
-
         });
 
         var cinemaRoomsToInsert = cinemaRooms
@@ -90,16 +89,21 @@ public class CinemasService {
                         .toCinemaRoom()
                         .withCinemaId(cinemaId)
                 ).collect(Collectors.toList());
-       return cinemaRoomDao.saveAll(cinemaRoomsToInsert).stream().map(CinemaRoom::toGetCinemaRoomDto).toList();
+       var result = cinemaRoomDao.saveAll(cinemaRoomsToInsert).stream().map(CinemaRoom::toGetCinemaRoomDto).toList();
+
+       result.forEach(this::addSeatsToCinemaRoom);
+
+       return result;
 
     }
 
-    private void addSeatsToCinemaRoom(CreateCinemaRoomDto createCinemaRoomDto, Long cinemaRoomId) {
+    private void addSeatsToCinemaRoom(GetCinemaRoomDto getCinemaRoomDto) {
 
-        for (int row = 1; row < createCinemaRoomDto.getRowsNum()+1;row++) {
-            for (int place = 1; place < createCinemaRoomDto.getPlaceNumber()+1; place++) {
+        for (int row = 1; row < getCinemaRoomDto.getRowsNum()+1;row++) {
+            for (int place = 1; place < getCinemaRoomDto.getPlaceNumber()+1; place++) {
                 var seat = Seat.builder()
-                        .cinemaRoomId(cinemaRoomId)
+                        .cinemaRoomId(getCinemaRoomDto.getId())
+                        .seatType(SeatType.CHAIR)
                         .rowNum(row)
                         .place(place)
                         .build();
@@ -116,9 +120,9 @@ public class CinemasService {
         if(!city.matches("[\\w\\s\\-]{3,30}+")) {
         throw new CinemaServiceException("city have wrong format");
     }
-        return addressDao.findAllFromCity(city).stream()
-                .map(address -> cinemaDao
-                        .findByAddress(AddressUtils.toId.apply(address))
+        return addressDao.findAllIdsFromCity(city).stream()
+                .map(addressId -> cinemaDao
+                        .findByAddress(addressId)
                         .orElseThrow(() -> new CinemaServiceException("cannot find element"))
                         .toGetCinemaDto())
                 .toList();

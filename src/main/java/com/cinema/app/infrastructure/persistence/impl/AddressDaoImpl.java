@@ -39,4 +39,14 @@ public class AddressDaoImpl extends AbstractCrudDao<Address, Long> implements Ad
                 .mapToBean(Address.class)
                 .findFirst());
     }
+
+    @Override
+    public List<Long> findAllIdsFromCity(String city) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select id from addresses where city = :city")
+                .bind("city",city)
+                .mapTo(Long.class)
+                .list()
+        );
+    }
 }

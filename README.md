@@ -24,7 +24,7 @@ Testing:
 ## Some statistics
 
 Progress in development: ~50%  
-Lines of code: 4500
+Lines of code: 4500  
 Classes: 72  
 Unit test: 74  
 Test-coverage: ~65% 
@@ -38,8 +38,7 @@ Test-coverage: ~65%
 - Screening  
 - Movie  
 
-I'm planning to add some in next time
-
+I will add User and Ticket domain objects in few days
 
 ## Working features at the moment
 
@@ -59,10 +58,9 @@ Movies service:
 
 ## NEXT TASKS TO DO
 
-- write entities (infrastructure) for all domain objects 
+- write entities (infrastructure) for all domain objects and refactor all dao's
 - fix POM.XML
-- fix test of CinemasService
-- test manually inserting of seats by creating of cinema
+- fix tests of CinemasService
 
 
 

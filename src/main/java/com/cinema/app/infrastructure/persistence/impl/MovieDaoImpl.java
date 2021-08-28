@@ -16,10 +16,10 @@ public class MovieDaoImpl extends AbstractCrudDao<Movie,Long> implements MovieDa
     public MovieDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     @Override
-    public Optional<Movie> findByName(String name) {
+    public Optional<Movie> findByName(String title) {
         return jdbi.withHandle(handle -> handle
-                .createQuery("select * from movies where name = :name")
-                .bind("name", name)
+                .createQuery("select * from movies where title = :title")
+                .bind("title", title)
                 .mapToBean(Movie.class)
                 .findFirst());
     }

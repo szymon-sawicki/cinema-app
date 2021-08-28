@@ -20,7 +20,7 @@ public class CreateMovieDto {
 
     public Movie toMovie() {
         return Movie.builder()
-                .name(name)
+                .title(name)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

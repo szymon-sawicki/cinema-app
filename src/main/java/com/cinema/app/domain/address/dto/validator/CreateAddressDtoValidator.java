@@ -27,14 +27,14 @@ public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
 
         if (createAddressDto.getStreet() == null) {
             errors.put("street", "is null");
-        } else if (!createAddressDto.getStreet().matches("[\\-\\w\\s]{3,40}+")) {
+        } else if (!createAddressDto.getStreet().matches("[\\-\\w\\s/]{3,40}+")) {
             System.out.println();
             errors.put("street","have wrong format");
         }
 
         if (createAddressDto.getHouseNumber() == null) {
             errors.put("house number", "is null");
-        } else if (!createAddressDto.getHouseNumber().matches("[\\-\\w\\s]{1,6}+")) {
+        } else if (!createAddressDto.getHouseNumber().matches("[\\-\\w\\s/]{1,6}+")) {
             errors.put("house number", "have wrong format");
         }
 

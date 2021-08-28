@@ -28,6 +28,16 @@ public class AppSpringConfig {
 
         Jdbi jdbi = Jdbi.create(jdbiUrl, jdbiUsername, jdbiPassword);
 
+        var moviesTableSql = """
+                  create table if not exists movies (
+                  id integer primary key auto_increment,
+                  title varchar(40) not null ,
+                  movie_genre varchar(15) not null,
+                  premiere_date date not null,
+                  length integer not null
+                  );               
+                """;
+
         var addressesTableSql = """
                 create table if not exists addresses (
                     id integer primary key auto_increment,
@@ -41,7 +51,7 @@ public class AppSpringConfig {
         var cinemasTableSql = """
                 create table if not exists cinemas (
                     id integer primary key auto_increment,
-                    name varchar(20) not null,
+                    name varchar(50) not null,
                     address_id integer not null,
                     foreign key (address_id) references addresses (id) on delete cascade on update cascade
                 );
@@ -50,22 +60,12 @@ public class AppSpringConfig {
         var cinemaRoomsTableSql = """
                 create table if not exists cinema_rooms (
                     id integer primary key auto_increment,
-                    name varchar(20) not null,
+                    name varchar(50) not null,
                     rows_num integer not null,
                     place_number integer not null,
                     cinema_id integer not null,
                     foreign key (cinema_id) references cinemas (id) on delete cascade on update cascade
                 );
-                """;
-
-        var moviesTableSql = """
-                  create table if not exists movies (
-                  id integer primary key auto_increment,
-                  name varchar(40) not null ,
-                  movie_genre varchar(15) not null,
-                  premiere_date date not null,
-                  length integer not null
-                  );               
                 """;
 
 
@@ -91,13 +91,13 @@ public class AppSpringConfig {
                 );
                 """;
 
-
+        jdbi.useHandle(handle -> handle.execute(moviesTableSql));
         jdbi.useHandle(handle -> handle.execute(addressesTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemasTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemaRoomsTableSql));
         jdbi.useHandle(handle -> handle.execute(seatsTableSql));
         jdbi.useHandle(handle -> handle.execute(screeningsTableSql));
-        jdbi.useHandle(handle -> handle.execute(moviesTableSql));
+
 
 
         return jdbi;

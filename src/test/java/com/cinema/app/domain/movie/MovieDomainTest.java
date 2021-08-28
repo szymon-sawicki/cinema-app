@@ -23,7 +23,7 @@ public class MovieDomainTest {
 
         var movie = Movie.builder()
                 .id(id)
-                .name(name)
+                .title(name)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

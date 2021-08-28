@@ -260,7 +260,7 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                 throw new AbstractCrudDaoException("Cannot insert data to db");
             }} );
 
-        return items;
+        return findNLastElements(items.size());
 
     }
 

@@ -10,6 +10,7 @@ import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.infrastructure.persistence.AddressDao;
 import com.cinema.app.infrastructure.persistence.CinemaDao;
 import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
+import com.cinema.app.infrastructure.persistence.SeatDao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,9 @@ public class CinemasServiceTest {
 
     @Mock
     private CinemaRoomDao cinemaRoomDao;
+
+    @Mock
+    private SeatDao seatDao;
 
     @InjectMocks
     private CinemasService cinemasService;
@@ -290,7 +294,7 @@ public class CinemasServiceTest {
                 .addressId(3L)
                 .build();
 
-        when(addressDao.findAllFromCity("Salzburg"))
+        when(addressDao.findAllFromCity(searchedCity))
                 .thenReturn(List.of(address1, address2));
 
         when(cinemaDao.findByAddress(1L))

@@ -39,7 +39,7 @@ public class MoviesServiceTest {
 
 
         when(movieDao.findByName(name))
-                .thenReturn(Optional.of(Movie.builder().name(name).build()));
+                .thenReturn(Optional.of(Movie.builder().title(name).build()));
 
         System.out.println("--------------------------------------------------");
         System.out.println("--------------------------------------------------");
@@ -70,7 +70,7 @@ public class MoviesServiceTest {
                 .build();
 
         var movie = Movie.builder()
-                .name(name)
+                .title(name)
                 .length(length)
                 .premiereDate(premiereDate)
                 .movieGenre(movieGenre)
@@ -131,7 +131,7 @@ public class MoviesServiceTest {
         var premiereDate = LocalDate.now().minusYears(3);
 
         var movie = Movie.builder()
-                .name(name)
+                .title(name)
                 .length(length)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
@@ -150,14 +150,14 @@ public class MoviesServiceTest {
     public void test7() {
 
         var movie1 = Movie.builder()
-                .name("Terminator")
+                .title("Terminator")
                 .length(92)
                 .movieGenre(MovieGenre.HORROR)
                 .premiereDate(LocalDate.now().minusYears(2))
                 .build();
 
         var movie2 = Movie.builder()
-                .name("Lord of the Rings")
+                .title("Lord of the Rings")
                 .length(92)
                 .movieGenre(MovieGenre.HORROR)
                 .premiereDate(LocalDate.now().minusYears(2))
