@@ -2,7 +2,6 @@ package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
-import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.dto.validator.CreateMovieDtoValidator;
@@ -23,8 +22,8 @@ public class MoviesService {
     public GetMovieDto addMovie(CreateMovieDto createMovieDto)   {
         Validator.validate(new CreateMovieDtoValidator(),createMovieDto);
 
-        if(movieEntityDao.findByName(createMovieDto.getName()).isPresent()) {
-            throw new MoviesServiceException("movie with name " + createMovieDto.getName() + " is already present in database");
+        if(movieEntityDao.findByName(createMovieDto.getTitle()).isPresent()) {
+            throw new MoviesServiceException("movie with title " + createMovieDto.getTitle() + " is already present in database");
         }
 
         var movie = createMovieDto.toMovie().toEntity();
@@ -36,16 +35,16 @@ public class MoviesService {
                 .toGetMovieDto();
     }
 
-    public GetMovieDto findByName(String name) {
-        if (name == null) {
-            throw new MoviesServiceException("name is null");
+    public GetMovieDto findByTitle(String title) {
+        if (title == null) {
+            throw new MoviesServiceException("title is null");
         }
-        if(!name.matches("[\\w\\s\\-']{3,30}+")) {
-            throw new MoviesServiceException("name have wrong format");
+        if(!title.matches("[\\w\\s\\-']{3,30}+")) {
+            throw new MoviesServiceException("title have wrong format");
         }
         return  movieEntityDao
-                .findByName(name)
-                .orElseThrow(() -> new MoviesServiceException("cannot find movie with name: " + name))
+                .findByName(title)
+                .orElseThrow(() -> new MoviesServiceException("cannot find movie with title: " + title))
                 .toMovie()
                 .toGetMovieDto();
     }

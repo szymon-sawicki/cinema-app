@@ -2,6 +2,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.cinema_room.CinemaRoom;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -10,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Setter
+@EqualsAndHashCode
 
 public class CinemaRoomEntity {
 

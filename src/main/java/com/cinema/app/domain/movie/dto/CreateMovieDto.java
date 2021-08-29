@@ -13,14 +13,14 @@ import java.time.LocalDate;
 
 public class CreateMovieDto {
 
-    String name;
+    String title;
     MovieGenre movieGenre;
     LocalDate premiereDate;
     Integer length;
 
     public Movie toMovie() {
         return Movie.builder()
-                .title(name)
+                .title(title)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

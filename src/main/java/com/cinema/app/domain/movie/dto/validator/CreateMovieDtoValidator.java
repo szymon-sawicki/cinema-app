@@ -18,10 +18,10 @@ public class CreateMovieDtoValidator implements Validator<CreateMovieDto> {
             return errors;
         }
 
-        if (createMovieDto.getName() == null) {
-            errors.put("name", "is null");
-        } else if (!createMovieDto.getName().matches("[\\w\\s\\-'.,]{2,50}+")) {
-            errors.put("name", "have wrong format");
+        if (createMovieDto.getTitle() == null) {
+            errors.put("title", "is null");
+        } else if (!createMovieDto.getTitle().matches("[\\w\\s\\-'.,]{2,50}+")) {
+            errors.put("title", "have wrong format");
         }
 
         if (createMovieDto.getMovieGenre() == null) {

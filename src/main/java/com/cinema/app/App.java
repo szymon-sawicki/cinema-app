@@ -106,14 +106,14 @@ public class App {
                 .movieGenre(MovieGenre.HORROR)
                 .length(90)
                 .premiereDate(LocalDate.of(2020, 11, 23))
-                .name("Andreas Abenteuer")
+                .title("Andreas Abenteuer")
                 .build();
 
         var movie2 = CreateMovieDto.builder()
                 .movieGenre(MovieGenre.HORROR)
                 .length(110)
                 .premiereDate(LocalDate.of(2018, 11, 23))
-                .name("Zombie 12")
+                .title("Zombie 12")
                 .build();
 
         System.out.println(cinemaService.addCinema(createCinemaDto1));

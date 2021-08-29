@@ -30,7 +30,7 @@ public class Movie {
     public GetMovieDto toGetMovieDto() {
         return GetMovieDto.builder()
                 .id(id)
-                .name(title)
+                .title(title)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

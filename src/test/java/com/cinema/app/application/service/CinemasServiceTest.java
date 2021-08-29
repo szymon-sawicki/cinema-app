@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -244,7 +243,7 @@ public class CinemasServiceTest {
                 .map(cinemaRoom -> cinemaRoom.toCinemaRoom().withCinemaId(1L).toGetCinemaRoomDto())
                 .toList();
 
-        when(cinemaRoomEntityDao.saveAll(cinemaRoomList))
+        when(cinemaRoomEntityDao.saveAll(any()))
                 .thenReturn(cinemaRoomList);
 
         assertThat(cinemasService.addCinemaRoomsToCinema(1L, createCinemaRoomDtos))
@@ -294,8 +293,8 @@ public class CinemasServiceTest {
                 .addressId(3L)
                 .build();
 
-        when(addressEntityDao.findAllFromCity(searchedCity))
-                .thenReturn(List.of(address1.toEntity(), address2.toEntity()));
+        when(addressEntityDao.findAllIdsFromCity(searchedCity))
+                .thenReturn(List.of(1L,2L));
 
         when(cinemaEntityDao.findByAddress(1L))
                 .thenReturn(Optional.of(cinema1.toEntity()));

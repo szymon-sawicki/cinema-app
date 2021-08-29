@@ -1,6 +1,7 @@
 package com.cinema.app.domain.cinema_room;
 
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
+import com.cinema.app.infrastructure.persistence.entity.CinemaRoomEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,4 +37,69 @@ public class CinemaRoomDomainTest {
         assertThat(getCinemaRoomDto).isEqualTo(expectedGetCinemaRomDto);
 
     }
+
+    @Test
+    @DisplayName("when cinema room wit new cinema id is returned")
+    public void test2() {
+
+        var name = "great room";
+        var rows = 15;
+        var placeNumber = 20;
+        var cinemaId = 1L;
+
+        var newCinemaId = 3L;
+
+        var cinemaRoom = CinemaRoom.builder()
+                .name(name)
+                .rowsNum(rows)
+                .placeNumber(placeNumber)
+                .cinemaId(cinemaId)
+                .build();
+
+        var expectedCinemaRoom = CinemaRoom.builder()
+                .name(name)
+                .rowsNum(rows)
+                .placeNumber(placeNumber)
+                .cinemaId(newCinemaId)
+                .build();
+
+        assertThat(cinemaRoom.withCinemaId(newCinemaId))
+                .isEqualTo(expectedCinemaRoom);
+
+    }
+
+    @Test
+    @DisplayName("when coversion to entity is correct")
+    public void test3() {
+
+        var id = 5L;
+        var name = "great room";
+        var rows = 15;
+        var placeNumber = 20;
+        var cinemaId = 1L;
+
+        var newCinemaId = 3L;
+
+        var cinemaRoom = CinemaRoom.builder()
+                .id(id)
+                .name(name)
+                .rowsNum(rows)
+                .placeNumber(placeNumber)
+                .cinemaId(cinemaId)
+                .build();
+
+        var cinemaRoomEntity = CinemaRoomEntity.builder()
+                .id(id)
+                .name(name)
+                .rowsNum(rows)
+                .placeNumber(placeNumber)
+                .cinemaId(cinemaId)
+                .build();
+
+        assertThat(cinemaRoom.toEntity()).isEqualTo(cinemaRoomEntity);
+
+    }
+
+
+
 }

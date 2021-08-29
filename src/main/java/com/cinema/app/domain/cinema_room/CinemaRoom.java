@@ -46,6 +46,7 @@ public class CinemaRoom {
 
     public CinemaRoomEntity toEntity() {
         return CinemaRoomEntity.builder()
+                .id(id)
                 .name(name)
                 .rowsNum(rowsNum)
                 .placeNumber(placeNumber)

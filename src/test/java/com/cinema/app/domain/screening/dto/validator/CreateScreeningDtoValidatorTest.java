@@ -82,7 +82,7 @@ public class CreateScreeningDtoValidatorTest {
         assertThatThrownBy(() -> Validator.validate(createScreeningDtoValidator, createScreeningDto))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("screening date: is null");
+                .hasMessageContaining("screening date and time: is null");
     }
 
     @Test

@@ -20,7 +20,7 @@ public class CreateMovieDtoTest {
         var length = 90;
 
         var createMovieDto = CreateMovieDto.builder()
-                .name(name)
+                .title(name)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

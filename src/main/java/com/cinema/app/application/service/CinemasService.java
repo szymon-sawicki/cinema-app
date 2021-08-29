@@ -48,9 +48,6 @@ public class CinemasService {
                         .save(address)
                         .orElseThrow(() -> new CinemaServiceException("Cannot add new address")));
 
-        System.out.println("-----------------------------------------------------------------");
-        System.out.println(addressFromDb.toString());
-        System.out.println("-----------------------------------------------------------------");
 
         var cinemaToInsert = createCinemaDto
                 .toCinema()

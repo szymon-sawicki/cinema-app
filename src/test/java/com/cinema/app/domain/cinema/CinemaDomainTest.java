@@ -2,6 +2,7 @@ package com.cinema.app.domain.cinema;
 
 import com.cinema.app.domain.address.dto.GetAddressDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
+import com.cinema.app.infrastructure.persistence.entity.CinemaEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,5 +64,29 @@ public class CinemaDomainTest {
 
         assertThat(cinemaWithNewAddress)
                 .isEqualTo(expectedCinema);
+    }
+
+    @Test
+    @DisplayName("when conversion to entity is correct")
+    public void test3() {
+
+        var id = 1L;
+        var name = "Helios";
+        var addressId = 2L;
+
+        var cinema = Cinema.builder()
+                .id(id)
+                .name(name)
+                .addressId(addressId)
+                .build();
+
+        var cinemaEntity = CinemaEntity.builder()
+                .id(id)
+                .name(name)
+                .addressId(addressId)
+                .build();
+
+        assertThat(cinema.toEntity())
+                .isEqualTo(cinemaEntity);
     }
 }

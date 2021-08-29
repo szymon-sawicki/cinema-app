@@ -3,6 +3,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @SuperBuilder
 @Setter
+@EqualsAndHashCode
 
 public class MovieEntity {
     private Long id;

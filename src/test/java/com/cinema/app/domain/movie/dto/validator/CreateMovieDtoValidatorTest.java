@@ -30,13 +30,13 @@ public class CreateMovieDtoValidatorTest {
         var createMovieDtoValidator = new CreateMovieDtoValidator();
 
         var createMovieDto = CreateMovieDto.builder()
-                .name("alien#")
+                .title("alien#")
                 .build();
 
         Assertions.assertThatThrownBy(() -> Validator.validate(createMovieDtoValidator,createMovieDto))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("name: have wrong format");
+                .hasMessageContaining("title: have wrong format");
     }
 
     @Test

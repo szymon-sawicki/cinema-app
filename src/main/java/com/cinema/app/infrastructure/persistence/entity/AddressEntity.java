@@ -1,10 +1,7 @@
 package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.address.Address;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
@@ -12,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Setter
 @ToString
+@EqualsAndHashCode
 
 public class AddressEntity {
 

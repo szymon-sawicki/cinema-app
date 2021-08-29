@@ -3,6 +3,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -11,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Setter
+@EqualsAndHashCode
 
 public class SeatEntity {
     private Long id;

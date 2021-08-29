@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,10 +22,11 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class MoviesServiceTest {
 
     @Mock
@@ -33,21 +36,21 @@ public class MoviesServiceTest {
     private MoviesService moviesService;
 
     @Test
-    @DisplayName("when movie with given name already exists")
+    @DisplayName("when movie with given title already exists")
     public void test1() {
 
-        var name = "Greys Anatomy";
+        var title = "Greys Anatomy";
 
         var movie = CreateMovieDto.builder()
-                .name(name)
+                .title(title)
                 .length(78)
                 .movieGenre(MovieGenre.ACTION)
                 .premiereDate(LocalDate.now().minusYears(5))
                 .build();
 
 
-        when(movieEntityDao.findByName(name))
-                .thenReturn(Optional.of(MovieEntity.builder().title(name).build()));
+        when(movieEntityDao.findByName(title))
+                .thenReturn(Optional.of(MovieEntity.builder().title(title).build()));
 
         Assertions.assertThatThrownBy(() -> moviesService.addMovie(movie))
                 .isInstanceOf(MoviesServiceException.class)
@@ -59,26 +62,26 @@ public class MoviesServiceTest {
     @DisplayName("when adding movie is correct")
     public void test2() {
 
-        var name = "New movie";
+        var title = "New movie";
         var length = 23;
         var movieGenre = MovieGenre.ACTION;
         var premiereDate = LocalDate.now().minusYears(3);
 
         var createMovieDto = CreateMovieDto.builder()
-                .name(name)
+                .title(title)
                 .length(length)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .build();
 
         var movie = Movie.builder()
-                .title(name)
+                .title(title)
                 .length(length)
                 .premiereDate(premiereDate)
                 .movieGenre(movieGenre)
                 .build();
 
-        when(movieEntityDao.save(createMovieDto.toMovie().toEntity()))
+        when(movieEntityDao.save(any()))
                 .thenReturn(Optional.of(movie.toEntity()));
 
         assertThat(moviesService.addMovie(createMovieDto))
@@ -88,24 +91,24 @@ public class MoviesServiceTest {
 
 
     @Test
-    @DisplayName("when name of movie is null")
+    @DisplayName("when title of movie is null")
     public void test3() {
 
-        assertThatThrownBy(() -> moviesService.findByName(null))
+        assertThatThrownBy(() -> moviesService.findByTitle(null))
                 .isInstanceOf(MoviesServiceException.class)
-                .hasMessageContaining("name is null");
+                .hasMessageContaining("title is null");
 
     }
 
     @Test
-    @DisplayName("when name of movie to search have wrong format")
+    @DisplayName("when title of movie to search have wrong format")
     public void test4() {
 
         var name = "&^ms ddd";
 
-        assertThatThrownBy(() -> moviesService.findByName(name))
+        assertThatThrownBy(() -> moviesService.findByTitle(name))
                 .isInstanceOf(MoviesServiceException.class)
-                .hasMessageContaining("name have wrong format");
+                .hasMessageContaining("title have wrong format");
 
     }
 
@@ -113,36 +116,36 @@ public class MoviesServiceTest {
     @DisplayName("when movie cannot be found")
     public void test5() {
 
-        var name = "Lord of the Rings";
+        var title = "Lord of the Rings";
 
-        when(movieEntityDao.findByName(name))
+        when(movieEntityDao.findByName(title))
                 .thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> moviesService.findByName(name))
+        assertThatThrownBy(() -> moviesService.findByTitle(title))
                 .isInstanceOf(MoviesServiceException.class)
                 .hasMessageContaining("cannot find movie");
     }
 
     @Test
-    @DisplayName("when movie is found by name")
+    @DisplayName("when movie is found by title")
     public void test6() {
 
-        var name = "New movie";
+        var title = "New movie";
         var length = 23;
         var movieGenre = MovieGenre.ACTION;
         var premiereDate = LocalDate.now().minusYears(3);
 
         var movie = Movie.builder()
-                .title(name)
+                .title(title)
                 .length(length)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .build();
 
-        when(movieEntityDao.findByName(name))
+        when(movieEntityDao.findByName(title))
                 .thenReturn(Optional.of(movie.toEntity()));
 
-        assertThat(moviesService.findByName(name))
+        assertThat(moviesService.findByTitle(title))
                 .isEqualTo(movie.toGetMovieDto());
 
     }

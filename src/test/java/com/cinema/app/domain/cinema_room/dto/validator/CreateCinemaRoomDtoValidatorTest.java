@@ -93,7 +93,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
     }
 
-    @Test
+/*    @Test
     @DisplayName("when cinema id is negative")
     public void test6() {
 
@@ -124,7 +124,7 @@ public class CreateCinemaRoomDtoValidatorTest {
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("cinema id", "have wrong format");
-    }
+    }*/
 
     @Test
     @DisplayName("when cinema room is correct")

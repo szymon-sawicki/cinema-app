@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class GetMovieDto {
 
     Long id;
-    String name;
+    String title;
     MovieGenre movieGenre;
     LocalDate premiereDate;
     Integer length;
