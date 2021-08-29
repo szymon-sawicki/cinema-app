@@ -12,10 +12,10 @@ import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValida
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
-import com.cinema.app.infrastructure.persistence.AddressEntityDao;
-import com.cinema.app.infrastructure.persistence.CinemaEntityDao;
-import com.cinema.app.infrastructure.persistence.CinemaRoomEntityDao;
-import com.cinema.app.infrastructure.persistence.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.AddressEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.CinemaEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

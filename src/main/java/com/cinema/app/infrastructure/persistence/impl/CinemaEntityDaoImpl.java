@@ -1,6 +1,6 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
-import com.cinema.app.infrastructure.persistence.CinemaEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.CinemaEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.CinemaEntity;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;

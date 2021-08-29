@@ -20,14 +20,12 @@ import java.time.LocalTime;
 
 public class CreateScreeningDto {
 
-    Long id;
     GetMovieDto getMovieDto;
     Long cinemaRoomId;
     LocalDateTime dateTime;
 
     public Screening toScreening() {
         return Screening.builder()
-                .id(id)
                 .cinemaRoomId(cinemaRoomId)
                 .movieId(getMovieDto.getId())
                 .dateTime(dateTime)

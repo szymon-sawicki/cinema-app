@@ -91,13 +91,40 @@ public class AppSpringConfig {
                 );
                 """;
 
+        var ticketsTableSql = """
+                create table if not exists tickets (
+                    id integer primary key auto_increment,
+                    screening_id integer not null,
+                    user_id integer not null,
+                    seat_id integer not null,
+                    price decimal not null,
+                    discount integer,
+                    status varchar(15),
+                    foreign key (screening_id) references screenings(id) on delete cascade on update cascade,
+                    foreign key (user_id) references users(id) on delete cascade on update cascade,
+                    foreign key (seat_id) references seats(id) on delete cascade on update cascade
+                );
+                """;
+
+        var usersTableSql = """
+                create table if not exists users (
+                id integer primary key auto_increment,
+                username varchar(20) not null,
+                password varchar(30) not null,
+                name varchar(30) not null,
+                mail varchar(50) not null,
+                date date not null,
+                gender varchar(15)
+                """;
+
         jdbi.useHandle(handle -> handle.execute(moviesTableSql));
         jdbi.useHandle(handle -> handle.execute(addressesTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemasTableSql));
         jdbi.useHandle(handle -> handle.execute(cinemaRoomsTableSql));
         jdbi.useHandle(handle -> handle.execute(seatsTableSql));
         jdbi.useHandle(handle -> handle.execute(screeningsTableSql));
-
+        jdbi.useHandle(handle -> handle.execute(ticketsTableSql));
+        jdbi.useHandle(handle -> handle.execute(usersTableSql));
 
 
         return jdbi;

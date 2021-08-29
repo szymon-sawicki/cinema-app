@@ -1,4 +1,4 @@
-package com.cinema.app.infrastructure.persistence;
+package com.cinema.app.infrastructure.persistence.dao;
 
 import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
 import com.cinema.app.infrastructure.persistence.generic.CrudDao;

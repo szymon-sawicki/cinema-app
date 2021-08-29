@@ -1,7 +1,6 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
-import com.cinema.app.domain.address.Address;
-import com.cinema.app.infrastructure.persistence.AddressEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.AddressEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;

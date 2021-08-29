@@ -1,7 +1,7 @@
 package com.cinema.app.application.service;
 
-import com.cinema.app.infrastructure.persistence.CinemaRoomEntityDao;
-import com.cinema.app.infrastructure.persistence.MovieEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

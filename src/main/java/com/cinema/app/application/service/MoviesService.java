@@ -6,7 +6,7 @@ import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.dto.validator.CreateMovieDtoValidator;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.infrastructure.persistence.MovieEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

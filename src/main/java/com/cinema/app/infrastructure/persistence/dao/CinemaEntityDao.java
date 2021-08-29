@@ -1,4 +1,4 @@
-package com.cinema.app.infrastructure.persistence;
+package com.cinema.app.infrastructure.persistence.dao;
 
 import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.infrastructure.persistence.entity.CinemaEntity;

@@ -4,7 +4,7 @@ import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.infrastructure.persistence.MovieEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

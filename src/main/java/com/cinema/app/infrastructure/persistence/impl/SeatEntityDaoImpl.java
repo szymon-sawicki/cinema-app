@@ -1,8 +1,7 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
 
-import com.cinema.app.domain.seat.Seat;
-import com.cinema.app.infrastructure.persistence.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.SeatEntity;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
