@@ -2,7 +2,8 @@ package com.cinema.app.infrastructure.persistence.impl;
 
 
 import com.cinema.app.domain.seat.Seat;
-import com.cinema.app.infrastructure.persistence.SeatDao;
+import com.cinema.app.infrastructure.persistence.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.entity.SeatEntity;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
@@ -10,16 +11,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class SeatDaoImpl extends AbstractCrudDao<Seat, Long> implements SeatDao {
+public class SeatEntityDaoImpl extends AbstractCrudDao<SeatEntity, Long> implements SeatEntityDao {
 
-    protected SeatDaoImpl(Jdbi jdbi) { super(jdbi); }
+    protected SeatEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     @Override
-    public List<Seat> findAllSeatsFromRoom(Long roomId) {
+    public List<SeatEntity> findAllSeatsFromRoom(Long roomId) {
         return jdbi.withHandle(handle -> handle
                 .createQuery("select * from seats where room_id = :room_id")
                 .bind("room_id",roomId)
-                .mapToBean(Seat.class)
+                .mapToBean(SeatEntity.class)
                 .list());
     }
 

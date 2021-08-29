@@ -24,8 +24,8 @@ Testing:
 ## Some statistics
 
 Progress in development: ~50%  
-Lines of code: 4500  
-Classes: 72  
+Lines of code: 4700 
+Classes: 82  
 Unit test: 74  
 Test-coverage: ~65% 
 
@@ -58,8 +58,7 @@ Movies service:
 
 ## NEXT TASKS TO DO
 
-- write entities (infrastructure) for all domain objects and refactor all dao's
-- fix POM.XML
+- write tests for transforming to entities in domain and refactor dto's of movie (name -> title)
 - fix tests of CinemasService
 
 

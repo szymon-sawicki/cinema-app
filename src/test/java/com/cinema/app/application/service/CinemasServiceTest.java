@@ -7,10 +7,12 @@ import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
-import com.cinema.app.infrastructure.persistence.AddressDao;
-import com.cinema.app.infrastructure.persistence.CinemaDao;
-import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
-import com.cinema.app.infrastructure.persistence.SeatDao;
+import com.cinema.app.infrastructure.persistence.AddressEntityDao;
+import com.cinema.app.infrastructure.persistence.CinemaEntityDao;
+import com.cinema.app.infrastructure.persistence.CinemaRoomEntityDao;
+import com.cinema.app.infrastructure.persistence.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
+import com.cinema.app.infrastructure.persistence.entity.CinemaEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.mockito.junit.MockitoJUnitRunner;
-
 
 
 import java.util.Collections;
@@ -37,16 +37,16 @@ import static org.mockito.BDDMockito.when;
 public class CinemasServiceTest {
 
     @Mock
-    private CinemaDao cinemaDao;
+    private CinemaEntityDao cinemaEntityDao;
 
     @Mock
-    private AddressDao addressDao;
+    private AddressEntityDao addressEntityDao;
 
     @Mock
-    private CinemaRoomDao cinemaRoomDao;
+    private CinemaRoomEntityDao cinemaRoomEntityDao;
 
     @Mock
-    private SeatDao seatDao;
+    private SeatEntityDao seatEntityDao;
 
     @InjectMocks
     private CinemasService cinemasService;
@@ -81,7 +81,7 @@ public class CinemasServiceTest {
     public void test1() {
 /*
 
-        when(addressDao.findAllFromCity("berlin"))
+        when(addressEntityDao.findAllFromCity("berlin"))
                 .thenReturn(List.of(
                         Address.builder().city("berlin").street("haupt").zipCode("67-200").houseNumber("234").build(),
                         Address.builder().city("berlin").street("kurzweg").zipCode("67-200").houseNumber("567").build()
@@ -91,8 +91,8 @@ public class CinemasServiceTest {
         var name = "Gutkino";
         var addressId = 5L;
 
-        when(cinemaDao.findByName("Gutkino"))
-                .thenReturn(Optional.of(Cinema.builder()
+        when(cinemaEntityDao.findByName("Gutkino"))
+                .thenReturn(Optional.of(CinemaEntity.builder()
                         .id(3L)
                         .name("Gutkino")
                         .addressId(5L)
@@ -127,9 +127,9 @@ public class CinemasServiceTest {
                 .houseNumber(houseNumber)
                 .build();
 
-        when(addressDao.findAddress(street, houseNumber, city, zipCode))
+        when(addressEntityDao.findAddress(street, houseNumber, city, zipCode))
                 .thenReturn(Optional.of(
-                        Address.builder()
+                        AddressEntity.builder()
                                 .id(addressId)
                                 .city(city).street(street)
                                 .zipCode(zipCode)
@@ -154,10 +154,10 @@ public class CinemasServiceTest {
         var createCinemaRoomDtos = List.of(createCinemaRoomDto, createCinemaRoomDto1);
 
         var cinemaRooms = createCinemaRoomDtos.stream()
-                .map(CreateCinemaRoomDto::toCinemaRoom)
+                .map(createCinemaRoomDto2 -> createCinemaRoomDto2.toCinemaRoom().toEntity())
                 .toList();
 
-        when(cinemaRoomDao.saveAll(cinemaRooms))
+        when(cinemaRoomEntityDao.saveAll(cinemaRooms))
                 .thenReturn(cinemaRooms);
 
 
@@ -175,8 +175,8 @@ public class CinemasServiceTest {
                 .addressId(addressId)
                 .build();
 
-        when(cinemaDao.save(any(Cinema.class)))
-                .thenReturn(Optional.of(cinema));
+        when(cinemaEntityDao.save(any(CinemaEntity.class)))
+                .thenReturn(Optional.of(cinema.toEntity()));
 
         assertThat(cinemasService.addCinema(createCinemaDto))
                 .isEqualTo(cinema.toGetCinemaDto());
@@ -237,14 +237,14 @@ public class CinemasServiceTest {
         var createCinemaRoomDtos = List.of(createCinemaDto1, createCinemaDto2);
 
         var cinemaRoomList = createCinemaRoomDtos.stream()
-                .map(CreateCinemaRoomDto::toCinemaRoom)
+                .map(createCinemaRoomDto -> createCinemaRoomDto.toCinemaRoom().toEntity())
                 .toList();
 
         var getCinemaRoomsDto = createCinemaRoomDtos.stream()
                 .map(cinemaRoom -> cinemaRoom.toCinemaRoom().withCinemaId(1L).toGetCinemaRoomDto())
                 .toList();
 
-        when(cinemaRoomDao.saveAll(cinemaRoomList))
+        when(cinemaRoomEntityDao.saveAll(cinemaRoomList))
                 .thenReturn(cinemaRoomList);
 
         assertThat(cinemasService.addCinemaRoomsToCinema(1L, createCinemaRoomDtos))
@@ -294,17 +294,17 @@ public class CinemasServiceTest {
                 .addressId(3L)
                 .build();
 
-        when(addressDao.findAllFromCity(searchedCity))
-                .thenReturn(List.of(address1, address2));
+        when(addressEntityDao.findAllFromCity(searchedCity))
+                .thenReturn(List.of(address1.toEntity(), address2.toEntity()));
 
-        when(cinemaDao.findByAddress(1L))
-                .thenReturn(Optional.of(cinema1));
+        when(cinemaEntityDao.findByAddress(1L))
+                .thenReturn(Optional.of(cinema1.toEntity()));
 
-        when(cinemaDao.findByAddress(2L))
-                .thenReturn(Optional.of(cinema2));
+        when(cinemaEntityDao.findByAddress(2L))
+                .thenReturn(Optional.of(cinema2.toEntity()));
 
-        when(cinemaDao.findByAddress(3L))
-                .thenReturn(Optional.of(cinema3));
+        when(cinemaEntityDao.findByAddress(3L))
+                .thenReturn(Optional.of(cinema3.toEntity()));
 
         assertThat(cinemasService.findByCity(searchedCity))
                 .isNotEmpty()
@@ -355,8 +355,8 @@ public class CinemasServiceTest {
                 .build();
 
 
-        when(cinemaDao.findByName(name))
-                .thenReturn(Optional.of(cinema));
+        when(cinemaEntityDao.findByName(name))
+                .thenReturn(Optional.of(cinema.toEntity()));
 
         assertThat(cinemasService.findByName(name))
                 .isEqualTo(getCinemaDto);

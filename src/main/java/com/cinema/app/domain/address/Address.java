@@ -2,6 +2,7 @@ package com.cinema.app.domain.address;
 
 import com.cinema.app.domain.address.dto.GetAddressDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
+import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,7 +10,6 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 @ToString
-@Setter
 
 /**
  *  class representing address of cinema
@@ -31,6 +31,16 @@ public class Address {
                 .houseNumber(houseNumber)
                 .city(city)
                 .zipCode(zipCode)
+                .build();
+    }
+
+    public AddressEntity toEntity() {
+        return AddressEntity.builder()
+                .id(id)
+                .city(city)
+                .street(street)
+                .zipCode(zipCode)
+                .houseNumber(houseNumber)
                 .build();
     }
 

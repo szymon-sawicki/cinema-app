@@ -1,17 +1,15 @@
 package com.cinema.app.domain.screening;
 
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
+import com.cinema.app.infrastructure.persistence.entity.ScreeningEntity;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
-@Setter
 @ToString
 
 /**
@@ -28,6 +26,15 @@ public class Screening {
 
     public GetScreeningDto toGetScreeningDto() {
         return GetScreeningDto.builder()
+                .id(id)
+                .movieId(movieId)
+                .cinemaRoomId(cinemaRoomId)
+                .dateTime(dateTime)
+                .build();
+    }
+
+    public ScreeningEntity toEntity() {
+        return ScreeningEntity.builder()
                 .id(id)
                 .movieId(movieId)
                 .cinemaRoomId(cinemaRoomId)

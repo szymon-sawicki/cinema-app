@@ -1,13 +1,13 @@
 package com.cinema.app.domain.cinema_room;
 
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
+import com.cinema.app.infrastructure.persistence.entity.CinemaRoomEntity;
 import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
-@Setter
 
 /**
  * class representing one room of the cinema
@@ -37,6 +37,15 @@ public class CinemaRoom {
     public GetCinemaRoomDto toGetCinemaRoomDto() {
         return GetCinemaRoomDto.builder()
                 .id(id)
+                .name(name)
+                .rowsNum(rowsNum)
+                .placeNumber(placeNumber)
+                .cinemaId(cinemaId)
+                .build();
+    }
+
+    public CinemaRoomEntity toEntity() {
+        return CinemaRoomEntity.builder()
                 .name(name)
                 .rowsNum(rowsNum)
                 .placeNumber(placeNumber)

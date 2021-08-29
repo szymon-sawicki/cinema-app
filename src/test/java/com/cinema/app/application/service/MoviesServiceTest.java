@@ -4,7 +4,8 @@ import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.infrastructure.persistence.MovieDao;
+import com.cinema.app.infrastructure.persistence.MovieEntityDao;
+import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class MoviesServiceTest {
 
     @Mock
-    private MovieDao movieDao;
+    private MovieEntityDao movieEntityDao;
 
     @InjectMocks
     private MoviesService moviesService;
@@ -37,17 +38,18 @@ public class MoviesServiceTest {
 
         var name = "Greys Anatomy";
 
+        var movie = CreateMovieDto.builder()
+                .name(name)
+                .length(78)
+                .movieGenre(MovieGenre.ACTION)
+                .premiereDate(LocalDate.now().minusYears(5))
+                .build();
 
-        when(movieDao.findByName(name))
-                .thenReturn(Optional.of(Movie.builder().title(name).build()));
 
-        System.out.println("--------------------------------------------------");
-        System.out.println("--------------------------------------------------");
-        System.out.println( moviesService.findByName(name));
-        System.out.println("--------------------------------------------------");
-        System.out.println("--------------------------------------------------");
+        when(movieEntityDao.findByName(name))
+                .thenReturn(Optional.of(MovieEntity.builder().title(name).build()));
 
-        Assertions.assertThatThrownBy(() -> moviesService.findByName(name))
+        Assertions.assertThatThrownBy(() -> moviesService.addMovie(movie))
                 .isInstanceOf(MoviesServiceException.class)
                 .hasMessageContaining("is already present in database");
 
@@ -76,8 +78,8 @@ public class MoviesServiceTest {
                 .movieGenre(movieGenre)
                 .build();
 
-        when(movieDao.save(createMovieDto.toMovie()))
-                .thenReturn(Optional.of(movie));
+        when(movieEntityDao.save(createMovieDto.toMovie().toEntity()))
+                .thenReturn(Optional.of(movie.toEntity()));
 
         assertThat(moviesService.addMovie(createMovieDto))
                 .isEqualTo(movie.toGetMovieDto());
@@ -113,7 +115,7 @@ public class MoviesServiceTest {
 
         var name = "Lord of the Rings";
 
-        when(movieDao.findByName(name))
+        when(movieEntityDao.findByName(name))
                 .thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> moviesService.findByName(name))
@@ -137,8 +139,8 @@ public class MoviesServiceTest {
                 .premiereDate(premiereDate)
                 .build();
 
-        when(movieDao.findByName(name))
-                .thenReturn(Optional.of(movie));
+        when(movieEntityDao.findByName(name))
+                .thenReturn(Optional.of(movie.toEntity()));
 
         assertThat(moviesService.findByName(name))
                 .isEqualTo(movie.toGetMovieDto());
@@ -163,10 +165,10 @@ public class MoviesServiceTest {
                 .premiereDate(LocalDate.now().minusYears(2))
                 .build();
 
-        var listWithGetMovieDtos = List.of(movie1.toGetMovieDto(),movie2.toGetMovieDto());
+        var listWithGetMovieDtos = List.of(movie1.toGetMovieDto(), movie2.toGetMovieDto());
 
-        when(movieDao.findMoviesByGenre(MovieGenre.HORROR))
-                .thenReturn(List.of(movie1,movie2));
+        when(movieEntityDao.findMoviesByGenre(MovieGenre.HORROR))
+                .thenReturn(List.of(movie1.toEntity(), movie2.toEntity()));
 
         assertThat(moviesService.findByGenre(MovieGenre.HORROR))
                 .isEqualTo(listWithGetMovieDtos);

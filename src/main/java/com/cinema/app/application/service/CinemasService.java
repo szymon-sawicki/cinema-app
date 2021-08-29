@@ -6,17 +6,16 @@ import com.cinema.app.domain.cinema.CinemaUtils;
 import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
 import com.cinema.app.domain.cinema.dto.validator.CreateCinemaDtoValidator;
-import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
-import com.cinema.app.infrastructure.persistence.AddressDao;
-import com.cinema.app.infrastructure.persistence.CinemaDao;
-import com.cinema.app.infrastructure.persistence.CinemaRoomDao;
-import com.cinema.app.infrastructure.persistence.SeatDao;
+import com.cinema.app.infrastructure.persistence.AddressEntityDao;
+import com.cinema.app.infrastructure.persistence.CinemaEntityDao;
+import com.cinema.app.infrastructure.persistence.CinemaRoomEntityDao;
+import com.cinema.app.infrastructure.persistence.SeatEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,41 +26,48 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CinemasService {
 
-    private final CinemaDao cinemaDao;
-    private final CinemaRoomDao cinemaRoomDao;
-    private final AddressDao addressDao;
-    private final SeatDao seatDao;
+    private final CinemaEntityDao cinemaEntityDao;
+    private final CinemaRoomEntityDao cinemaRoomEntityDao;
+    private final AddressEntityDao addressEntityDao;
+    private final SeatEntityDao seatEntityDao;
 
     public GetCinemaDto addCinema(CreateCinemaDto createCinemaDto) {
         Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
 
         var addressDto = createCinemaDto.getCreateAddressDto();
         var cinemaRoomDtos = createCinemaDto.getCinemaRoomDtos();
-        var address = addressDto.toAddress();
+        var address = addressDto.toAddress().toEntity();
 
-        var addressFromDb = addressDao
+        var addressFromDb = addressEntityDao
                 .findAddress(
                         addressDto.getStreet(),
                         addressDto.getHouseNumber(),
                         addressDto.getCity(),
                         addressDto.getZipCode())
-                .orElseGet(() -> addressDao
+                .orElseGet(() -> addressEntityDao
                         .save(address)
                         .orElseThrow(() -> new CinemaServiceException("Cannot add new address")));
 
+        System.out.println("-----------------------------------------------------------------");
+        System.out.println(addressFromDb.toString());
+        System.out.println("-----------------------------------------------------------------");
+
         var cinemaToInsert = createCinemaDto
                 .toCinema()
-                .withAddress(AddressUtils.toId.apply(addressFromDb));
+                .withAddress(AddressUtils.toId.apply(addressFromDb.toAddress()))
+                .toEntity();
 
-        var cinemaFromDb = cinemaDao
+
+
+        var cinemaFromDb = cinemaEntityDao
                 .save(cinemaToInsert)
                 .orElseThrow(() -> new CinemaServiceException("Cannot add new cinema"));
 
         if(cinemaRoomDtos != null || !cinemaRoomDtos.isEmpty()) {
-            addCinemaRoomsToCinema(CinemaUtils.toId.apply(cinemaFromDb),cinemaRoomDtos);
+            addCinemaRoomsToCinema(CinemaUtils.toId.apply(cinemaFromDb.toCinema()),cinemaRoomDtos);
         }
 
-        return cinemaFromDb.toGetCinemaDto();
+        return cinemaFromDb.toCinema().toGetCinemaDto();
 
     }
 
@@ -88,8 +94,10 @@ public class CinemasService {
                 .map(createCinemaRoomDto -> createCinemaRoomDto
                         .toCinemaRoom()
                         .withCinemaId(cinemaId)
+                        .toEntity()
                 ).collect(Collectors.toList());
-       var result = cinemaRoomDao.saveAll(cinemaRoomsToInsert).stream().map(CinemaRoom::toGetCinemaRoomDto).toList();
+
+       var result = cinemaRoomEntityDao.saveAll(cinemaRoomsToInsert).stream().map(cinemaRoom -> cinemaRoom.toCinemaRoom().toGetCinemaRoomDto()).toList();
 
        result.forEach(this::addSeatsToCinemaRoom);
 
@@ -107,7 +115,7 @@ public class CinemasService {
                         .rowNum(row)
                         .place(place)
                         .build();
-                seatDao.save(seat);
+                seatEntityDao.save(seat.toEntity());
             }
         }
 
@@ -120,10 +128,11 @@ public class CinemasService {
         if(!city.matches("[\\w\\s\\-]{3,30}+")) {
         throw new CinemaServiceException("city have wrong format");
     }
-        return addressDao.findAllIdsFromCity(city).stream()
-                .map(addressId -> cinemaDao
+        return addressEntityDao.findAllIdsFromCity(city).stream()
+                .map(addressId -> cinemaEntityDao
                         .findByAddress(addressId)
                         .orElseThrow(() -> new CinemaServiceException("cannot find element"))
+                        .toCinema()
                         .toGetCinemaDto())
                 .toList();
     }
@@ -135,9 +144,10 @@ public class CinemasService {
         if(!name.matches("[\\w\\s\\-]{3,30}+")) {
             throw new CinemaServiceException("name have wrong format");
         }
-        return cinemaDao
+        return cinemaEntityDao
                 .findByName(name)
                 .orElseThrow(() -> new CinemaServiceException("Cannot find cinema with name: " + name))
+                .toCinema()
                 .toGetCinemaDto();
     }
 

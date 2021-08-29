@@ -3,6 +3,7 @@ package com.cinema.app.domain.movie;
 
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
+import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +13,6 @@ import java.time.LocalDate;
 @Builder
 @EqualsAndHashCode
 @ToString
-@Setter
 
 /**
  * class representing movie
@@ -31,6 +31,16 @@ public class Movie {
         return GetMovieDto.builder()
                 .id(id)
                 .name(title)
+                .movieGenre(movieGenre)
+                .premiereDate(premiereDate)
+                .length(length)
+                .build();
+    }
+
+    public MovieEntity toEntity() {
+        return MovieEntity.builder()
+                .id(id)
+                .title(title)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)
                 .length(length)

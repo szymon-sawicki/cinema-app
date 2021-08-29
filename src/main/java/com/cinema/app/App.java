@@ -23,13 +23,13 @@ public class App {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
 
-        var addressDao = context.getBean("addressDaoImpl", AddressDaoImpl.class);
-        var seatDao = context.getBean("seatDaoImpl", SeatDaoImpl.class);
+        var addressDao = context.getBean("addressEntityDaoImpl", AddressEntityDaoImpl.class);
+        var seatDao = context.getBean("seatEntityDaoImpl", SeatEntityDaoImpl.class);
         var cinemaService = context.getBean("cinemasService", CinemasService.class);
-        var cinemaRoomDao = context.getBean("cinemaRoomDaoImpl", CinemaRoomDaoImpl.class);
-        var movieDao = context.getBean("movieDaoImpl", MovieDaoImpl.class);
+        var cinemaRoomDao = context.getBean("cinemaRoomEntityDaoImpl", CinemaRoomEntityDaoImpl.class);
+        var movieDao = context.getBean("movieEntityDaoImpl", MovieEntityDaoImpl.class);
         var moviesService = context.getBean("moviesService", MoviesService.class);
-        var screeningDao = context.getBean("screeningDaoImpl", ScreeningDaoImpl.class);
+        var screeningDao = context.getBean("screeningEntityDaoImpl", ScreeningEntityDaoImpl.class);
         var screeningsService = context.getBean("screeningsService", ScreeningsService.class);
 
         // SAMPLE DATA TO TEST
@@ -120,7 +120,7 @@ public class App {
         System.out.println(cinemaService.addCinema(createCinemaDto2));
         System.out.println(cinemaService.addCinema(createCinemaDto3));
 
-        System.out.println(cinemaService.findByCity("Zurich"));
+        System.out.println(cinemaService.findByCity("Berlin"));
      /*
         System.out.println(moviesService.addMovie(movie));
         System.out.println(moviesService.addMovie(movie2));*/

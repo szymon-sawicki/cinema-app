@@ -1,7 +1,8 @@
 package com.cinema.app.infrastructure.persistence.impl;
 
 import com.cinema.app.domain.address.Address;
-import com.cinema.app.infrastructure.persistence.AddressDao;
+import com.cinema.app.infrastructure.persistence.AddressEntityDao;
+import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
 import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
@@ -11,23 +12,23 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Repository
-public class AddressDaoImpl extends AbstractCrudDao<Address, Long> implements AddressDao {
+public class AddressEntityDaoImpl extends AbstractCrudDao<AddressEntity, Long> implements AddressEntityDao {
 
-    protected AddressDaoImpl(Jdbi jdbi) {
+    protected AddressEntityDaoImpl(Jdbi jdbi) {
         super(jdbi);
     }
 
     @Override
-    public List<Address> findAllFromCity(String city) {
+    public List<AddressEntity> findAllFromCity(String city) {
         return jdbi.withHandle(handle -> handle
                 .createQuery("select * from addresses where city = :city")
                 .bind("city",city.toLowerCase(Locale.ROOT))
-                .mapToBean(Address.class)
+                .mapToBean(AddressEntity.class)
                 .list());
     }
 
     @Override
-    public Optional<Address> findAddress(String street, String houseNumber, String city, String zipCode) {
+    public Optional<AddressEntity> findAddress(String street, String houseNumber, String city, String zipCode) {
         return jdbi.withHandle(handle -> handle
                 .createQuery("""
                 select * from addresses where street = :street AND house_number = :houseNumber AND city = :city AND zip_code = :zipCode
@@ -36,7 +37,7 @@ public class AddressDaoImpl extends AbstractCrudDao<Address, Long> implements Ad
                 .bind("street",street.toLowerCase(Locale.ROOT))
                 .bind("houseNumber",houseNumber)
                 .bind("zipCode",zipCode)
-                .mapToBean(Address.class)
+                .mapToBean(AddressEntity.class)
                 .findFirst());
     }
 

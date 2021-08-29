@@ -7,7 +7,7 @@ import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.dto.validator.CreateMovieDtoValidator;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.infrastructure.persistence.MovieDao;
+import com.cinema.app.infrastructure.persistence.MovieEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +18,21 @@ import java.util.List;
 
 public class MoviesService {
 
-    private final MovieDao movieDao;
+    private final MovieEntityDao movieEntityDao;
 
     public GetMovieDto addMovie(CreateMovieDto createMovieDto)   {
         Validator.validate(new CreateMovieDtoValidator(),createMovieDto);
 
-        if(movieDao.findByName(createMovieDto.getName()).isPresent()) {
+        if(movieEntityDao.findByName(createMovieDto.getName()).isPresent()) {
             throw new MoviesServiceException("movie with name " + createMovieDto.getName() + " is already present in database");
         }
 
-        var movie = createMovieDto.toMovie();
+        var movie = createMovieDto.toMovie().toEntity();
 
-        return movieDao
+        return movieEntityDao
                 .save(movie)
                 .orElseThrow(() -> new MoviesServiceException("cannot add movie"))
+                .toMovie()
                 .toGetMovieDto();
     }
 
@@ -42,9 +43,10 @@ public class MoviesService {
         if(!name.matches("[\\w\\s\\-']{3,30}+")) {
             throw new MoviesServiceException("name have wrong format");
         }
-        return  movieDao
+        return  movieEntityDao
                 .findByName(name)
                 .orElseThrow(() -> new MoviesServiceException("cannot find movie with name: " + name))
+                .toMovie()
                 .toGetMovieDto();
     }
 
@@ -53,9 +55,9 @@ public class MoviesService {
             throw new MoviesServiceException("movie genre is null");
         }
 
-        return movieDao.findMoviesByGenre(movieGenre)
+        return movieEntityDao.findMoviesByGenre(movieGenre)
                 .stream()
-                .map(Movie::toGetMovieDto)
+                .map(movieEntity -> movieEntity.toMovie().toGetMovieDto())
                 .toList();
     }
 

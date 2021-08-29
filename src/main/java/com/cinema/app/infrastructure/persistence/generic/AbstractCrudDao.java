@@ -230,7 +230,7 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
     private final Class<T> entityType = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     private String tableName() {
-        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, English.plural(entityType.getSimpleName()));
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, English.plural(entityType.getSimpleName().replaceAll("Entity","")));
     }
 
     protected AbstractCrudDao(Jdbi jdbi) {
