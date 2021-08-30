@@ -23,10 +23,10 @@ Testing:
 
 ## Some statistics
 
-Progress in development: ~50%  
-Lines of code: 5600 
-Classes: 101  
-Unit test: 91  
+Progress in development: ~60%  
+Lines of code: 6200   
+Classes: 107  
+Unit test: 112  
 Test-coverage: ~65% 
 
 ## Implemented domain objects

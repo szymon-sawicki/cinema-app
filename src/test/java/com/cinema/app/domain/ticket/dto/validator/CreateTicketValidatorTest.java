@@ -2,13 +2,15 @@ package com.cinema.app.domain.ticket.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
-import com.cinema.app.domain.ticket.Ticket;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
-import org.assertj.core.api.Assertions;
+import com.cinema.app.domain.ticket.type.Status;
+import com.cinema.app.domain.user.dto.CreateUserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CreateTicketValidatorTest {
 
@@ -18,7 +20,7 @@ public class CreateTicketValidatorTest {
 
         var createTicketValidator = new CreateTicketDtoValidator();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, null))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, null))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("create ticket dto", "is null");
@@ -35,7 +37,7 @@ public class CreateTicketValidatorTest {
                 .build();
 
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("screening id", "is null");
@@ -52,7 +54,7 @@ public class CreateTicketValidatorTest {
                 .build();
 
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("screening id", "is 0 or negative");
@@ -68,7 +70,7 @@ public class CreateTicketValidatorTest {
                 .price(new BigDecimal("-60"))
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("price", "is negative");
@@ -84,7 +86,7 @@ public class CreateTicketValidatorTest {
                 .createUserDto(null)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("create user dto", "is null");
@@ -99,7 +101,7 @@ public class CreateTicketValidatorTest {
                 .seatId(null)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("seat id", "is null");
@@ -114,7 +116,7 @@ public class CreateTicketValidatorTest {
                 .seatId(-10L)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("seat id", "is 0 or negative");
@@ -130,7 +132,7 @@ public class CreateTicketValidatorTest {
                 .price(null)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("price", "is null");
@@ -146,7 +148,7 @@ public class CreateTicketValidatorTest {
                 .discount(125)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("discount", "is greater than 100%");
@@ -162,7 +164,7 @@ public class CreateTicketValidatorTest {
                 .discount(-30)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("discount", "is negative");
@@ -178,7 +180,7 @@ public class CreateTicketValidatorTest {
                 .discount(null)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("discount", "is null");
@@ -194,9 +196,28 @@ public class CreateTicketValidatorTest {
                 .status(null)
                 .build();
 
-        Assertions.assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
+        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("status", "is null");
+    }
+
+    @Test
+    @DisplayName("when ticket is correct")
+    public void test13() {
+
+        var createTicketValidator = new CreateTicketDtoValidator();
+
+        var ticket = CreateTicketDto.builder()
+                .price(new BigDecimal("25"))
+                .discount(20)
+                .screeningId(4L)
+                .seatId(45L)
+                .status(Status.CONFIRMED)
+                .createUserDto(CreateUserDto.builder().build())
+                .build();
+
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> Validator.validate(createTicketValidator,ticket));
+
     }
 }
