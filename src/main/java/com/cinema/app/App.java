@@ -8,12 +8,21 @@ import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
+import com.cinema.app.domain.ticket.Ticket;
+import com.cinema.app.domain.ticket.type.Status;
+import com.cinema.app.domain.user.User;
+import com.cinema.app.domain.user.type.Gender;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
+import com.cinema.app.infrastructure.persistence.entity.ScreeningEntity;
+import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
+import com.cinema.app.infrastructure.persistence.entity.UserEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class App {
@@ -31,6 +40,8 @@ public class App {
         var moviesService = context.getBean("moviesService", MoviesService.class);
         var screeningDao = context.getBean("screeningEntityDaoImpl", ScreeningEntityDaoImpl.class);
         var screeningsService = context.getBean("screeningsService", ScreeningsService.class);
+        var ticketEntityDao = context.getBean("ticketEntityDaoImpl", TicketEntityDaoImpl.class);
+        var userEntityDao = context.getBean("userEntityDaoImpl", UserEntityDaoImpl.class);
 
         // SAMPLE DATA TO TEST
 
@@ -116,11 +127,42 @@ public class App {
                 .title("Zombie 12")
                 .build();
 
+        var ticket1 = TicketEntity.builder()
+                .price(new BigDecimal("250"))
+                .discount(20)
+                .screeningId(1L)
+                .userId(1L)
+                .seatId(1L)
+                .status(Status.CONFIRMED)
+                .build();
+
+        var user1 = UserEntity.builder()
+                .name("Andreas")
+                .gender(Gender.MALE)
+                .birthDate(LocalDate.now().minusYears(30))
+                .username("andi")
+                .password("1234")
+                .creationDate(LocalDate.now())
+                .build();
+
+        var screening1 = ScreeningEntity.builder()
+                .cinemaRoomId(3L)
+                .movieId(1L)
+                .dateTime(LocalDateTime.now().plusDays(45))
+                .build();
+
         System.out.println(cinemaService.addCinema(createCinemaDto1));
+        System.out.println(moviesService.addMovie(movie));
+        System.out.println(screeningDao.save(screening1));
+        System.out.println(userEntityDao.save(user1));
+        System.out.println(ticketEntityDao.save(ticket1));
+
+
+    /*
         System.out.println(cinemaService.addCinema(createCinemaDto2));
         System.out.println(cinemaService.addCinema(createCinemaDto3));
 
-        System.out.println(cinemaService.findByCity("Berlin"));
+        System.out.println(cinemaService.findByCity("Berlin"));*/
      /*
         System.out.println(moviesService.addMovie(movie));
         System.out.println(moviesService.addMovie(movie2));*/

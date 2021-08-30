@@ -24,9 +24,9 @@ Testing:
 ## Some statistics
 
 Progress in development: ~50%  
-Lines of code: 5000 
-Classes: 82  
-Unit test: 79  
+Lines of code: 5600 
+Classes: 101  
+Unit test: 91  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -34,11 +34,12 @@ Test-coverage: ~65%
 - Address  
 - Cinema  
 - Cinema Room  
-- Seat  
-- Screening  
 - Movie  
+- Screening  
+- Seat  
+- Ticket  
+- User  
 
-I will add User and Ticket domain objects in few days
 
 ## Working features at the moment
 
@@ -58,9 +59,8 @@ Movies service:
 
 ## NEXT TASKS TO DO
 
-- write tests for transforming to entities in domain and refactor dto's of movie (name -> title)
-- fix tests of CinemasService
-
+- write users validator and test of it
+- write tests of new domain objects
 
 
 

@@ -113,8 +113,9 @@ public class AppSpringConfig {
                 password varchar(30) not null,
                 name varchar(30) not null,
                 mail varchar(50) not null,
-                date date not null,
-                gender varchar(15)
+                birth_date date,
+                creation_date date not null,
+                gender varchar(15))
                 """;
 
         jdbi.useHandle(handle -> handle.execute(moviesTableSql));
@@ -123,8 +124,9 @@ public class AppSpringConfig {
         jdbi.useHandle(handle -> handle.execute(cinemaRoomsTableSql));
         jdbi.useHandle(handle -> handle.execute(seatsTableSql));
         jdbi.useHandle(handle -> handle.execute(screeningsTableSql));
-        jdbi.useHandle(handle -> handle.execute(ticketsTableSql));
         jdbi.useHandle(handle -> handle.execute(usersTableSql));
+        jdbi.useHandle(handle -> handle.execute(ticketsTableSql));
+
 
 
         return jdbi;

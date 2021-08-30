@@ -24,6 +24,7 @@ public class UserEntity {
     String mail;
     String name;
     LocalDate birthDate;
+    LocalDate creationDate;
     Gender gender;
 
     public User toUser() {
@@ -33,6 +34,7 @@ public class UserEntity {
                 .mail(mail)
                 .name(name)
                 .birthDate(birthDate)
+                .creationDate(creationDate)
                 .gender(gender)
                 .build();
     }

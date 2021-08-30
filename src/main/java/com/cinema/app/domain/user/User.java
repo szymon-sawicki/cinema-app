@@ -20,6 +20,7 @@ public class User {
     String mail;
     String name;
     LocalDate birthDate;
+    LocalDate creationDate;
     Gender gender;
 
     public GetUserDto toGetUserDto() {
@@ -29,6 +30,7 @@ public class User {
                 .mail(mail)
                 .name(name)
                 .birthDate(birthDate)
+                .creationDate(creationDate)
                 .gender(gender)
                 .build();
     }

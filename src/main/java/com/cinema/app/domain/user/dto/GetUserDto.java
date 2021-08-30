@@ -20,6 +20,7 @@ public class GetUserDto {
     String mail;
     String name;
     LocalDate birthDate;
+    LocalDate creationDate;
     Gender gender;
 
 }

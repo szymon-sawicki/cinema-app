@@ -23,7 +23,6 @@ public class CreateScreeningDtoTest {
         var dateTime = LocalDateTime.now();
 
         var createScreeningDto = CreateScreeningDto.builder()
-                .id(id)
                 .getMovieDto(GetMovieDto.builder().id(5L).build())
                 .cinemaRoomId(cinemaRoomId)
                 .dateTime(dateTime)

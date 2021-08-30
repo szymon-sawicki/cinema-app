@@ -2,7 +2,7 @@ package com.cinema.app.domain.ticket.dto;
 
 import com.cinema.app.domain.ticket.Ticket;
 import com.cinema.app.domain.ticket.type.Status;
-import com.cinema.app.domain.user.dto.GetUserDto;
+import com.cinema.app.domain.user.dto.CreateUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class CreateTicketDto {
 
     Long screeningId;
     Long seatId;
-    GetUserDto getUserDto;
+    CreateUserDto createUserDto;
     BigDecimal price;
     Integer discount;
     Status status;
@@ -30,12 +30,21 @@ public class CreateTicketDto {
         return Ticket.builder()
                 .screeningId(screeningId)
                 .seatId(seatId)
-                .userId(getUserDto.getId())
                 .price(price)
                 .discount(discount)
                 .status(status)
                 .build();
+    }
 
+    public Ticket withUserId(Long newUserId) {
+        return Ticket.builder()
+                .screeningId(screeningId)
+                .seatId(seatId)
+                .userId(newUserId)
+                .price(price)
+                .discount(discount)
+                .status(status)
+                .build();
     }
 
 }
