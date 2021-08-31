@@ -16,7 +16,7 @@ public class MovieEntityDaoImpl extends AbstractCrudDao<MovieEntity,Long> implem
     public MovieEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     @Override
-    public Optional<MovieEntity> findByName(String title) {
+    public Optional<MovieEntity> findByTitle(String title) {
         return jdbi.withHandle(handle -> handle
                 .createQuery("select * from movies where title = :title")
                 .bind("title", title)

@@ -8,6 +8,7 @@ import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
 import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
+import com.cinema.app.domain.screening.dto.CreateScreeningDto;
 import com.cinema.app.domain.ticket.Ticket;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.User;
@@ -145,17 +146,39 @@ public class App {
                 .creationDate(LocalDate.now())
                 .build();
 
-        var screening1 = ScreeningEntity.builder()
+        var screening1 = CreateScreeningDto.builder()
                 .cinemaRoomId(3L)
-                .movieId(1L)
-                .dateTime(LocalDateTime.now().plusDays(45))
+                .createMovieDto(CreateMovieDto.builder()
+                        .title("Andreas Abenteuer")
+                        .length(66)
+                        .premiereDate(LocalDate.of(2020,5,5))
+                        .movieGenre(MovieGenre.ACTION)
+                        .build())
+                .dateTime(LocalDateTime.of(2021,10,1,19,30))
+                .build();
+
+        var screening2 = CreateScreeningDto.builder()
+                .cinemaRoomId(3L)
+                .createMovieDto(movie)
+                .dateTime(LocalDateTime.of(2021,10,1,18,30))
+                .build();
+
+        var screening3 = CreateScreeningDto.builder()
+                .cinemaRoomId(3L)
+                .createMovieDto(movie2)
+                .dateTime(LocalDateTime.of(2021,10,1,16,0))
                 .build();
 
         System.out.println(cinemaService.addCinema(createCinemaDto1));
+        System.out.println(cinemaService.addCinema(createCinemaDto2));
+        System.out.println(cinemaService.addCinema(createCinemaDto3));
         System.out.println(moviesService.addMovie(movie));
-        System.out.println(screeningDao.save(screening1));
-        System.out.println(userEntityDao.save(user1));
-        System.out.println(ticketEntityDao.save(ticket1));
+        System.out.println(moviesService.addMovie(movie2));
+        System.out.println(screeningsService.createScreeening(screening3));
+        System.out.println(screeningsService.createScreeening(screening2));
+        System.out.println(screeningsService.createScreeening(screening1));
+    //    System.out.println(userEntityDao.save(user1));
+    //    System.out.println(ticketEntityDao.save(ticket1));
 
 
     /*

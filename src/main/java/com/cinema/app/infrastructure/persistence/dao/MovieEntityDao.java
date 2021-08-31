@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MovieEntityDao extends CrudDao<MovieEntity, Long> {
-    Optional<MovieEntity> findByName(String name);
+    Optional<MovieEntity> findByTitle(String name);
     List<MovieEntity> findMoviesByGenre(MovieGenre movieGenre);
 }

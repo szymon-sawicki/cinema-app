@@ -2,6 +2,7 @@ package com.cinema.app.domain.screening.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
+import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.screening.dto.CreateScreeningDto;
 import org.junit.jupiter.api.Assertions;
@@ -34,13 +35,13 @@ public class CreateScreeningDtoValidatorTest {
 
         var createScreeningDtoValidator = new CreateScreeningDtoValidator();
         var createScreeningDto = CreateScreeningDto.builder()
-                .getMovieDto(null)
+                .createMovieDto(null)
                 .build();
 
         assertThatThrownBy(() -> Validator.validate(createScreeningDtoValidator, createScreeningDto))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("get movie dto: is null");
+                .hasMessageContaining("create movie dto: is null");
     }
 
     @Test
@@ -106,7 +107,7 @@ public class CreateScreeningDtoValidatorTest {
         var createScreeningDtoValidator = new CreateScreeningDtoValidator();
         var createScreeningDto = CreateScreeningDto.builder()
                 .dateTime(LocalDateTime.now().plusMonths(3))
-                .getMovieDto(GetMovieDto.builder().build())
+                .createMovieDto(CreateMovieDto.builder().build())
                 .cinemaRoomId(3L)
                 .build();
 

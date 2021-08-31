@@ -33,6 +33,15 @@ public class Screening {
                 .build();
     }
 
+    public Screening withMovieId(Long newMovieId) {
+        return Screening.builder()
+                .id(id)
+                .movieId(newMovieId)
+                .cinemaRoomId(cinemaRoomId)
+                .dateTime(dateTime)
+                .build();
+    }
+
     public ScreeningEntity toEntity() {
         return ScreeningEntity.builder()
                 .id(id)

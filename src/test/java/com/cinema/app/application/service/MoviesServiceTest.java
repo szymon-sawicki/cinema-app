@@ -49,7 +49,7 @@ public class MoviesServiceTest {
                 .build();
 
 
-        when(movieEntityDao.findByName(title))
+        when(movieEntityDao.findByTitle(title))
                 .thenReturn(Optional.of(MovieEntity.builder().title(title).build()));
 
         Assertions.assertThatThrownBy(() -> moviesService.addMovie(movie))
@@ -118,7 +118,7 @@ public class MoviesServiceTest {
 
         var title = "Lord of the Rings";
 
-        when(movieEntityDao.findByName(title))
+        when(movieEntityDao.findByTitle(title))
                 .thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> moviesService.findByTitle(title))
@@ -142,7 +142,7 @@ public class MoviesServiceTest {
                 .premiereDate(premiereDate)
                 .build();
 
-        when(movieEntityDao.findByName(title))
+        when(movieEntityDao.findByTitle(title))
                 .thenReturn(Optional.of(movie.toEntity()));
 
         assertThat(moviesService.findByTitle(title))

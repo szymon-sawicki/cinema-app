@@ -28,7 +28,7 @@ public class ScreeningEntityDaoImpl extends AbstractCrudDao<ScreeningEntity, Lon
     @Override
     public List<ScreeningEntity> findAllByCinemaRoomAndDate(Long cinemaRoomId, LocalDate date) {
         return jdbi.withHandle(handle -> handle
-                .createQuery("select * from screenings where cinema_room_id = :cinemaRoomId AND date = :date")
+                .createQuery("select * from screenings where cinema_room_id = :cinemaRoomId AND DATE(date_time) = :date")
                 .bind("cinemaRoomId",cinemaRoomId)
                 .bind("date",date)
                 .mapToBean(ScreeningEntity.class)

@@ -22,7 +22,7 @@ public class MoviesService {
     public GetMovieDto addMovie(CreateMovieDto createMovieDto)   {
         Validator.validate(new CreateMovieDtoValidator(),createMovieDto);
 
-        if(movieEntityDao.findByName(createMovieDto.getTitle()).isPresent()) {
+        if(movieEntityDao.findByTitle(createMovieDto.getTitle()).isPresent()) {
             throw new MoviesServiceException("movie with title " + createMovieDto.getTitle() + " is already present in database");
         }
 
@@ -43,7 +43,7 @@ public class MoviesService {
             throw new MoviesServiceException("title have wrong format");
         }
         return  movieEntityDao
-                .findByName(title)
+                .findByTitle(title)
                 .orElseThrow(() -> new MoviesServiceException("cannot find movie with title: " + title))
                 .toMovie()
                 .toGetMovieDto();

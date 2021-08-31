@@ -20,8 +20,8 @@ public class CreateScreeningDtoValidator implements Validator<CreateScreeningDto
         }
 
 
-        if(createScreeningDto.getGetMovieDto() == null) {
-            errors.put("get movie dto","is null");
+        if(createScreeningDto.getCreateMovieDto() == null) {
+            errors.put("create movie dto","is null");
         }
 
         if(createScreeningDto.getCinemaRoomId() == null) {
