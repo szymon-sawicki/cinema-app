@@ -21,12 +21,25 @@ Testing:
 - AssertJ
 - Mockito
 
+## Building and running of project
+
+What you need: Java 16, Maven, Docker  
+  
+After downloading of source files, project must be compiled to jar file with command "mvn clean install".
+Whole environment (app + MySQL database) can be build with docker compose with command:  
+
+- docker compose up -d --build
+
+By starting of containers main class App is launched. At the moment main class loaded sample data to database that is used to test new features.  
+In the future App class will be starting rest api controllers.
+
+
 ## Some statistics
 
 Progress in development: ~60%  
-Lines of code: 6200   
+Lines of code: 6500  
 Classes: 107  
-Unit test: 112  
+Unit test: 116  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -56,12 +69,16 @@ Movies service:
 - searching movie by name
 - finding all movies from given genre
 
+Screenings service:  
+
+- adding new screening with availability checking
+
 
 ## NEXT TASKS TO DO
 
-- write users validator and test of it
-- write tests of new domain objects
-
+- write some methods in screening service (searching of screening + ScreeningInfo view)
+- creating new ticket with seat reservation
+- Rest API
 
 
 

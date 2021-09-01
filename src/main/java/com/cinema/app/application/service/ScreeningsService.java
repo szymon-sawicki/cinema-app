@@ -41,7 +41,7 @@ public class ScreeningsService {
         var screeningsFromDay = screeningEntityDao.findAllByCinemaRoomAndDate(cinemaRoomId,dateTime.toLocalDate())
                 .stream()
                 .map(screeningEntity -> screeningEntity.toScreening().toGetScreeningDto())
-                .toList()        ;
+                .toList();
 
         if(!screeningsFromDay.isEmpty()) {
             checkTimeAvailability(time,duration,screeningsFromDay);
