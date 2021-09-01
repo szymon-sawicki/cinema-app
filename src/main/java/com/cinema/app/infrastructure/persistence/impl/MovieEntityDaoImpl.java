@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public class MovieEntityDaoImpl extends AbstractCrudDao<MovieEntity,Long> implements MovieEntityDao {
 
-    public MovieEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
+    protected MovieEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     @Override
     public Optional<MovieEntity> findByTitle(String title) {

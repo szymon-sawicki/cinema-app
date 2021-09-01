@@ -1,19 +1,19 @@
-package com.cinema.app.infrastructure.persistence.entity.view;
+package com.cinema.app.domain.cinema.dto;
 
-import com.cinema.app.domain.cinema.dto.GetScreeningInfoDto;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
-@Setter
-@ToString
-@EqualsAndHashCode
+@Builder
 
-public class ScreeningInfo {
+public class GetScreeningInfoDto {
 
     Long id;
     String cinemaName;
@@ -25,8 +25,9 @@ public class ScreeningInfo {
     Integer length;
     LocalDateTime dateTime;
 
-    public GetScreeningInfoDto toGetScreeningInfoDto() {
-        return GetScreeningInfoDto.builder()
+    public ScreeningInfo toScreeningInfo() {
+
+        return ScreeningInfo.builder()
                 .id(id)
                 .cinemaName(cinemaName)
                 .street(street)
@@ -37,7 +38,6 @@ public class ScreeningInfo {
                 .length(length)
                 .dateTime(dateTime)
                 .build();
+
     }
-
-
 }

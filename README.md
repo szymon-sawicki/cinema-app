@@ -76,9 +76,6 @@ Screenings service:
 
 ## NEXT TASKS TO DO
 
-- write some methods in screening service (searching of screening + ScreeningInfo view)
+- write some methods in screening service
 - creating new ticket with seat reservation
 - Rest API
-
-
-

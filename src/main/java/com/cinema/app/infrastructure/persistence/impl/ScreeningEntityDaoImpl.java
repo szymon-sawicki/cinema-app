@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class ScreeningEntityDaoImpl extends AbstractCrudDao<ScreeningEntity, Long> implements ScreeningEntityDao {
 
-    public ScreeningEntityDaoImpl(Jdbi jdbi) {
+    protected ScreeningEntityDaoImpl(Jdbi jdbi) {
         super(jdbi);
     }
 

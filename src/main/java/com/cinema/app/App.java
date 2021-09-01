@@ -33,16 +33,10 @@ public class App {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
 
 
-        var addressDao = context.getBean("addressEntityDaoImpl", AddressEntityDaoImpl.class);
-        var seatDao = context.getBean("seatEntityDaoImpl", SeatEntityDaoImpl.class);
         var cinemaService = context.getBean("cinemasService", CinemasService.class);
-        var cinemaRoomDao = context.getBean("cinemaRoomEntityDaoImpl", CinemaRoomEntityDaoImpl.class);
-        var movieDao = context.getBean("movieEntityDaoImpl", MovieEntityDaoImpl.class);
         var moviesService = context.getBean("moviesService", MoviesService.class);
-        var screeningDao = context.getBean("screeningEntityDaoImpl", ScreeningEntityDaoImpl.class);
         var screeningsService = context.getBean("screeningsService", ScreeningsService.class);
-        var ticketEntityDao = context.getBean("ticketEntityDaoImpl", TicketEntityDaoImpl.class);
-        var userEntityDao = context.getBean("userEntityDaoImpl", UserEntityDaoImpl.class);
+        var screeningInfoDao = context.getBean("screeningInfoDaoImpl",ScreeningInfoDaoImpl.class);
 
         // SAMPLE DATA TO TEST
 
@@ -168,15 +162,22 @@ public class App {
                 .createMovieDto(movie2)
                 .dateTime(LocalDateTime.of(2021,10,1,16,0))
                 .build();
+      add   /*     System.out.println(cinemaService.addCinema(createCinemaDto2));
+        System.out.println(cinemaService.addCinema(createCinemaDto3));*/
+//        System.out.println(screeningsService.createScreeening(screening1));
 
-        System.out.println(cinemaService.addCinema(createCinemaDto1));
-        System.out.println(cinemaService.addCinema(createCinemaDto2));
-        System.out.println(cinemaService.addCinema(createCinemaDto3));
+
+
+        //System.out.println(cinemaService.addCinema(createCinemaDto1));
+/*
+
+
         System.out.println(moviesService.addMovie(movie));
         System.out.println(moviesService.addMovie(movie2));
         System.out.println(screeningsService.createScreeening(screening3));
         System.out.println(screeningsService.createScreeening(screening2));
-        System.out.println(screeningsService.createScreeening(screening1));
+        */
+   /*     */
     //    System.out.println(userEntityDao.save(user1));
     //    System.out.println(ticketEntityDao.save(ticket1));
 
