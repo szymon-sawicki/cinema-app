@@ -37,7 +37,6 @@ public class Seat {
                 .id(id)
                 .rowNum(rowNum)
                 .place(place)
-                .seatType(seatType)
                 .cinemaRoomId(cinemaRoomId)
                 .build();
     }

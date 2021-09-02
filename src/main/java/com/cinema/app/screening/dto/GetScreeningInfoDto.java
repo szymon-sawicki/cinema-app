@@ -1,4 +1,4 @@
-package com.cinema.app.domain.cinema.dto;
+package com.cinema.app.screening.dto;
 
 import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
 import lombok.AllArgsConstructor;

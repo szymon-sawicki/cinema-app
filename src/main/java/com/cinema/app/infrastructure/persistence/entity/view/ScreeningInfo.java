@@ -1,6 +1,6 @@
 package com.cinema.app.infrastructure.persistence.entity.view;
 
-import com.cinema.app.domain.cinema.dto.GetScreeningInfoDto;
+import com.cinema.app.screening.dto.GetScreeningInfoDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

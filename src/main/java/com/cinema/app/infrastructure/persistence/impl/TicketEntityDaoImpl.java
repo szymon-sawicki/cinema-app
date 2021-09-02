@@ -6,6 +6,7 @@ import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,12 +17,12 @@ public class TicketEntityDaoImpl extends AbstractCrudDao<TicketEntity, Long> imp
     }
 
     @Override
-    public Optional<TicketEntity> findAllByScreeningId(Long id) {
+    public List<TicketEntity> findAllByScreeningId(Long id) {
         return jdbi.withHandle(handle -> handle
-                .createQuery("select * from tickets where id = :id")
+                .createQuery("select * from tickets where screening_id = :id")
                 .bind("id",id)
                 .mapToBean(TicketEntity.class)
-                .findFirst()
+                .list()
         );
     }
 }

@@ -15,13 +15,11 @@ public class SeatDomainTest {
 
         var rowNum = 2;
         var place = 3;
-        var seatType = SeatType.SOFA;
         var cinemaRoomId = 5L;
 
         var seat = Seat.builder()
                 .rowNum(rowNum)
                 .place(place)
-                .seatType(seatType)
                 .cinemaRoomId(cinemaRoomId)
                 .build();
 
@@ -30,7 +28,6 @@ public class SeatDomainTest {
         var expectedGetSeatDao = GetSeatDto.builder()
                 .rowNum(rowNum)
                 .place(place)
-                .seatType(seatType)
                 .cinemaRoomId(cinemaRoomId)
                 .build();
 

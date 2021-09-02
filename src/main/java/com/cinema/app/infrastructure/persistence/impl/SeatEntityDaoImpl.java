@@ -15,7 +15,7 @@ public class SeatEntityDaoImpl extends AbstractCrudDao<SeatEntity, Long> impleme
     protected SeatEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     @Override
-    public List<SeatEntity> findAllSeatsFromRoom(Long roomId) {
+    public List<SeatEntity> findSeatsByCinemaRoom(Long roomId) {
         return jdbi.withHandle(handle -> handle
                 .createQuery("select * from seats where room_id = :room_id")
                 .bind("room_id",roomId)

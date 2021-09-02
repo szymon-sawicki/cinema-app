@@ -37,9 +37,9 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~60%  
-Lines of code: 6500  
+Lines of code: 6900  
 Classes: 107  
-Unit test: 116  
+Unit test: 117  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -72,6 +72,10 @@ Movies service:
 Screenings service:  
 
 - adding new screening with availability checking
+
+Tickets service:
+
+- generating lists of seats for given screening with their status (boolean isBooked in GetSeatDto)
 
 
 ## NEXT TASKS TO DO

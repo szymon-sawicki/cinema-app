@@ -17,7 +17,7 @@ public class GetSeatDto {
     private Long id;
     private Integer rowNum;
     private Integer place;
-    private SeatType seatType;
+    private boolean isBooked = false;
     private Long cinemaRoomId;
 
 }

@@ -1,7 +1,6 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.ScreeningsServiceException;
-import com.cinema.app.domain.cinema.dto.GetScreeningInfoDto;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.movie.MovieUtils;
 import com.cinema.app.domain.screening.dto.CreateScreeningDto;
@@ -12,8 +11,8 @@ import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningInfoDao;
 import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
+import com.cinema.app.screening.dto.GetScreeningInfoDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -124,7 +123,7 @@ public class ScreeningsService {
 
     }
 
-    public List<GetScreeningInfoDto> findByKeyWord(String keyword) {
+    public List<GetScreeningInfoDto> findByKeyword(String keyword) {
         if(keyword == null) {
             throw new ScreeningsServiceException("keyword is null");
         }
@@ -134,6 +133,8 @@ public class ScreeningsService {
                 .map(ScreeningInfo::toGetScreeningInfoDto)
                 .toList();
     }
+
+
 
 
 }

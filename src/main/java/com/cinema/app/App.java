@@ -162,24 +162,17 @@ public class App {
                 .createMovieDto(movie2)
                 .dateTime(LocalDateTime.of(2021,10,1,16,0))
                 .build();
-      add   /*     System.out.println(cinemaService.addCinema(createCinemaDto2));
-        System.out.println(cinemaService.addCinema(createCinemaDto3));*/
-//        System.out.println(screeningsService.createScreeening(screening1));
 
-
-
-        //System.out.println(cinemaService.addCinema(createCinemaDto1));
-/*
-
-
+        System.out.println(cinemaService.addCinema(createCinemaDto1));
+        System.out.println(cinemaService.addCinema(createCinemaDto2));
+        System.out.println(cinemaService.addCinema(createCinemaDto3));/*
         System.out.println(moviesService.addMovie(movie));
-        System.out.println(moviesService.addMovie(movie2));
+        System.out.println(moviesService.addMovie(movie2));*/
+        System.out.println(screeningsService.createScreeening(screening1));
         System.out.println(screeningsService.createScreeening(screening3));
         System.out.println(screeningsService.createScreeening(screening2));
-        */
-   /*     */
-    //    System.out.println(userEntityDao.save(user1));
-    //    System.out.println(ticketEntityDao.save(ticket1));
+/*        System.out.println(userEntityDao.save(user1));
+        System.out.println(ticketEntityDao.save(ticket1));*/
 
 
     /*
