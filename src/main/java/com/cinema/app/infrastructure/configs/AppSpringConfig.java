@@ -1,5 +1,7 @@
 package com.cinema.app.infrastructure.configs;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,11 @@ public class AppSpringConfig {
 
     @Value("${jdbi.password}")
     private String jdbiPassword;
+
+    @Bean
+    public Gson gson() {
+        return new GsonBuilder().setPrettyPrinting().create();
+    }
 
     @Bean
     public Jdbi jdbi() {

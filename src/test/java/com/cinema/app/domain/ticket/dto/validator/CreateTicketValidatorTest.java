@@ -5,12 +5,15 @@ import com.cinema.app.domain.configs.validator.ValidatorException;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUserDto;
+import com.cinema.app.domain.user.type.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateTicketValidatorTest {
 
@@ -208,16 +211,25 @@ public class CreateTicketValidatorTest {
 
         var createTicketValidator = new CreateTicketDtoValidator();
 
+        var user = CreateUserDto.builder()
+                .birthDate(LocalDate.now().minusYears(30))
+                .username("aleksandro")
+                .password("eeeeellss")
+                .name("peterinko")
+                .mail("aleksandro@peterinko.pl")
+                .gender(Gender.MALE)
+                .build();
+
         var ticket = CreateTicketDto.builder()
                 .price(new BigDecimal("25"))
                 .discount(20)
                 .screeningId(4L)
                 .seatId(45L)
                 .status(Status.CONFIRMED)
-                .createUserDto(CreateUserDto.builder().build())
+                .createUserDto(user)
                 .build();
 
-        org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> Validator.validate(createTicketValidator,ticket));
+        assertDoesNotThrow(() -> Validator.validate(createTicketValidator,ticket));
 
     }
 }

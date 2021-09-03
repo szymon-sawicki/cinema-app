@@ -2,6 +2,7 @@ package com.cinema.app.domain.ticket.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
+import com.cinema.app.domain.user.dto.validator.CreateUserDtoValidator;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class CreateTicketDtoValidator implements Validator<CreateTicketDto> {
 
         if (createTicketDto.getCreateUserDto() == null) {
             errors.put("create user dto", "is null");
+        } else {
+            errors.putAll(new CreateUserDtoValidator().validate(createTicketDto.getCreateUserDto()));
         }
 
         if (createTicketDto.getSeatId() == null) {

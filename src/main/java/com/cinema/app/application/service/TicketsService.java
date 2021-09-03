@@ -9,6 +9,7 @@ import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.dto.GetTicketDto;
 import com.cinema.app.domain.ticket.dto.validator.CreateTicketDtoValidator;
+import com.cinema.app.domain.user.UserUtils;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.TicketEntityDao;
@@ -29,14 +30,14 @@ public class TicketsService {
     private final UserEntityDao userEntityDao;
 
     public GetTicketDto createTicket(CreateTicketDto createTicketDto) {
-        Validator.validate(new CreateTicketDtoValidator(),createTicketDto);
+        Validator.validate(new CreateTicketDtoValidator(), createTicketDto);
 
         var createUserDto = createTicketDto.getCreateUserDto();
         var user = createUserDto.toUser().toEntity();
 
         var userFromDb = userEntityDao.findByUsername(createUserDto.getUsername())
                 .orElseGet(() -> userEntityDao
-                        .save(user)
+                        .save(user.toUser().withCreationDateToday().toEntity())
                         .orElseThrow(() -> new ScreeningsServiceException("cannot add new user")));
 
         var getScreeningDto = screeningEntityDao.findById(createTicketDto.getScreeningId())
@@ -44,6 +45,8 @@ public class TicketsService {
                 .toScreening()
                 .toGetScreeningDto();
 
+        // TODO Jeden user moze sobie zaznaczyc kilka miejsc ale robi sie z tego kilka biletow
+        // kazdy bilet na jedno miejsce
         var getSeatDto = seatEntityDao.findById(createTicketDto.getSeatId())
                 .orElseThrow(() -> new ScreeningsServiceException("cannot find seat"))
                 .toSeat()
@@ -54,15 +57,23 @@ public class TicketsService {
                 .findFirst()
                 .orElseThrow(() -> new CinemaServiceException("cannot find seat"));
 
-        if(seatWithBooking.isBooked()) {
+        if (seatWithBooking.isBooked()) {
             throw new CinemaServiceException("seat is already booked");
         }
 
-        return ticketEntityDao.save(createTicketDto.toTicket().toEntity())
-                .map(ticketEntity -> ticketEntity.toTicket().toGetTicketDto())
-                .orElseThrow(() -> new TicketsServiceException("cannot add new ticket"));
+        var ticketEntity = createTicketDto
+                .toTicket()
+                .withUserId(UserUtils.toId.apply(userFromDb.toUser()))
+                .toEntity();
+
+        return ticketEntityDao.save(ticketEntity)
+                .orElseThrow(() -> new TicketsServiceException("cannot add new ticket"))
+                .toTicket()
+                .toGetTicketDto();
 
     }
+
+    // TODO zrobic mape
 
     public List<GetSeatDto> getSeatsOfScreening(GetScreeningDto getScreeningDto) {
         if (getScreeningDto == null) {
@@ -78,12 +89,12 @@ public class TicketsService {
                 .toList();
 
         return seatsFromDb.stream().map(seat -> {
-            var getSeatDto = seat.toSeat().toGetSeatDto();
-            if (bookedSeatIds.contains(getSeatDto.getId())) {
-                getSeatDto.setBooked(true);
-            }
-            return getSeatDto;
-        })
+                    var getSeatDto = seat.toSeat().toGetSeatDto();
+                    if (bookedSeatIds.contains(getSeatDto.getId())) {
+                        getSeatDto.setBooked(true);
+                    }
+                    return getSeatDto;
+                })
                 .toList();
 
     }

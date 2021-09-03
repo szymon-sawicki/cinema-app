@@ -2,10 +2,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.ticket.Ticket;
 import com.cinema.app.domain.ticket.type.Status;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -15,6 +12,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 @Setter
 @EqualsAndHashCode
+@ToString
 
 public class TicketEntity {
 

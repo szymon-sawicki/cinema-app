@@ -36,6 +36,18 @@ public class User {
                 .build();
     }
 
+    public User withCreationDateToday() {
+        return User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .birthDate(birthDate)
+                .creationDate(LocalDate.now())
+                .gender(gender)
+                .build();
+    }
+
     public UserEntity toEntity() {
         return UserEntity.builder()
                 .id(id)

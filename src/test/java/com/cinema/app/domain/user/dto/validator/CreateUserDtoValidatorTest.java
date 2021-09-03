@@ -4,6 +4,7 @@ import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
 import com.cinema.app.domain.user.User;
 import com.cinema.app.domain.user.dto.CreateUserDto;
+import com.cinema.app.domain.user.type.Gender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -275,6 +276,23 @@ public class CreateUserDtoValidatorTest {
                 .hasMessageContaining("gender: is null");
     }
 
+    @Test
+    @DisplayName("when user is correct")
+    public void test18() {
 
+        var user = CreateUserDto.builder()
+                .birthDate(LocalDate.now().minusYears(30))
+                .username("aleksandro")
+                .password("eeeeellss")
+                .name("peterinko")
+                .mail("aleksandro@peterinko.pl")
+                .gender(Gender.MALE)
+                .build();
+
+        var validator = new CreateUserDtoValidator();
+
+        org.junit.jupiter.api.Assertions.assertDoesNotThrow(()->Validator.validate(validator,user));
+
+    }
 
 }

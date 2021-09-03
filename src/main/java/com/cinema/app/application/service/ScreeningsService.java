@@ -47,7 +47,7 @@ public class ScreeningsService {
                 .stream()
                 .map(screeningEntity -> screeningEntity.toScreening().toGetScreeningDto())
                 .toList();
-
+// TODO pobrac liste godzin
         if (!screeningsFromDay.isEmpty()) {
             checkTimeAvailability(time, duration, screeningsFromDay);
         }
@@ -77,7 +77,7 @@ public class ScreeningsService {
             var screeningTime = getScreeningDto.getDateTime().toLocalTime();
             var endOfScreening = screeningTime.plusMinutes(movieEntityDao
                     .findById(getScreeningDto.getMovieId()).orElseThrow().toMovie().toGetMovieDto().getLength());
-
+// TODO compare
             if ((screeningTime.isBefore(timeToCheck) && endOfScreening.isAfter(timeToCheck)) || (screeningTime.isAfter(timeToCheck) && timeToCheck.plusMinutes(movieDuration).isAfter(screeningTime))) {
                 throw new ScreeningsServiceException("cannot add screening - that time is already booked");
             }

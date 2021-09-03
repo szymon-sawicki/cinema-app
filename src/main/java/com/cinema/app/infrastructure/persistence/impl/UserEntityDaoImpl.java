@@ -27,7 +27,7 @@ public class UserEntityDaoImpl extends AbstractCrudDao<UserEntity, Long> impleme
     @Override
     public Optional<UserEntity> findByUsername(String username) {
         return jdbi.withHandle(handle -> handle
-                .createQuery("select * from users where name = :username")
+                .createQuery("select * from users where username = :username")
                 .bind("username",username)
                 .mapToBean(UserEntity.class)
                 .findFirst());

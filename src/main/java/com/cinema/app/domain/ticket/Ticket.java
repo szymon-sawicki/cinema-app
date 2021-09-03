@@ -23,6 +23,18 @@ public class Ticket {
     Integer discount;
     Status status;
 
+    public Ticket withUserId(Long newUserId) {
+        return Ticket.builder()
+                .id(id)
+                .screeningId(screeningId)
+                .userId(newUserId)
+                .seatId(seatId)
+                .price(price)
+                .discount(discount)
+                .status(status)
+                .build();
+    }
+
     public GetTicketDto toGetTicketDto() {
         return GetTicketDto.builder()
                 .id(id)
