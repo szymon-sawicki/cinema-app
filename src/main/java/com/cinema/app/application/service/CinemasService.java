@@ -24,12 +24,26 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
+/**
+ * service class used to managing cinemas. Data is fetched from 4 different daos
+ * @Author Szymon Sawicki
+ */
+
 public class CinemasService {
 
     private final CinemaEntityDao cinemaEntityDao;
     private final CinemaRoomEntityDao cinemaRoomEntityDao;
     private final AddressEntityDao addressEntityDao;
     private final SeatEntityDao seatEntityDao;
+
+
+    /**
+     * Method used to create new cinema. Dto contains name, address and list of cinema rooms.
+     * If address not exists in database, will be created. All cinema rooms and seat will be added to their tables  in db.
+     * @param createCinemaDto cinema to be created.
+     * @return inserted cinema
+     */
 
     public GetCinemaDto addCinema(CreateCinemaDto createCinemaDto) {
         Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
@@ -67,6 +81,13 @@ public class CinemasService {
         return cinemaFromDb.toCinema().toGetCinemaDto();
 
     }
+
+    /**
+     *
+     * @param cinemaId in that cinema new rooms will be created
+     * @param cinemaRooms rooms to add
+     * @return aded cinema rooms
+     */
 
     public List<GetCinemaRoomDto> addCinemaRoomsToCinema(Long cinemaId, List<CreateCinemaRoomDto> cinemaRooms) {
         if(cinemaId == null) {
@@ -118,6 +139,12 @@ public class CinemasService {
 
     }
 
+    /**
+     *
+     * @param city
+     * @return list of cinemas in taht city
+     */
+
     public List<GetCinemaDto> findByCity(String city) {
         if (city == null) {
             throw new CinemaServiceException("city is null");
@@ -133,6 +160,12 @@ public class CinemasService {
                         .toGetCinemaDto())
                 .toList();
     }
+
+    /**
+     *
+     * @param name name of cinema ro search
+     * @return cinema with that name
+     */
 
     public GetCinemaDto findByName(String name) {
         if (name == null) {

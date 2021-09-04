@@ -20,7 +20,6 @@ import java.util.List;
 
 public class CreateTicketDto {
 
-    // TODO dac screeningId/seatId, czy dto jako pole skladowe ?
 
     Long screeningId;
     List<GetSeatDto> seats;

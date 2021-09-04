@@ -48,4 +48,42 @@ public class UserDomainTest {
         assertThat(user.toGetUserDto())
                 .isEqualTo(getUserDto);
     }
+
+    @Test
+    @DisplayName("when user with today as creation date is returned")
+    public void test2() {
+
+        var id = 3L;
+        var username = "Leon";
+        var mail = "leon@okomo.com";
+        var name = "Leon Harris";
+        var birthDate = LocalDate.now().minusYears(30);
+        var gender = Gender.MALE;
+        var today = LocalDate.now();
+
+        var user = User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .birthDate(birthDate)
+                .gender(gender)
+                .build();
+
+
+        var expectedUser = User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .birthDate(birthDate)
+                .creationDate(today)
+                .gender(gender)
+                .build();
+
+
+        assertThat(user.withCreationDateToday())
+                .isEqualTo(expectedUser);
+
+    }
 }

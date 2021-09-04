@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ScreeningInfoDao {
     List<ScreeningInfo> findByKeyword(String keyword);
+    List<ScreeningInfo> findByCinema(Long cinemaId);
+    List<ScreeningInfo> findByMovie(Long movieId);
 }
