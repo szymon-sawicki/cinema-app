@@ -2,14 +2,12 @@ package com.cinema.app.domain.seat.dto;
 
 import com.cinema.app.domain.cinema_room.CinemaRoom;
 import com.cinema.app.domain.seat.type.SeatType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
 
 public class GetSeatDto {

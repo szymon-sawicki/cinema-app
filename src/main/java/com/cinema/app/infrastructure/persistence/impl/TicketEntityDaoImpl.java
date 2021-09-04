@@ -25,4 +25,15 @@ public class TicketEntityDaoImpl extends AbstractCrudDao<TicketEntity, Long> imp
                 .list()
         );
     }
+
+    @Override
+    public Optional<TicketEntity> findByScreeningAndSeat(Long screeningId, Long seatId) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from tickets where screening_id = :screening_id and seat_id = :seat_id")
+                .bind("screening_id",screeningId)
+                .bind("seat_id",seatId)
+                .mapToBean(TicketEntity.class)
+                .findFirst()
+        );
+    }
 }

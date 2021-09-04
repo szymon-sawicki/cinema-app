@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface TicketEntityDao extends CrudDao<TicketEntity,Long> {
     List<TicketEntity> findAllByScreeningId(Long id);
+    Optional<TicketEntity> findByScreeningAndSeat(Long screeningId, Long seatId);
 }

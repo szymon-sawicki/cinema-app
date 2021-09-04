@@ -31,10 +31,10 @@ public class CreateTicketDtoValidator implements Validator<CreateTicketDto> {
             errors.putAll(new CreateUserDtoValidator().validate(createTicketDto.getCreateUserDto()));
         }
 
-        if (createTicketDto.getSeatId() == null) {
-            errors.put("seat id", "is null");
-        } else if (createTicketDto.getSeatId() <= 0) {
-            errors.put("seat id", "is 0 or negative");
+        if (createTicketDto.getSeats() == null) {
+            errors.put("seats", "is null");
+        } else if(createTicketDto.getSeats().isEmpty()) {
+            errors.put("seats","are empty");
         }
 
         if (createTicketDto.getDiscount() == null) {
@@ -48,8 +48,8 @@ public class CreateTicketDtoValidator implements Validator<CreateTicketDto> {
             }
         }
 
-        if(createTicketDto.getPrice() == null) {
-            errors.put("price","is null");
+        if (createTicketDto.getPrice() == null) {
+            errors.put("price", "is null");
         } else if (createTicketDto.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             errors.put("price", "is negative");
         }

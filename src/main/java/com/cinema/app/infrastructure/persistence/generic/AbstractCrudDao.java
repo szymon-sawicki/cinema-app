@@ -327,7 +327,7 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
         return elementsToDelete;
     }
 
-    private List<T> findNLastElements(int n) {
+    public List<T> findNLastElements(int n) {
         var sql = "select * from " + tableName() + " order by id DESC limit " + n;
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)

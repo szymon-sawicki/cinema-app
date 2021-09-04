@@ -1,6 +1,7 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
+import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.TicketEntityDao;
@@ -16,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.when;
@@ -69,6 +72,10 @@ public class TicketsServiceTest {
                 .rowNum(1)
                 .build();
 
+        var getSeatDto1 = seat1.toSeat().toGetSeatDto();
+        var getSeatDto2 = seat2.toSeat().toGetSeatDto();
+        var getSeatDto3 = seat3.toSeat().toGetSeatDto();
+
         var ticket1 = TicketEntity.builder()
                 .seatId(1L)
                 .screeningId(screeningId)
@@ -79,19 +86,20 @@ public class TicketsServiceTest {
                 .screeningId(screeningId)
                 .build();
 
-        var expectedSeatDto1 = seat1.toSeat().toGetSeatDto();
-        var expectedSeatDto2 = seat3.toSeat().toGetSeatDto();
-        expectedSeatDto1.setBooked(true);
-        expectedSeatDto2.setBooked(true);
 
         when(ticketEntityDao.findAllByScreeningId(anyLong()))
                 .thenReturn(List.of(ticket1,ticket2));
         when(seatEntityDao.findSeatsByCinemaRoom(anyLong()))
                 .thenReturn(List.of(seat1, seat2, seat3));
 
-        Assertions.assertThat(ticketsService.getSeatsOfScreening(getScreeningDto))
+        var expectedHashMap = new HashMap<GetSeatDto,Boolean>();
+        expectedHashMap.put(getSeatDto1,true);
+        expectedHashMap.put(getSeatDto2,false);
+        expectedHashMap.put(getSeatDto3,true);
+
+        Assertions.assertThat(ticketsService.mapSeatsOfScreening(getScreeningDto))
                 .hasSize(3)
-                .containsAll(List.of(expectedSeatDto1,expectedSeatDto2));
+                .containsAllEntriesOf(expectedHashMap);
 
     }
 

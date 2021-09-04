@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 public class CreateTicketDtoTest {
 
@@ -26,7 +27,7 @@ public class CreateTicketDtoTest {
                 .price(price)
                 .discount(discount)
                 .screeningId(screeningId)
-                .seatId(seatId)
+                .seats(Collections.emptyList())
                 .status(status)
                 .createUserDto(createUserDto)
                 .build();

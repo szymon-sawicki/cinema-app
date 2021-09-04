@@ -27,7 +27,6 @@ public class TicketDomainTest {
                 .price(price)
                 .discount(discount)
                 .screeningId(screeningId)
-                .seatId(seatId)
                 .status(status)
                 .createUserDto(createUserDto)
                 .build();
@@ -36,7 +35,6 @@ public class TicketDomainTest {
                 .price(price)
                 .discount(discount)
                 .screeningId(screeningId)
-                .seatId(seatId)
                 .status(status)
                 .build();
 

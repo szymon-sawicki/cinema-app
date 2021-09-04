@@ -35,6 +35,20 @@ public class Ticket {
                 .build();
     }
 
+    // TODO test  !!!!!!!!!!!!!!!!!!!!
+
+    public Ticket withSeatId(Long newSeatId) {
+        return Ticket.builder()
+                .id(id)
+                .screeningId(screeningId)
+                .userId(userId)
+                .seatId(newSeatId)
+                .price(price)
+                .discount(discount)
+                .status(status)
+                .build();
+    }
+
     public GetTicketDto toGetTicketDto() {
         return GetTicketDto.builder()
                 .id(id)

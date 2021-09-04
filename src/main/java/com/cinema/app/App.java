@@ -10,6 +10,8 @@ import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
 import com.cinema.app.domain.movie.dto.CreateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.domain.screening.dto.CreateScreeningDto;
+import com.cinema.app.domain.screening.dto.GetScreeningDto;
+import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.domain.ticket.Ticket;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
@@ -142,8 +144,9 @@ public class App {
                 .name("Andreas")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now().minusYears(30))
-                .username("andi")
-                .password("1234")
+                .mail("andi@andi.com")
+                .username("andielo")
+                .password("123467899")
                 .build();
 
         var screening1 = CreateScreeningDto.builder()
@@ -169,11 +172,33 @@ public class App {
                 .dateTime(LocalDateTime.of(2021,10,1,15,0))
                 .build();
 
+        var getScreeningDto = GetScreeningDto.builder()
+                .id(1L)
+                .cinemaRoomId(3L)
+                .movieId(1L)
+                .dateTime(LocalDateTime.of(2021,10,1,21,30))
+                .build();
+
+        var getSeatDto1 = GetSeatDto.builder()
+                .cinemaRoomId(3L)
+                .id(13L)
+                .build();
+
+        var getSeatDto2 = GetSeatDto.builder()
+                .cinemaRoomId(3L)
+                .id(14L)
+                .build();
+
+        var getSeatDto3 = GetSeatDto.builder()
+                .cinemaRoomId(3L)
+                .id(15L)
+                .build();
+
         var ticket1 = CreateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
-                .seatId(13L)
+                .seats(List.of(getSeatDto3,getSeatDto2,getSeatDto1))
                 .status(Status.CONFIRMED)
                 .price(new BigDecimal("25"))
                 .build();
@@ -182,7 +207,7 @@ public class App {
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
-                .seatId(18L)
+                .seats(List.of())
                 .status(Status.CONFIRMED)
                 .price(new BigDecimal("25"))
                 .build();
@@ -191,10 +216,12 @@ public class App {
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
-                .seatId(17L)
+                .seats(List.of())
                 .status(Status.CONFIRMED)
                 .price(new BigDecimal("25"))
                 .build();
+
+        System.out.println(ticketsService.createTickets(ticket1));
 
 /*        // creating cinemas (with rooms and seats)
         System.out.println(cinemaService.addCinema(createCinemaDto1));
@@ -206,14 +233,19 @@ public class App {
         System.out.println(screeningsService.createScreeening(screening2));*/
         // creating tickets (with users)
 /*
-      System.out.println(ticketsService.createTicket(ticket1));
+
         System.out.println(ticketsService.createTicket(ticket2));
         System.out.println(ticketsService.createTicket(ticket3));
         System.out.println(ticketsService.getSeatsOfScreening(screeningDao.findById(1L).orElseThrow().toScreening().toGetScreeningDto()));
 
 
 */
-        System.out.println(screeningInfoDao.findByKeyword("Zurich"));
+
+/*ticketsService.mapSeatsOfScreening(getScreeningDto)
+        .entrySet()
+        .stream()
+        .forEach(entry -> System.out.println(entry.getKey().getId() + " : " + entry.getValue()));*/
+   //     System.out.println(screeningInfoDao.findByKeyword("Zombie 12"));
 
     /*
         System.out.println(cinemaService.addCinema(createCinemaDto2));

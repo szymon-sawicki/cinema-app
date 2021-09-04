@@ -2,6 +2,8 @@ package com.cinema.app.domain.ticket.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
+import com.cinema.app.domain.seat.Seat;
+import com.cinema.app.domain.seat.dto.GetSeatDto;
 import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUserDto;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,33 +99,18 @@ public class CreateTicketValidatorTest {
     }
 
     @Test
-    @DisplayName("when seat id is null")
+    @DisplayName("when seats are null")
     public void test6() {
         var createTicketValidator = new CreateTicketDtoValidator();
 
         var ticket = CreateTicketDto.builder()
-                .seatId(null)
+                .seats(null)
                 .build();
 
         assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
                 .hasMessageContaining("seat id", "is null");
-    }
-
-    @Test
-    @DisplayName("when seat id is negative")
-    public void test7() {
-        var createTicketValidator = new CreateTicketDtoValidator();
-
-        var ticket = CreateTicketDto.builder()
-                .seatId(-10L)
-                .build();
-
-        assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
-                .isInstanceOf(ValidatorException.class)
-                .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("seat id", "is 0 or negative");
     }
 
     @Test
@@ -224,7 +212,7 @@ public class CreateTicketValidatorTest {
                 .price(new BigDecimal("25"))
                 .discount(20)
                 .screeningId(4L)
-                .seatId(45L)
+                .seats(List.of(GetSeatDto.builder().build()))
                 .status(Status.CONFIRMED)
                 .createUserDto(user)
                 .build();

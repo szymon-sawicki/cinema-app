@@ -37,6 +37,9 @@ public class CinemaRouting {
                                 return cinemasService.addCinema(createCinemaDto);
                             }, new JsonTransformer());
 
+                });
+    }
+}
 
 /*
 
@@ -55,6 +58,7 @@ public class CinemaRouting {
          * exception handling
          */
 
+/*
         exception(CinemaServiceException.class, (exception, request, response) -> {
             response.redirect("/error/" + exception.getMessage(), 301);
         });
@@ -93,5 +97,5 @@ public class CinemaRouting {
 
     }
 
+*/
 
-}
