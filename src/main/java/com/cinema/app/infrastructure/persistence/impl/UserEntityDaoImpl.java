@@ -32,4 +32,13 @@ public class UserEntityDaoImpl extends AbstractCrudDao<UserEntity, Long> impleme
                 .mapToBean(UserEntity.class)
                 .findFirst());
     }
+
+    @Override
+    public Optional<UserEntity> findByMail(String mail) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select * from users where mail = :username")
+                .bind("mail",mail)
+                .mapToBean(UserEntity.class)
+                .findFirst());
+    }
 }

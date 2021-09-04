@@ -23,7 +23,7 @@ public class CreateUserDtoTest {
         var gender = Gender.MALE;
         var creationDate = LocalDate.now().minusMonths(7);
 
-        var createUserDto = CreateUserDto.builder()
+        var createUserDto = CreateUpdateUserDto.builder()
                 .username(username)
                 .mail(mail)
                 .name(name)

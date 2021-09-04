@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CreateUserDto {
+public class CreateUpdateUserDto {
 
     String username;
     String password;

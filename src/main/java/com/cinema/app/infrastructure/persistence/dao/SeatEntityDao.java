@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface SeatEntityDao extends CrudDao<SeatEntity,Long> {
     List<SeatEntity> findSeatsByCinemaRoom(Long cinemaRoomId);
+    List<Long> findIdsByCinemaRoom(Long cinemaRoomId);
 
 }

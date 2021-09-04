@@ -2,18 +2,18 @@ package com.cinema.app.domain.seat.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
-import com.cinema.app.domain.seat.dto.CreateSeatDto;
+import com.cinema.app.domain.seat.dto.CreateUpdateSeatDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateSeatDtoValidatorTest {
+public class CreateUpdateSeatDtoValidatorTest {
 
     @Test
     @DisplayName("when create seat dto is null")
     public void test1() {
 
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
 
         Assertions.assertThatThrownBy(() -> Validator.validate(createSeatDtoValidator, null))
                 .isInstanceOf(ValidatorException.class)
@@ -25,8 +25,8 @@ public class CreateSeatDtoValidatorTest {
     @DisplayName("when seat type is null")
     public void test2() {
 
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .seatType(null)
                 .build();
 
@@ -40,8 +40,8 @@ public class CreateSeatDtoValidatorTest {
     @DisplayName("when place number is negative")
     public void test3() {
 
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .place(-3)
                 .build();
 
@@ -55,8 +55,8 @@ public class CreateSeatDtoValidatorTest {
     @DisplayName("when place number is 0")
     public void test4() {
 
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .place(0)
                 .build();
 
@@ -69,8 +69,8 @@ public class CreateSeatDtoValidatorTest {
     @Test
     @DisplayName("when row number is negative")
     public void test5() {
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .rowNum(-6)
                 .build();
 
@@ -83,8 +83,8 @@ public class CreateSeatDtoValidatorTest {
     @Test
     @DisplayName("when cinema room id is null")
     public void test6() {
-        var createSeatDtoValidator = new CreateSeatDtoValidator();
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDtoValidator = new CreateUpdateSeatDtoValidator();
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .cinemaRoomId(null)
                 .build();
 

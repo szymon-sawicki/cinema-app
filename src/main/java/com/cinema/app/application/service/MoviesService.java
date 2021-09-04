@@ -2,9 +2,9 @@ package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import com.cinema.app.domain.movie.dto.GetMovieDto;
-import com.cinema.app.domain.movie.dto.validator.CreateMovieDtoValidator;
+import com.cinema.app.domain.movie.dto.validator.CreateUpdateMovieDtoValidator;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +15,29 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 
+/**
+ * service class used to manage movies
+ * @Author Szymon Sawicki
+ */
+
 public class MoviesService {
 
     private final MovieEntityDao movieEntityDao;
 
-    public GetMovieDto addMovie(CreateMovieDto createMovieDto)   {
-        Validator.validate(new CreateMovieDtoValidator(),createMovieDto);
+    /**
+     * method creating new movie
+     * @param createUpdateMovieDto movie to create
+     * @return inserted movie
+     */
 
-        if(movieEntityDao.findByTitle(createMovieDto.getTitle()).isPresent()) {
-            throw new MoviesServiceException("movie with title " + createMovieDto.getTitle() + " is already present in database");
+    public GetMovieDto addMovie(CreateUpdateMovieDto createUpdateMovieDto)   {
+        Validator.validate(new CreateUpdateMovieDtoValidator(), createUpdateMovieDto);
+
+        if(movieEntityDao.findByTitle(createUpdateMovieDto.getTitle()).isPresent()) {
+            throw new MoviesServiceException("movie with title " + createUpdateMovieDto.getTitle() + " is already present in database");
         }
 
-        var movie = createMovieDto.toMovie().toEntity();
+        var movie = createUpdateMovieDto.toMovie().toEntity();
 
         return movieEntityDao
                 .save(movie)
@@ -34,6 +45,12 @@ public class MoviesService {
                 .toMovie()
                 .toGetMovieDto();
     }
+
+    /**
+     * searching movie by title
+     * @param title movie's title to search
+     * @return movie with given title or empty optional
+     */
 
     public GetMovieDto findByTitle(String title) {
         if (title == null) {
@@ -48,6 +65,12 @@ public class MoviesService {
                 .toMovie()
                 .toGetMovieDto();
     }
+
+    /**
+     * searching movies by genre
+     * @param movieGenre genre to be searched
+     * @return list with movies of given genre
+     */
 
     public List<GetMovieDto> findByGenre(MovieGenre movieGenre) {
         if(movieGenre == null) {

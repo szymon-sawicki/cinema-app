@@ -1,10 +1,8 @@
 package com.cinema.app.domain.cinema.dto;
 
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
-import com.cinema.app.domain.cinema_room.CinemaRoom;
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
-import org.assertj.core.api.Assertions;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +10,17 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class CreateCinemaDtoTest {
+public class CreateUpdateCinemaDtoTest {
 
     @Test
     @DisplayName("when conversion to cinema is succesful")
     public void test1() {
 
         var name = "Andrew";
-        var createAddressDto = CreateAddressDto.builder().build();
-        var cinemaRooms = List.of(CreateCinemaRoomDto.builder().name("aa").build());
+        var createAddressDto = CreateUpdateAddressDto.builder().build();
+        var cinemaRooms = List.of(CreateUpdateCinemaRoomDto.builder().name("aa").build());
 
-        var createCinemaDto = CreateCinemaDto.builder()
+        var createCinemaDto = CreateUpdateCinemaDto.builder()
                 .name(name)
                 .createAddressDto(createAddressDto)
                 .cinemaRoomDtos(cinemaRooms)

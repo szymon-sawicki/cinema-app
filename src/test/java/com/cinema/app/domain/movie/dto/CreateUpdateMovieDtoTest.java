@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-public class CreateMovieDtoTest {
+public class CreateUpdateMovieDtoTest {
 
     @Test
     @DisplayName("when conversion to movie is correct")
@@ -19,7 +19,7 @@ public class CreateMovieDtoTest {
         var premiereDate = LocalDate.of(2000,12,21);
         var length = 90;
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .title(name)
                 .movieGenre(movieGenre)
                 .premiereDate(premiereDate)

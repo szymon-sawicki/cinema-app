@@ -1,6 +1,6 @@
 package com.cinema.app.domain.cinema_room.dto.validator;
 
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class CreateCinemaRoomDtoValidatorTest {
+public class CreateUpdateCinemaRoomDtoValidatorTest {
 
     @Test
     @DisplayName("when create cinema room dto is null")
@@ -31,7 +31,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .name(null)
                 .build();
 
@@ -48,7 +48,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .name("kie%^ omafa")
                 .build();
 
@@ -65,7 +65,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(-5)
                 .build();
 
@@ -82,7 +82,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .placeNumber(-5)
                 .build();
 
@@ -132,7 +132,7 @@ public class CreateCinemaRoomDtoValidatorTest {
 
         var createCinemaRoomDtoValidator = new CreateCinemaRoomDtoValidator();
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .name("magic room")
                 .rowsNum(30)
                 .placeNumber(20)

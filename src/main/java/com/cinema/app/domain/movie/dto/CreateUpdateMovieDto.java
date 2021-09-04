@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CreateMovieDto {
+public class CreateUpdateMovieDto {
 
     String title;
     MovieGenre movieGenre;

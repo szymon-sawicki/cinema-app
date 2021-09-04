@@ -3,10 +3,10 @@ package com.cinema.app.application.service;
 import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.domain.address.AddressUtils;
 import com.cinema.app.domain.cinema.CinemaUtils;
-import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
+import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
-import com.cinema.app.domain.cinema.dto.validator.CreateCinemaDtoValidator;
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.cinema.dto.validator.CreateUpdateCinemaDtoValidator;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
 import com.cinema.app.domain.configs.validator.Validator;
@@ -41,15 +41,15 @@ public class CinemasService {
     /**
      * Method used to create new cinema. Dto contains name, address and list of cinema rooms.
      * If address not exists in database, will be created. All cinema rooms and seat will be added to their tables  in db.
-     * @param createCinemaDto cinema to be created.
+     * @param createUpdateCinemaDto cinema to be created.
      * @return inserted cinema
      */
 
-    public GetCinemaDto addCinema(CreateCinemaDto createCinemaDto) {
-        Validator.validate(new CreateCinemaDtoValidator(), createCinemaDto);
+    public GetCinemaDto addCinema(CreateUpdateCinemaDto createUpdateCinemaDto) {
+        Validator.validate(new CreateUpdateCinemaDtoValidator(), createUpdateCinemaDto);
 
-        var addressDto = createCinemaDto.getCreateAddressDto();
-        var cinemaRoomDtos = createCinemaDto.getCinemaRoomDtos();
+        var addressDto = createUpdateCinemaDto.getCreateAddressDto();
+        var cinemaRoomDtos = createUpdateCinemaDto.getCinemaRoomDtos();
         var address = addressDto.toAddress().toEntity();
 
         var addressFromDb = addressEntityDao
@@ -63,7 +63,7 @@ public class CinemasService {
                         .orElseThrow(() -> new CinemaServiceException("Cannot add new address")));
 
 
-        var cinemaToInsert = createCinemaDto
+        var cinemaToInsert = createUpdateCinemaDto
                 .toCinema()
                 .withAddress(AddressUtils.toId.apply(addressFromDb.toAddress()))
                 .toEntity();
@@ -89,7 +89,7 @@ public class CinemasService {
      * @return aded cinema rooms
      */
 
-    public List<GetCinemaRoomDto> addCinemaRoomsToCinema(Long cinemaId, List<CreateCinemaRoomDto> cinemaRooms) {
+    public List<GetCinemaRoomDto> addCinemaRoomsToCinema(Long cinemaId, List<CreateUpdateCinemaRoomDto> cinemaRooms) {
         if(cinemaId == null) {
             throw new CinemaServiceException("cinema id is null");
         }

@@ -1,11 +1,9 @@
 package com.cinema.app.domain.ticket;
 
-import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.dto.GetTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
-import com.cinema.app.domain.user.dto.CreateUserDto;
+import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ public class TicketDomainTest {
         var seatId = 5L;
         var status = Status.CONFIRMED;
         var userId = 3L;
-        var createUserDto = CreateUserDto.builder().build();
+        var createUserDto = CreateUpdateUserDto.builder().build();
 
         var ticket = Ticket.builder()
                 .price(price)
@@ -59,7 +57,7 @@ public class TicketDomainTest {
         var newSeatId = 3L;
         var status = Status.CONFIRMED;
         var userId = 3L;
-        var createUserDto = CreateUserDto.builder().build();
+        var createUserDto = CreateUpdateUserDto.builder().build();
 
         var createTicketDto = Ticket.builder()
                 .price(price)
@@ -95,7 +93,7 @@ public class TicketDomainTest {
         var status = Status.CONFIRMED;
         var userId = 3L;
         var newUserId=7L;
-        var createUserDto = CreateUserDto.builder().build();
+        var createUserDto = CreateUpdateUserDto.builder().build();
 
         var createTicketDto = Ticket.builder()
                 .price(price)
@@ -131,7 +129,7 @@ public class TicketDomainTest {
         var newSeatId = 3L;
         var status = Status.CONFIRMED;
         var userId = 3L;
-        var createUserDto = CreateUserDto.builder().build();
+        var createUserDto = CreateUpdateUserDto.builder().build();
 
         var ticket = Ticket.builder()
                 .price(price)

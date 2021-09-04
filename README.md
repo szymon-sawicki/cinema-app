@@ -1,7 +1,7 @@
 # cinema app
 ### Project is still in development. Planned finish - 15 september
 
-Application used for management of cinema network with multiple cinema rooms.  
+Backend for management system for network of cinemas. 
 
 Technology stack:  
 
@@ -37,8 +37,8 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~70%  
-Lines of code: 7100  
-Classes: 107  
+Lines of code: 7500 
+Classes: 121  
 Unit test: 121  
 Test-coverage: ~65% 
 
@@ -71,19 +71,22 @@ Movies service:
 
 Screenings service:  
 
+Finding of screening operates on view that contains most important info about screening fetched from tables using join statement.   
+
 - adding new screening with availability checking
 - finding screening by keyword
 - finding screening by movie
-- 
+- finding screening by date  
+- finding screening by cinema  
 
 Tickets service:
 
-- creating tickets with availability checking
+- creating tickets with availability checking for given screening
 - generating map with booked seat of given screening
 
 ## NEXT TASKS TO DO
 
-- write tests of all service methods
-- user service 
-- javadoc comments
-- Rest API
+- implement all missing methods in services and test them  
+- write all javadoc stubs  
+- REST Api  
+- postman documentation

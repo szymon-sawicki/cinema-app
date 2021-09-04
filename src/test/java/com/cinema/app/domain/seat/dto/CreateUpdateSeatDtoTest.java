@@ -5,7 +5,7 @@ import com.cinema.app.domain.seat.type.SeatType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateSeatDtoTest {
+public class CreateUpdateSeatDtoTest {
 
     @Test
     @DisplayName("when conversion to seat is correct")
@@ -16,7 +16,7 @@ public class CreateSeatDtoTest {
         var seatType = SeatType.SOFA;
         var cinemaRoomId = 5L;
 
-        var createSeatDto = CreateSeatDto.builder()
+        var createSeatDto = CreateUpdateSeatDto.builder()
                 .rowNum(rowNum)
                 .place(place)
                 .seatType(seatType)

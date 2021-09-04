@@ -4,7 +4,7 @@ import com.cinema.app.domain.cinema_room.CinemaRoom;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateCinemaRoomDtoTest {
+public class CreateUpdateCinemaRoomDtoTest {
 
     @Test
     @DisplayName("when the conversion to CinemaRoom is correct")
@@ -15,7 +15,7 @@ public class CreateCinemaRoomDtoTest {
         var placeNumber = 20;
         var cinemaId = 3L;
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .name(name)
                 .rowsNum(rows)
                 .placeNumber(placeNumber)

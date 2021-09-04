@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class CreateCinemaRoomDto {
+public class CreateUpdateCinemaRoomDto {
 
     private String name;
     private Integer rowsNum;

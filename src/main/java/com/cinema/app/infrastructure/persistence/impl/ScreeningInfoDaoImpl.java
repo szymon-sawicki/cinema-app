@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -29,7 +30,7 @@ public class ScreeningInfoDaoImpl implements ScreeningInfoDao {
     @Override
     public List<ScreeningInfo> findByKeyword(String keyword) {
         var sql = selectAndJoinExpression + """
-                where c.name like :keyword or a.city like :keyword or a.street like :keyword or a.city like :keyword or cr.name like 
+                where c.name like :keyword or a.city like :keyword or a.street like :keyword or c.name like :keyword or cr.name like 
                 :keyword or m.title like :keyword
                 """;
 
@@ -60,6 +61,18 @@ public class ScreeningInfoDaoImpl implements ScreeningInfoDao {
         return jdbi.withHandle(handle -> handle
                 .createQuery(sql)
                 .bind("movieId",movieId)
+                .mapToBean(ScreeningInfo.class)
+                .list());
+    }
+
+    @Override
+    public List<ScreeningInfo> findByDate(LocalDate date) {
+
+        var sql = selectAndJoinExpression + "where DATE(date_time) = :date";
+
+        return jdbi.withHandle(handle -> handle
+                .createQuery(sql)
+                .bind("date",date)
                 .mapToBean(ScreeningInfo.class)
                 .list());
     }

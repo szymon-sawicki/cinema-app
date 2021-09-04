@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class CreateAddressDto {
+public class CreateUpdateAddressDto {
 
     private String street;
     private String houseNumber;

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 
-public class CreateSeatDto {
+public class CreateUpdateSeatDto {
 
     private Integer rowNum;
     private Integer place;

@@ -1,27 +1,20 @@
 package com.cinema.app;
 
-import com.cinema.app.application.service.CinemasService;
-import com.cinema.app.application.service.MoviesService;
-import com.cinema.app.application.service.ScreeningsService;
-import com.cinema.app.application.service.TicketsService;
-import com.cinema.app.domain.address.dto.CreateAddressDto;
-import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.application.service.*;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
+import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.domain.screening.dto.CreateScreeningDto;
+import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import com.cinema.app.domain.seat.dto.GetSeatDto;
-import com.cinema.app.domain.ticket.Ticket;
-import com.cinema.app.domain.ticket.dto.CreateTicketDto;
+import com.cinema.app.domain.ticket.dto.CreateUpdateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
-import com.cinema.app.domain.user.User;
-import com.cinema.app.domain.user.dto.CreateUserDto;
+import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
-import com.cinema.app.infrastructure.persistence.entity.ScreeningEntity;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
-import com.cinema.app.infrastructure.persistence.entity.UserEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -44,17 +37,19 @@ public class App {
         var screeningInfoDao = context.getBean("screeningInfoDaoImpl",ScreeningInfoDaoImpl.class);
         var screeningDao = context.getBean("screeningEntityDaoImpl",ScreeningEntityDaoImpl.class);
         var ticketsService = context.getBean("ticketsService", TicketsService.class);
+        var usersService = context.getBean("usersService", UsersService.class);
+        var userEntityDaoImpl = context.getBean("userEntityDaoImpl", UserEntityDaoImpl.class);
 
         // SAMPLE DATA TO TEST
 
-        var address1 = CreateAddressDto.builder()
+        var address1 = CreateUpdateAddressDto.builder()
                 .city("Zurich")
                 .houseNumber("234")
                 .street("Haupt Strasse")
                 .zipCode("62-200")
                 .build();
 
-        var address2 = CreateAddressDto.builder()
+        var address2 = CreateUpdateAddressDto.builder()
                 .city("Berlin")
                 .houseNumber("123/5")
                 .street("Lange Gasse")
@@ -62,32 +57,32 @@ public class App {
                 .build();
 
 
-        var address3 = CreateAddressDto.builder()
+        var address3 = CreateUpdateAddressDto.builder()
                 .city("Wien")
                 .street("Donaufelder Strasse 28")
                 .houseNumber("156")
                 .zipCode("41-920")
                 .build();
 
-        var cinemaRoom1 = CreateCinemaRoomDto.builder()
+        var cinemaRoom1 = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(15)
                 .placeNumber(10)
                 .name("big cinema room")
                 .build();
 
-        var cinemaRoom2 = CreateCinemaRoomDto.builder()
+        var cinemaRoom2 = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(12)
                 .placeNumber(8)
                 .name("middle cinema room")
                 .build();
 
-        var cinemaRoom3 = CreateCinemaRoomDto.builder()
+        var cinemaRoom3 = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(5)
                 .placeNumber(10)
                 .name("small  cinema room")
                 .build();
 
-        var cinemaRoom4 = CreateCinemaRoomDto.builder()
+        var cinemaRoom4 = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(4)
                 .placeNumber(5)
                 .name("vip cinema room")
@@ -97,32 +92,32 @@ public class App {
         var cinemaRooms2 = List.of(cinemaRoom3, cinemaRoom4, cinemaRoom2);
         var cinemaRooms3 = List.of(cinemaRoom1, cinemaRoom3, cinemaRoom3);
 
-        var createCinemaDto1 = CreateCinemaDto.builder()
+        var createCinemaDto1 = CreateUpdateCinemaDto.builder()
                 .name("Great Cinema od Zurich")
                 .createAddressDto(address1)
                 .cinemaRoomDtos(cinemaRooms1)
                 .build();
 
-        var createCinemaDto2 = CreateCinemaDto.builder()
+        var createCinemaDto2 = CreateUpdateCinemaDto.builder()
                 .name("Berliner Cinema")
                 .createAddressDto(address2)
                 .cinemaRoomDtos(cinemaRooms2)
                 .build();
 
-        var createCinemaDto3 = CreateCinemaDto.builder()
+        var createCinemaDto3 = CreateUpdateCinemaDto.builder()
                 .name("Vienna City Cinema")
                 .createAddressDto(address3)
                 .cinemaRoomDtos(cinemaRooms3)
                 .build();
 
-        var movie = CreateMovieDto.builder()
+        var movie = CreateUpdateMovieDto.builder()
                 .movieGenre(MovieGenre.HORROR)
                 .length(90)
                 .premiereDate(LocalDate.of(2020, 11, 23))
                 .title("Andreas Abenteuer")
                 .build();
 
-        var movie2 = CreateMovieDto.builder()
+        var movie2 = CreateUpdateMovieDto.builder()
                 .movieGenre(MovieGenre.HORROR)
                 .length(110)
                 .premiereDate(LocalDate.of(2018, 11, 23))
@@ -140,7 +135,7 @@ public class App {
 
 
 
-        var user1 = CreateUserDto.builder()
+        var user1 = CreateUpdateUserDto.builder()
                 .name("Andreas")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now().minusYears(30))
@@ -149,9 +144,18 @@ public class App {
                 .password("123467899")
                 .build();
 
-        var screening1 = CreateScreeningDto.builder()
+        var user2 = CreateUpdateUserDto.builder()
+                .name("Michael")
+                .gender(Gender.MALE)
+                .birthDate(LocalDate.now().minusYears(30))
+                .mail("michi@ole.com")
+                .username("michi123")
+                .password("123467899")
+                .build();
+
+        var screening1 = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(3L)
-                .createMovieDto(CreateMovieDto.builder()
+                .createUpdateMovieDto(CreateUpdateMovieDto.builder()
                         .title("Andreas Abenteuer")
                         .length(66)
                         .premiereDate(LocalDate.of(2020,5,5))
@@ -160,15 +164,15 @@ public class App {
                 .dateTime(LocalDateTime.of(2021,10,1,21,30))
                 .build();
 
-        var screening2 = CreateScreeningDto.builder()
+        var screening2 = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(3L)
-                .createMovieDto(movie)
+                .createUpdateMovieDto(movie)
                 .dateTime(LocalDateTime.of(2021,10,1,18,30))
                 .build();
 
-        var screening3 = CreateScreeningDto.builder()
+        var screening3 = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(3L)
-                .createMovieDto(movie2)
+                .createUpdateMovieDto(movie2)
                 .dateTime(LocalDateTime.of(2021,10,1,15,0))
                 .build();
 
@@ -194,16 +198,16 @@ public class App {
                 .id(15L)
                 .build();
 
-        var ticket1 = CreateTicketDto.builder()
+        var ticket1 = CreateUpdateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
-                .screeningId(2L)
+                .screeningId(1L)
                 .seats(List.of(getSeatDto3,getSeatDto2,getSeatDto1))
                 .status(Status.CONFIRMED)
                 .price(new BigDecimal("25"))
                 .build();
 
-        var ticket2 = CreateTicketDto.builder()
+        var ticket2 = CreateUpdateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
@@ -212,7 +216,7 @@ public class App {
                 .price(new BigDecimal("25"))
                 .build();
 
-        var ticket3 = CreateTicketDto.builder()
+        var ticket3 = CreateUpdateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
@@ -221,7 +225,12 @@ public class App {
                 .price(new BigDecimal("25"))
                 .build();
 
-        System.out.println(ticketsService.createTickets(ticket1));
+  //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
+
+     System.out.println(ticketsService.createTickets(ticket1));
+ //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());
+
+
 
 /*        // creating cinemas (with rooms and seats)
         System.out.println(cinemaService.addCinema(createCinemaDto1));

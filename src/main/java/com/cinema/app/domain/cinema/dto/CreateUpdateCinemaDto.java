@@ -1,9 +1,8 @@
 package com.cinema.app.domain.cinema.dto;
 
-import com.cinema.app.domain.address.Address;
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,11 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 
-public class CreateCinemaDto {
+public class CreateUpdateCinemaDto {
 
     private String name;
-    private CreateAddressDto createAddressDto;
-    private List<CreateCinemaRoomDto> cinemaRoomDtos;
+    private CreateUpdateAddressDto createAddressDto;
+    private List<CreateUpdateCinemaRoomDto> cinemaRoomDtos;
 
     public Cinema toCinema() {
         return Cinema.builder()

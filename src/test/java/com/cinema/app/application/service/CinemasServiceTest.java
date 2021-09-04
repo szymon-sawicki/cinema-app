@@ -2,11 +2,11 @@ package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.domain.address.Address;
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
-import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
+import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
-import com.cinema.app.domain.cinema_room.dto.CreateCinemaRoomDto;
+import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import com.cinema.app.infrastructure.persistence.dao.AddressEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.CinemaEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
@@ -119,7 +119,7 @@ public class CinemasServiceTest {
         var zipCode = "62-200";
         var cinemaId = 3L;
 
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .city(city)
                 .street(street)
                 .zipCode(zipCode)
@@ -136,14 +136,14 @@ public class CinemasServiceTest {
                                 .build()
                 ));
 
-        var createCinemaRoomDto = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(5)
                 .placeNumber(10)
                 .cinemaId(cinemaId)
                 .name("mmmm")
                 .build();
 
-        var createCinemaRoomDto1 = CreateCinemaRoomDto.builder()
+        var createCinemaRoomDto1 = CreateUpdateCinemaRoomDto.builder()
                 .rowsNum(8)
                 .placeNumber(18)
                 .cinemaId(cinemaId)
@@ -162,7 +162,7 @@ public class CinemasServiceTest {
 
         var name = "Turbo Cinema";
 
-        var createCinemaDto = CreateCinemaDto.builder()
+        var createCinemaDto = CreateUpdateCinemaDto.builder()
                 .name(name)
                 .createAddressDto(createAddressDto)
                 .cinemaRoomDtos(createCinemaRoomDtos)
@@ -188,7 +188,7 @@ public class CinemasServiceTest {
     public void test3() {
 
         assertThatThrownBy(() -> cinemasService
-                .addCinemaRoomsToCinema(null, List.of(CreateCinemaRoomDto.builder().build()
+                .addCinemaRoomsToCinema(null, List.of(CreateUpdateCinemaRoomDto.builder().build()
                 )))
                 .isInstanceOf(CinemaServiceException.class)
                 .hasMessageContaining("cinema id is null");
@@ -220,13 +220,13 @@ public class CinemasServiceTest {
 
         var cinemaId = 1L;
 
-        var createCinemaDto1 = CreateCinemaRoomDto.builder().name("test room")
+        var createCinemaDto1 = CreateUpdateCinemaRoomDto.builder().name("test room")
                 .cinemaId(cinemaId)
                 .placeNumber(5)
                 .rowsNum(6)
                 .build();
 
-        var createCinemaDto2 = CreateCinemaRoomDto.builder()
+        var createCinemaDto2 = CreateUpdateCinemaRoomDto.builder()
                 .cinemaId(1L)
                 .name("test room2")
                 .placeNumber(8)

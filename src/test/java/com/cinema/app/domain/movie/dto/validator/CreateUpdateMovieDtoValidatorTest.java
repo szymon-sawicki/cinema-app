@@ -2,20 +2,20 @@ package com.cinema.app.domain.movie.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-public class CreateMovieDtoValidatorTest {
+public class CreateUpdateMovieDtoValidatorTest {
 
     @Test
     @DisplayName("when create movie dto is null")
     public void test1() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
         Assertions.assertThatThrownBy(() -> Validator.validate(createMovieDtoValidator,null))
                 .isInstanceOf(ValidatorException.class)
@@ -27,9 +27,9 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when movie name have wrong format")
     public void test2() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .title("alien#")
                 .build();
 
@@ -43,9 +43,9 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when movie genre is null")
     public void test3() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .movieGenre(null)
                 .build();
 
@@ -59,11 +59,11 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when premiere date is in the future")
     public void test4() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
         var futureDate = LocalDate.now().plusMonths(5);
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .premiereDate(futureDate)
                 .build();
 
@@ -77,9 +77,9 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when movie is too length")
     public void test5() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .length(500)
                 .build();
 
@@ -93,9 +93,9 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when movie length is negative")
     public void test6() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .length(-40)
                 .build();
 
@@ -109,9 +109,9 @@ public class CreateMovieDtoValidatorTest {
     @DisplayName("when premiere date is null")
     public void test7() {
 
-        var createMovieDtoValidator = new CreateMovieDtoValidator();
+        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .premiereDate(null)
                 .build();
 

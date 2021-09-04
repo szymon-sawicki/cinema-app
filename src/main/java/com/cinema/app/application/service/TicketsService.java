@@ -1,15 +1,13 @@
 package com.cinema.app.application.service;
 
-import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.application.service.exception.ScreeningsServiceException;
 import com.cinema.app.application.service.exception.TicketsServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import com.cinema.app.domain.seat.dto.GetSeatDto;
-import com.cinema.app.domain.ticket.dto.CreateTicketDto;
+import com.cinema.app.domain.ticket.dto.CreateUpdateTicketDto;
 import com.cinema.app.domain.ticket.dto.GetTicketDto;
-import com.cinema.app.domain.ticket.dto.validator.CreateTicketDtoValidator;
-import com.cinema.app.domain.user.UserUtils;
+import com.cinema.app.domain.ticket.dto.validator.CreateUpdateTicketDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.TicketEntityDao;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,14 +35,15 @@ public class TicketsService {
     /**
      * method used to create new tickets. Each transaction can contain many seat to book.
      * Availability of each seat will be checked, new ticket will be generated and added to database
-     * @param createTicketDto ticket to create
+     *
+     * @param createUpdateTicketDto ticket to create
      * @return list of created tickets
      */
 
-    public List<GetTicketDto> createTickets(CreateTicketDto createTicketDto) {
-        Validator.validate(new CreateTicketDtoValidator(), createTicketDto);
+    public List<GetTicketDto> createTickets(CreateUpdateTicketDto createUpdateTicketDto) {
+        Validator.validate(new CreateUpdateTicketDtoValidator(), createUpdateTicketDto);
 
-        var createUserDto = createTicketDto.getCreateUserDto();
+        var createUserDto = createUpdateTicketDto.getCreateUserDto();
         var user = createUserDto.toUser().toEntity();
 
         // if user with given username exists, data will be fetched from db, otherwise new user will be created
@@ -56,31 +54,43 @@ public class TicketsService {
                         .orElseThrow(() -> new ScreeningsServiceException("cannot add new user")));
 
         var userId = userFromDb.toUser().toGetUserDto().getId();
+        var screeningId = createUpdateTicketDto.getScreeningId();
 
-        var getScreeningDto = screeningEntityDao.findById(createTicketDto.getScreeningId())
+        var getScreeningDto = screeningEntityDao.findById(screeningId)
                 .orElseThrow(() -> new ScreeningsServiceException("cannot find screening"))
                 .toScreening()
                 .toGetScreeningDto();
 
+        // checking availability of all seats from create dto and returning list with checked seats
+
+        var ticketsToInsert = checkSeatAndGenerateTickets(createUpdateTicketDto.getSeats(), getScreeningDto)
+                .stream()
+                .map(seat -> createUpdateTicketDto.toTicket()
+                        .withSeatId(seat.getId())
+                        .withUserId(userId).toEntity())
+                .toList();
+
+
+        return ticketEntityDao.saveAll(ticketsToInsert)
+                .stream().map(ticketEntity -> ticketEntity.toTicket().toGetTicketDto())
+                .toList();
+
+    }
+    // private method to check availability of all seats in ticket
+
+    private List<GetSeatDto> checkSeatAndGenerateTickets(List<GetSeatDto> seatsToBook, GetScreeningDto getScreeningDto) {
+
         var bookingsMap = mapSeatsOfScreening(getScreeningDto);
-        var seatsToBook = createTicketDto.getSeats();
+        var result = new ArrayList<TicketEntity>();
 
         seatsToBook.forEach(seat -> {
-            if (bookingsMap.containsKey(seat) && bookingsMap.get(seat)) {
+            var seatId = seat.getId();
+            if (bookingsMap.get(seatId)) {
                 throw new TicketsServiceException("seat is already booked");
             }
-            bookingsMap.put(seat, true);
-            var ticketEntity = createTicketDto.toTicket().withSeatId(seat.getId()).withUserId(userId).toEntity();
-            ticketEntityDao.save(ticketEntity)
-                    .orElseThrow(() -> new TicketsServiceException("cannot add new ticket"));
         });
 
-        return seatsToBook.stream()
-                .map(seatToBook -> createTicketDto
-                        .toTicket()
-                        .withSeatId(seatToBook.getId())
-                        .toGetTicketDto())
-                .toList();
+        return seatsToBook;
 
     }
 
@@ -89,7 +99,7 @@ public class TicketsService {
      * @return map with get seat dto as key and boolean as value. True - seat is already booked, false - seat is not booked
      */
 
-    public Map<GetSeatDto, Boolean> mapSeatsOfScreening(GetScreeningDto getScreeningDto) {
+    public Map<Long, Boolean> mapSeatsOfScreening(GetScreeningDto getScreeningDto) {
         if (getScreeningDto == null) {
             throw new TicketsServiceException("get screening dto is null");
         }
@@ -97,9 +107,10 @@ public class TicketsService {
         return seatEntityDao.findSeatsByCinemaRoom(getScreeningDto.getCinemaRoomId())
                 .stream()
                 .map(seat -> seat.toSeat().toGetSeatDto())
-                .collect(Collectors.toMap(Function.identity(), getSeatDto -> {
-                    var result = ticketEntityDao.findByScreeningAndSeat(getScreeningDto.getId(), getSeatDto.getId()).isPresent();
-                    return result;
+                .collect(Collectors.toMap(seat -> seat.getId(), getSeatDto -> {
+                    return ticketEntityDao.findByScreeningAndSeat(getScreeningDto.getId(), getSeatDto.getId()).isPresent();
                 }));
     }
+
 }
+

@@ -1,7 +1,7 @@
 package com.cinema.app.domain.cinema.dto.validator;
 
-import com.cinema.app.domain.address.dto.validator.CreateAddressDtoValidator;
-import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
+import com.cinema.app.domain.address.dto.validator.CreateUpdateAddressDtoValidator;
+import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValidator;
 import com.cinema.app.domain.configs.validator.Validator;
 
@@ -15,27 +15,27 @@ import java.util.Map;
  */
 
 
-public class CreateCinemaDtoValidator implements Validator<CreateCinemaDto> {
+public class CreateUpdateCinemaDtoValidator implements Validator<CreateUpdateCinemaDto> {
 
     @Override
-    public Map<String, String> validate(CreateCinemaDto createCinemaDto) {
+    public Map<String, String> validate(CreateUpdateCinemaDto createUpdateCinemaDto) {
         var errors = new HashMap<String, String>();
 
-        if(createCinemaDto == null) {
+        if(createUpdateCinemaDto == null) {
             errors.put("create cinema dto","is null");
             return errors;
         }
 
-        if(createCinemaDto.getCreateAddressDto() == null) {
+        if(createUpdateCinemaDto.getCreateAddressDto() == null) {
             errors.put("create address dto","is null");
         } else {
-            errors.putAll(new CreateAddressDtoValidator().validate(createCinemaDto.getCreateAddressDto()));
+            errors.putAll(new CreateUpdateAddressDtoValidator().validate(createUpdateCinemaDto.getCreateAddressDto()));
         }
 
-        if(createCinemaDto.getCinemaRoomDtos() == null) {
+        if(createUpdateCinemaDto.getCinemaRoomDtos() == null) {
             errors.put("cinema room dtos","are null");
         } else {
-            var cinemaRoomDtos = createCinemaDto.getCinemaRoomDtos();
+            var cinemaRoomDtos = createUpdateCinemaDto.getCinemaRoomDtos();
 
             if(cinemaRoomDtos.isEmpty()) {
                 errors.put("cinema room dtos","is empty");
@@ -44,9 +44,9 @@ public class CreateCinemaDtoValidator implements Validator<CreateCinemaDto> {
             }
         }
 
-        if (createCinemaDto.getName() == null) {
+        if (createUpdateCinemaDto.getName() == null) {
             errors.put("cinema room name", "is null");
-        } else if (!createCinemaDto.getName().matches("[\\w\\s\\-]{3,30}+")) {
+        } else if (!createUpdateCinemaDto.getName().matches("[\\w\\s\\-]{3,30}+")) {
             errors.put("cinema name", "have wrong format");
         }
 

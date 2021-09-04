@@ -2,7 +2,7 @@ package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.movie.Movie;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
@@ -41,7 +41,7 @@ public class MoviesServiceTest {
 
         var title = "Greys Anatomy";
 
-        var movie = CreateMovieDto.builder()
+        var movie = CreateUpdateMovieDto.builder()
                 .title(title)
                 .length(78)
                 .movieGenre(MovieGenre.ACTION)
@@ -67,7 +67,7 @@ public class MoviesServiceTest {
         var movieGenre = MovieGenre.ACTION;
         var premiereDate = LocalDate.now().minusYears(3);
 
-        var createMovieDto = CreateMovieDto.builder()
+        var createMovieDto = CreateUpdateMovieDto.builder()
                 .title(title)
                 .length(length)
                 .movieGenre(movieGenre)

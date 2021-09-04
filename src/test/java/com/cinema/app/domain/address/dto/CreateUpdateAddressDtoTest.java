@@ -1,12 +1,11 @@
 package com.cinema.app.domain.address.dto;
 
 import com.cinema.app.domain.address.Address;
-import com.cinema.app.domain.address.dto.CreateAddressDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class CreateAddressDtoTest {
+public class CreateUpdateAddressDtoTest {
 
 
     @Test
@@ -18,7 +17,7 @@ public class CreateAddressDtoTest {
         var houseNumber = "32/5";
         var zipCode = "62-200";
 
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .city(city)
                 .street(street)
                 .zipCode(zipCode)

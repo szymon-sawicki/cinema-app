@@ -1,17 +1,10 @@
 package com.cinema.app.infrastructure.routing;
 
 import com.cinema.app.application.service.CinemasService;
-import com.cinema.app.application.service.exception.CinemaServiceException;
-import com.cinema.app.domain.cinema.dto.CreateCinemaDto;
+import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.infrastructure.configs.JsonTransformer;
-import com.cinema.app.infrastructure.routing.dto.ResponseDto;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Locale;
 
 import static spark.Spark.*;
 
@@ -33,7 +26,7 @@ public class CinemaRouting {
 
                     post("",
                             (request, response) -> {
-                                var createCinemaDto = gson.fromJson(request.body(), CreateCinemaDto.class);
+                                var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
                                 return cinemasService.addCinema(createCinemaDto);
                             }, new JsonTransformer());
 

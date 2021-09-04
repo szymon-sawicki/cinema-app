@@ -3,9 +3,9 @@ package com.cinema.app.application.service;
 import com.cinema.app.application.service.exception.ScreeningsServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.movie.MovieUtils;
-import com.cinema.app.domain.screening.dto.CreateScreeningDto;
+import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
-import com.cinema.app.domain.screening.dto.validator.CreateScreeningDtoValidator;
+import com.cinema.app.domain.screening.dto.validator.CreateUpdateScreeningDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
@@ -29,19 +29,21 @@ public class ScreeningsService {
     private final ScreeningEntityDao screeningEntityDao;
     private final ScreeningInfoDao screeningInfoDao;
 
-    /*
-        select c.name as cinemaName, ... where c.name like %:expr% or a.city like %:expr% or a.street like %:expr% ...
-    */
+    /**
+     * method creating new movie's screening in given cinema room
+     * @param createUpdateScreeningDto screening to be created
+     * @return screening inserted into db
+     */
 
-    public GetScreeningDto createScreeening(CreateScreeningDto createScreeningDto) {
-        Validator.validate(new CreateScreeningDtoValidator(), createScreeningDto);
+    public GetScreeningDto createScreeening(CreateUpdateScreeningDto createUpdateScreeningDto) {
+        Validator.validate(new CreateUpdateScreeningDtoValidator(), createUpdateScreeningDto);
 
-        var dateTime = createScreeningDto.getDateTime();
+        var dateTime = createUpdateScreeningDto.getDateTime();
         var time = dateTime.toLocalTime();
-        var createMovieDto = createScreeningDto.getCreateMovieDto();
+        var createMovieDto = createUpdateScreeningDto.getCreateUpdateMovieDto();
         var duration = createMovieDto.getLength();
         var movieEntity = createMovieDto.toMovie().toEntity();
-        var cinemaRoomId = createScreeningDto.getCinemaRoomId();
+        var cinemaRoomId = createUpdateScreeningDto.getCinemaRoomId();
 
         var screeningsFromDay = screeningEntityDao.findAllByCinemaRoomAndDate(cinemaRoomId, dateTime.toLocalDate())
                 .stream()
@@ -58,7 +60,7 @@ public class ScreeningsService {
                         .orElseThrow(() -> new ScreeningsServiceException("cannot add new movie")))
                 .toMovie();
 
-        var screeningToInsert = createScreeningDto
+        var screeningToInsert = createUpdateScreeningDto
                 .toScreening()
                 .withMovieId(MovieUtils.toId.apply(movieFromDb))
                 .toEntity();
@@ -70,6 +72,8 @@ public class ScreeningsService {
                 .toGetScreeningDto();
 
     }
+
+    // private method checking availibility of given screening's time in GetScrreningDto list
 
     private void checkTimeAvailability(LocalTime timeToCheck, Integer movieDuration, List<GetScreeningDto> getScreeningDtos) {
         getScreeningDtos.stream().forEach(getScreeningDto -> {
@@ -83,6 +87,12 @@ public class ScreeningsService {
             }
         });
     }
+
+    /**
+     * method finding all screenings of given movie
+     * @param movieId movie to be searched
+     * @return list with searched movies
+     */
 
     public List<GetScreeningInfoDto> findByMovie(Long movieId) {
         if (movieId == null) {
@@ -98,16 +108,29 @@ public class ScreeningsService {
 
     }
 
+    /**
+     * method finding all screenings in given date
+     * @param date to be searched
+     * @return list of ScreeningInfo view with given date
+     */
+
     public List<GetScreeningInfoDto> findByDate(LocalDate date) {
         if (date == null) {
             throw new ScreeningsServiceException("date is null");
         }
 
-        // TODO impl
-
-        return null;
+        return screeningInfoDao.findByDate(date)
+                .stream()
+                .map(ScreeningInfo::toGetScreeningInfoDto)
+                .toList();
 
     }
+
+    /**
+     * method finding all screenings of given cinema
+     * @param cinemaId to be searched
+     * @return list of screenings in given cinema
+     */
 
     public List<GetScreeningInfoDto> findByCinema(Long cinemaId) {
         if (cinemaId == null) {
@@ -117,11 +140,17 @@ public class ScreeningsService {
             throw new ScreeningsServiceException("cinema room id is 0 or negative");
         }
 
-        // TODO impl
-
-        return null;
-
+        return screeningInfoDao.findByCinema(cinemaId).stream()
+                .map(ScreeningInfo::toGetScreeningInfoDto)
+                .toList();
     }
+
+    /**
+     * method used to finding screening by given keyword.
+     * searching goes through fields: street, city, cinema name, cinema room name, movie title
+     * @param keyword to be searched
+     * @return screenings matching keyword
+     */
 
     public List<GetScreeningInfoDto> findByKeyword(String keyword) {
         if(keyword == null) {
@@ -133,8 +162,4 @@ public class ScreeningsService {
                 .map(ScreeningInfo::toGetScreeningInfoDto)
                 .toList();
     }
-
-
-
-
 }

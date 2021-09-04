@@ -1,6 +1,6 @@
 package com.cinema.app.domain.address.dto.validator;
 
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.configs.validator.Validator;
 
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import java.util.Map;
  * @see Validator
  */
 
-public class CreateAddressDtoValidator implements Validator<CreateAddressDto> {
+public class CreateUpdateAddressDtoValidator implements Validator<CreateUpdateAddressDto> {
 
     @Override
-    public Map<String, String> validate(CreateAddressDto createAddressDto) {
+    public Map<String, String> validate(CreateUpdateAddressDto createAddressDto) {
 
         var errors = new HashMap<String, String>();
 

@@ -1,21 +1,20 @@
 package com.cinema.app.domain.address.dto.validator;
 
-import com.cinema.app.domain.address.dto.CreateAddressDto;
+import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CreateAddressDtoValidatorTest {
+public class CreateUpdateAddressDtoValidatorTest {
 
     @Test
     @DisplayName("when create address dto is null")
     public void test1() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
 
         assertThatThrownBy(() -> Validator.validate(createAddressDtoValidator,null))
                 .isInstanceOf(ValidatorException.class)
@@ -26,8 +25,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when street have wrong format")
     public void test2() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .street("][dddfvfd]")
                 .build();
 
@@ -40,8 +39,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when street have good format")
     public void test3() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .street("Hermann Gebauer Strasse")
                 .build();
 
@@ -53,8 +52,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when house number contains illegal characters")
     public void test4() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .houseNumber("23*&^%")
                 .build();
 
@@ -67,8 +66,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when city is too short")
     public void test5() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .city("sa")
                 .build();
 
@@ -83,8 +82,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when city contains illegal characters")
     public void test6() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .city("&%$ alesławice")
                 .build();
 
@@ -97,8 +96,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when zip code is correct")
     public void test7() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .zipCode("62-200")
                 .build();
 
@@ -111,8 +110,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when city is correct")
     public void test8() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .city("Gorzkie Pole")
                 .build();
 
@@ -126,8 +125,8 @@ public class CreateAddressDtoValidatorTest {
     @Test
     @DisplayName("when zip code is not correct")
     public void test9() {
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .zipCode("hem")
                 .build();
 
@@ -141,8 +140,8 @@ public class CreateAddressDtoValidatorTest {
     @DisplayName("when address is correct")
     public void test10() {
 
-        var createAddressDtoValidator = new CreateAddressDtoValidator();
-        var createAddressDto = CreateAddressDto.builder()
+        var createAddressDtoValidator = new CreateUpdateAddressDtoValidator();
+        var createAddressDto = CreateUpdateAddressDto.builder()
                 .zipCode("956-95")
                 .city("Prague")
                 .street("Main Street")

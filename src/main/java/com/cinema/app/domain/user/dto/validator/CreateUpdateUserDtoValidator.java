@@ -1,15 +1,15 @@
 package com.cinema.app.domain.user.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
-import com.cinema.app.domain.user.dto.CreateUserDto;
+import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateUserDtoValidator implements Validator<CreateUserDto> {
+public class CreateUpdateUserDtoValidator implements Validator<CreateUpdateUserDto> {
     @Override
-    public Map<String, String> validate(CreateUserDto createUserDto) {
+    public Map<String, String> validate(CreateUpdateUserDto createUserDto) {
 
         var errors = new HashMap<String, String>();
 

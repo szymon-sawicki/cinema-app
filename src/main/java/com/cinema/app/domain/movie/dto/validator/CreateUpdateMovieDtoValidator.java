@@ -1,43 +1,43 @@
 package com.cinema.app.domain.movie.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateMovieDtoValidator implements Validator<CreateMovieDto> {
+public class CreateUpdateMovieDtoValidator implements Validator<CreateUpdateMovieDto> {
 
     @Override
-    public Map<String, String> validate(CreateMovieDto createMovieDto) {
+    public Map<String, String> validate(CreateUpdateMovieDto createUpdateMovieDto) {
         var errors = new HashMap<String, String>();
 
-        if (createMovieDto == null) {
+        if (createUpdateMovieDto == null) {
             errors.put("create movie dto", "is null");
             return errors;
         }
 
-        if (createMovieDto.getTitle() == null) {
+        if (createUpdateMovieDto.getTitle() == null) {
             errors.put("title", "is null");
-        } else if (!createMovieDto.getTitle().matches("[\\w\\s\\-'.,]{2,50}+")) {
+        } else if (!createUpdateMovieDto.getTitle().matches("[\\w\\s\\-'.,]{2,50}+")) {
             errors.put("title", "have wrong format");
         }
 
-        if (createMovieDto.getMovieGenre() == null) {
+        if (createUpdateMovieDto.getMovieGenre() == null) {
             errors.put("movie genre", "is null");
         }
 
-        if (createMovieDto.getPremiereDate() == null) {
+        if (createUpdateMovieDto.getPremiereDate() == null) {
             errors.put("premiere date", "is null");
-        } else if (createMovieDto.getPremiereDate().isAfter(LocalDate.now())) {
+        } else if (createUpdateMovieDto.getPremiereDate().isAfter(LocalDate.now())) {
             errors.put("premiere date", "is in the future");
         }
-        if (createMovieDto.getLength() == null) {
+        if (createUpdateMovieDto.getLength() == null) {
             errors.put("length","is null");
-        } else if (createMovieDto.getLength() <= 0) {
+        } else if (createUpdateMovieDto.getLength() <= 0) {
             errors.put("length", "is equal or smaller than 0");
-        } else if (createMovieDto.getLength() > 240) {
+        } else if (createUpdateMovieDto.getLength() > 240) {
             errors.put("length", "is too big");
         }
 

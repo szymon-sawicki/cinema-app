@@ -1,9 +1,9 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.ScreeningsServiceException;
-import com.cinema.app.domain.movie.dto.CreateMovieDto;
+import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
-import com.cinema.app.domain.screening.dto.CreateScreeningDto;
+import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
@@ -62,9 +62,9 @@ public class ScreeningsServiceTest {
                 .build();
 
 
-        var screeningToInsert = CreateScreeningDto.builder()
+        var screeningToInsert = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(cinemaRoomId)
-                .createMovieDto(CreateMovieDto.builder().title(movieTitle).length(90).build())
+                .createUpdateMovieDto(CreateUpdateMovieDto.builder().title(movieTitle).length(90).build())
                 .dateTime(LocalDateTime.of(2021,10,1,18,30))
                 .build();
 
@@ -106,9 +106,9 @@ public class ScreeningsServiceTest {
                 .build();
 
 
-        var screeningToInsert = CreateScreeningDto.builder()
+        var screeningToInsert = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(cinemaRoomId)
-                .createMovieDto(CreateMovieDto.builder().title(movieTitle).length(90).build())
+                .createUpdateMovieDto(CreateUpdateMovieDto.builder().title(movieTitle).length(90).build())
                 .dateTime(LocalDateTime.of(2021,10,1,18,30))
                 .build();
 
@@ -150,9 +150,9 @@ public class ScreeningsServiceTest {
                 .build();
 
 
-        var createScreeningDto = CreateScreeningDto.builder()
+        var createScreeningDto = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(cinemaRoomId)
-                .createMovieDto(CreateMovieDto.builder().title(movieTitle).length(90).build())
+                .createUpdateMovieDto(CreateUpdateMovieDto.builder().title(movieTitle).length(90).build())
                 .dateTime(LocalDateTime.of(2021,10,1,20,00))
                 .build();
 
