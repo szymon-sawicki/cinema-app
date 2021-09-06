@@ -24,6 +24,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 
+/**
+ * service class realising business logic of tickets
+ * @Author Szymon Sawicki
+ */
 
 public class TicketsService {
 
@@ -110,6 +114,26 @@ public class TicketsService {
                 .collect(Collectors.toMap(seat -> seat.getId(), getSeatDto -> {
                     return ticketEntityDao.findByScreeningAndSeat(getScreeningDto.getId(), getSeatDto.getId()).isPresent();
                 }));
+    }
+
+    /**
+     * method used to delete ticket
+     * @param ticketId ticket to be deleted
+     * @return deleted ticket
+     */
+
+    public GetTicketDto deleteTicket (Long ticketId) {
+        if(ticketId == null) {
+            throw new TicketsServiceException("ticket id is null");
+        }
+        if(ticketId <= 0) {
+            throw new TicketsServiceException("ticket id is null or negative");
+        }
+
+        return ticketEntityDao.deleteById(ticketId)
+                .orElseThrow(() -> new TicketsServiceException("cannot delete ticket"))
+                .toTicket()
+                .toGetTicketDto();
     }
 
 }
