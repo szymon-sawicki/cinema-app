@@ -3,7 +3,7 @@ package com.cinema.app.domain.ticket.dto.validator;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
 import com.cinema.app.domain.seat.dto.GetSeatDto;
-import com.cinema.app.domain.ticket.dto.CreateUpdateTicketDto;
+import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
@@ -23,7 +23,7 @@ public class CreateTicketValidatorTest {
     @DisplayName("when create ticket dto is null")
     public void test1() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
         assertThatThrownBy(() -> Validator.validate(createTicketValidator, null))
                 .isInstanceOf(ValidatorException.class)
@@ -35,9 +35,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when screening id is null")
     public void test2() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .screeningId(null)
                 .build();
 
@@ -52,9 +52,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when screening id is negative")
     public void test3() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .screeningId(-5L)
                 .build();
 
@@ -69,9 +69,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when price is negative")
     public void test4() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .price(new BigDecimal("-60"))
                 .build();
 
@@ -85,9 +85,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when create user dto is null")
     public void test5() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .createUserDto(null)
                 .build();
 
@@ -100,9 +100,9 @@ public class CreateTicketValidatorTest {
     @Test
     @DisplayName("when seats are null")
     public void test6() {
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .seats(null)
                 .build();
 
@@ -116,9 +116,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when price is null")
     public void test8() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .price(null)
                 .build();
 
@@ -132,9 +132,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when discount is greater than 100")
     public void test9() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .discount(125)
                 .build();
 
@@ -148,9 +148,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when discount is negative")
     public void test10() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .discount(-30)
                 .build();
 
@@ -164,9 +164,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when discount is null")
     public void test11() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .discount(null)
                 .build();
 
@@ -180,9 +180,9 @@ public class CreateTicketValidatorTest {
     @DisplayName("when status is null")
     public void test12() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .status(null)
                 .build();
 
@@ -196,7 +196,7 @@ public class CreateTicketValidatorTest {
     @DisplayName("when ticket is correct")
     public void test13() {
 
-        var createTicketValidator = new CreateUpdateTicketDtoValidator();
+        var createTicketValidator = new CreateTicketDtoValidator();
 
         var user = CreateUpdateUserDto.builder()
                 .birthDate(LocalDate.now().minusYears(30))
@@ -207,7 +207,7 @@ public class CreateTicketValidatorTest {
                 .gender(Gender.MALE)
                 .build();
 
-        var ticket = CreateUpdateTicketDto.builder()
+        var ticket = CreateTicketDto.builder()
                 .price(new BigDecimal("25"))
                 .discount(20)
                 .screeningId(4L)

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Collections;
 
-public class CreateUpdateTicketDtoTest {
+public class CreateTicketDtoTest {
 
     @Test
     @DisplayName("when conversion to ticket is correct")
@@ -23,7 +23,7 @@ public class CreateUpdateTicketDtoTest {
         var userId = 3L;
         var createUserDto = CreateUpdateUserDto.builder().build();
 
-        var createTicketDto = CreateUpdateTicketDto.builder()
+        var createTicketDto = CreateTicketDto.builder()
                 .price(price)
                 .discount(discount)
                 .screeningId(screeningId)

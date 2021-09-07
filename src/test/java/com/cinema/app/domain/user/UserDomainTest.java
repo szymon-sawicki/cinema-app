@@ -2,7 +2,6 @@ package com.cinema.app.domain.user;
 
 import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.type.Gender;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -82,7 +81,7 @@ public class UserDomainTest {
                 .build();
 
 
-        assertThat(user.withCreationDateToday())
+        assertThat(user.withCreationDate(today))
                 .isEqualTo(expectedUser);
 
     }

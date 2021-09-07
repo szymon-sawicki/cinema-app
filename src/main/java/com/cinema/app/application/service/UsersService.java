@@ -3,12 +3,15 @@ package com.cinema.app.application.service;
 import com.cinema.app.application.service.exception.TicketsServiceException;
 import com.cinema.app.application.service.exception.UsersServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
+import com.cinema.app.domain.user.UserUtils;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.dto.validator.CreateUpdateUserDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.UserEntityDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +35,13 @@ public class UsersService {
         Validator.validate(new CreateUpdateUserDtoValidator(),createUpdateUserDto);
         checkMailAndUsernameAvailability(createUpdateUserDto);
 
-        if(!createUpdateUserDto.getPassword().equals(createUpdateUserDto.equals(createUpdateUserDto.getPasswordConfirmation()))) {
+        if(!createUpdateUserDto.getPassword().equals(createUpdateUserDto.getPasswordConfirmation())) {
             throw new TicketsServiceException("password and confirmation doesn't match");
         }
 
         return userEntityDao.save(createUpdateUserDto
                         .toUser()
-                        .withCreationDateToday()
+                        .withCreationDate(LocalDate.now())
                         .toEntity())
                 .orElseThrow(() -> new UsersServiceException("cannot add new user"))
                 .toUser()
@@ -62,7 +65,14 @@ public class UsersService {
         }
         Validator.validate(new CreateUpdateUserDtoValidator(),createUpdateUserDto);
 
-        return userEntityDao.update(userId,createUpdateUserDto.toUser().toEntity())
+        var userToUpdate = userEntityDao.findById(userId)
+                .orElseThrow(() -> new UsersServiceException("cannot find user"))
+                .toUser();
+
+        return userEntityDao.update(userId,createUpdateUserDto
+                        .toUser()
+                        .withCreationDate(UserUtils.toCreationDate.apply(userToUpdate))
+                        .toEntity())
                 .orElseThrow(() -> new UsersServiceException("cannot update user"))
                 .toUser()
                 .toGetUserDto();
@@ -74,7 +84,7 @@ public class UsersService {
      * @return deleted user
      */
 
-    GetUserDto deleteUser(Long userId) {
+    public GetUserDto deleteUser(Long userId) {
         if(userId == null) {
             throw new UsersServiceException("id is null");
         }

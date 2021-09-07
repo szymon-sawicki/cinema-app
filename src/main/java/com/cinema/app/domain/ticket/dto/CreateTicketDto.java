@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CreateUpdateTicketDto {
+public class CreateTicketDto {
 
 
     Long screeningId;

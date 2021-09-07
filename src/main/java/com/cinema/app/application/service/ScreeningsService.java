@@ -6,6 +6,7 @@ import com.cinema.app.domain.movie.MovieUtils;
 import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import com.cinema.app.domain.screening.dto.validator.CreateUpdateScreeningDtoValidator;
+import com.cinema.app.domain.user.dto.validator.CreateUpdateUserDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
@@ -102,9 +103,10 @@ public class ScreeningsService {
             throw new ScreeningsServiceException("cinema room id is 0 or negative");
         }
 
-        // TODO impl
-
-        return null;
+        return screeningInfoDao.findByMovie(movieId)
+                .stream()
+                .map(ScreeningInfo::toGetScreeningInfoDto)
+                .toList();
 
     }
 
@@ -162,4 +164,47 @@ public class ScreeningsService {
                 .map(ScreeningInfo::toGetScreeningInfoDto)
                 .toList();
     }
+
+    /**
+     * method updating screening in database
+     * @param screeningId screening to update
+     * @param createUpdateScreeningDto updating data
+     * @return updated screening
+     */
+
+    public GetScreeningDto updateScreening(Long screeningId, CreateUpdateScreeningDto createUpdateScreeningDto) {
+        Validator.validate(new CreateUpdateScreeningDtoValidator(),createUpdateScreeningDto);
+
+        if(screeningId == null) {
+            throw new ScreeningsServiceException("screening id is null");
+        }
+        if(screeningId <= 0) {
+            throw new ScreeningsServiceException("screening id is 0 or negative");
+        }
+
+        return screeningEntityDao.update(screeningId,createUpdateScreeningDto.toScreening().toEntity())
+                .orElseThrow(() -> new ScreeningsServiceException("cannot update screening"))
+                .toScreening()
+                .toGetScreeningDto();
+    }
+
+    /**
+     * method used to  delete given screening
+     * @param screeningId screening to delete
+     * @return deleted screening
+     */
+
+    public GetScreeningDto updateScreening(Long screeningId) {
+
+        if(screeningId == null) {
+            throw new ScreeningsServiceException("screening id is null");
+        }
+        if(screeningId <= 0) {
+            throw new ScreeningsServiceException("screening id is 0 or negative");
+        }
+
+        return screeningEntityDao.deleteById(screeningId)
+                .orElseThrow(() -> new ScreeningsServiceException("cannot delete screening"))
+                .toScreening()
+                .toGetScreeningDto();
 }

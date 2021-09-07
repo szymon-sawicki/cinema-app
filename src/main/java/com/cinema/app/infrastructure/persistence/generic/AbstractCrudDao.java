@@ -380,11 +380,13 @@ public abstract class AbstractCrudDao<T, ID> implements CrudDao<T, ID> {
                     .filter(field -> !field.getName().equalsIgnoreCase("id"))
                     .map(field -> {
                         field.setAccessible(true);
+                        var convertedField = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
                         try {
-                            if (field.getType().equals(String.class) || field.getType().equals(LocalDateTime.class) || field.getType().isEnum()) {
-                                return field.getName() + " = '" + field.get(t) + "'";
+                            if (field.getType().equals(String.class) || field.getType().equals(LocalDateTime.class) ||
+                                    field.getType().isEnum() || field.getType().equals(LocalDate.class)) {
+                                return convertedField + " = '" + field.get(t) + "'";
                             }
-                            return field.getName() + " = " + field.get(t).toString();
+                            return convertedField + " = " + field.get(t).toString();
                         } catch (Exception ee) {
                             throw new AbstractCrudDaoException(ee.getMessage());
                         }

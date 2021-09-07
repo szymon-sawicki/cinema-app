@@ -49,6 +49,18 @@ public class Ticket {
                 .build();
     }
 
+    public Ticket withStatus(Status newStatus) {
+        return Ticket.builder()
+                .id(id)
+                .screeningId(screeningId)
+                .userId(userId)
+                .seatId(seatId)
+                .price(price)
+                .discount(discount)
+                .status(newStatus)
+                .build();
+    }
+
     public GetTicketDto toGetTicketDto() {
         return GetTicketDto.builder()
                 .id(id)

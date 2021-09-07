@@ -36,14 +36,15 @@ public class User {
                 .build();
     }
 
-    public User withCreationDateToday() {
+    public User withCreationDate(LocalDate creationDate) {
         return User.builder()
                 .id(id)
                 .username(username)
+                .password(password)
                 .mail(mail)
                 .name(name)
                 .birthDate(birthDate)
-                .creationDate(LocalDate.now())
+                .creationDate(creationDate)
                 .gender(gender)
                 .build();
     }
@@ -54,6 +55,7 @@ public class User {
                 .username(username)
                 .mail(mail)
                 .name(name)
+                .password(password)
                 .birthDate(birthDate)
                 .creationDate(creationDate)
                 .gender(gender)

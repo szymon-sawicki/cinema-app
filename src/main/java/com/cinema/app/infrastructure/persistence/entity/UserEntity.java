@@ -2,10 +2,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.user.User;
 import com.cinema.app.domain.user.type.Gender;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @Setter
 @EqualsAndHashCode
+@ToString
 
 public class UserEntity {
 
@@ -34,6 +32,7 @@ public class UserEntity {
                 .mail(mail)
                 .name(name)
                 .birthDate(birthDate)
+                .password(password)
                 .creationDate(creationDate)
                 .gender(gender)
                 .build();

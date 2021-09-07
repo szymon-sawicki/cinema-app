@@ -9,7 +9,7 @@ import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import com.cinema.app.domain.seat.dto.GetSeatDto;
-import com.cinema.app.domain.ticket.dto.CreateUpdateTicketDto;
+import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
@@ -198,7 +198,7 @@ public class App {
                 .id(15L)
                 .build();
 
-        var ticket1 = CreateUpdateTicketDto.builder()
+        var ticket1 = CreateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(1L)
@@ -207,7 +207,7 @@ public class App {
                 .price(new BigDecimal("25"))
                 .build();
 
-        var ticket2 = CreateUpdateTicketDto.builder()
+        var ticket2 = CreateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
@@ -216,7 +216,7 @@ public class App {
                 .price(new BigDecimal("25"))
                 .build();
 
-        var ticket3 = CreateUpdateTicketDto.builder()
+        var ticket3 = CreateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
                 .screeningId(2L)
@@ -227,7 +227,9 @@ public class App {
 
   //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
 
-     System.out.println(ticketsService.createTickets(ticket1));
+        System.out.println(ticketsService.deleteTicket(1L));
+
+
  //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());
 
 

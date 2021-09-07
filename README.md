@@ -36,9 +36,9 @@ In the future App class will be starting rest api controllers.
 
 ## Some statistics
 
-Progress in development: ~70%  
-Lines of code: 7500 
-Classes: 121  
+Progress in development: ~80%  
+Lines of code: 7700
+Classes: 127
 Unit test: 121  
 Test-coverage: ~65% 
 
@@ -78,13 +78,22 @@ Finding of screening operates on view that contains most important info about sc
 - finding screening by movie
 - finding screening by date  
 - finding screening by cinema  
+- deleting screening  
+- updating screening  
 
-Tickets service:
+Tickets service:  
 
 - creating tickets with availability checking for given screening
 - generating map with booked seat of given screening
+- deleting ticket  
 
-## NEXT TASKS TO DO
+Users service:  
+
+- creating new user  
+- updating user  
+- deleting user  
+
+## NEXT TASKS TO DO  
 
 - implement all missing methods in services and test them  
 - write all javadoc stubs  
