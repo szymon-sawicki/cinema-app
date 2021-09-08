@@ -1,7 +1,9 @@
 package com.cinema.app.domain.user;
 
+import com.cinema.app.domain.user.dto.CreateUserResponseDto;
 import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.persistence.entity.UserEntity;
 import lombok.*;
 
@@ -20,6 +22,7 @@ public class User {
     String password;
     String mail;
     String name;
+    Role role;
     LocalDate birthDate;
     LocalDate creationDate;
     Gender gender;
@@ -36,6 +39,13 @@ public class User {
                 .build();
     }
 
+    public CreateUserResponseDto toCreateUserResponseDto() {
+        return CreateUserResponseDto.builder()
+                .id(id)
+                .username(username)
+                .build();
+    }
+
     public User withCreationDate(LocalDate creationDate) {
         return User.builder()
                 .id(id)
@@ -43,6 +53,21 @@ public class User {
                 .password(password)
                 .mail(mail)
                 .name(name)
+                .role(role)
+                .birthDate(birthDate)
+                .creationDate(creationDate)
+                .gender(gender)
+                .build();
+    }
+
+    public User withPassword(String newPassword) {
+        return User.builder()
+                .id(id)
+                .username(username)
+                .password(newPassword)
+                .mail(mail)
+                .name(name)
+                .role(role)
                 .birthDate(birthDate)
                 .creationDate(creationDate)
                 .gender(gender)
@@ -55,6 +80,7 @@ public class User {
                 .username(username)
                 .mail(mail)
                 .name(name)
+                .role(role)
                 .password(password)
                 .birthDate(birthDate)
                 .creationDate(creationDate)

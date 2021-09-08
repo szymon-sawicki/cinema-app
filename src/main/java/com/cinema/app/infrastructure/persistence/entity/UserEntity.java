@@ -2,6 +2,7 @@ package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.user.User;
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -21,6 +22,7 @@ public class UserEntity {
     String password;
     String mail;
     String name;
+    Role role;
     LocalDate birthDate;
     LocalDate creationDate;
     Gender gender;
@@ -32,6 +34,7 @@ public class UserEntity {
                 .mail(mail)
                 .name(name)
                 .birthDate(birthDate)
+                .role(role)
                 .password(password)
                 .creationDate(creationDate)
                 .gender(gender)

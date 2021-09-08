@@ -1,6 +1,7 @@
 package com.cinema.app.domain.user.dto.validator;
 
 import com.cinema.app.domain.configs.validator.Validator;
+import com.cinema.app.domain.configs.validator.ValidatorException;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 
 import java.time.LocalDate;
@@ -22,6 +23,10 @@ public class CreateUpdateUserDtoValidator implements Validator<CreateUpdateUserD
             errors.put("name", "is null");
         } else if (!createUserDto.getName().matches("[\\w\\s\\-'.]{5,20}+")) {
             errors.put("name", "have wrong format");
+        }
+
+        if(createUserDto.getRole() == null) {
+            errors.put("role","is null");
         }
 
         if (createUserDto.getPassword() == null) {

@@ -13,6 +13,7 @@ import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
@@ -140,17 +141,21 @@ public class App {
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now().minusYears(30))
                 .mail("andi@andi.com")
+                .role(Role.USER)
                 .username("andielo")
                 .password("123467899")
+                .passwordConfirmation("123467899")
                 .build();
 
         var user2 = CreateUpdateUserDto.builder()
                 .name("Michael")
                 .gender(Gender.MALE)
+                .role(Role.ADMIN)
                 .birthDate(LocalDate.now().minusYears(30))
                 .mail("michi@ole.com")
                 .username("michi123")
                 .password("123467899")
+                .passwordConfirmation("123467899")
                 .build();
 
         var screening1 = CreateUpdateScreeningDto.builder()
@@ -226,8 +231,8 @@ public class App {
                 .build();
 
   //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
-
-        System.out.println(ticketsService.deleteTicket(1L));
+//        System.out.println(usersService.createUser(user1));
+        System.out.println(usersService.createUser(user2));
 
 
  //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());

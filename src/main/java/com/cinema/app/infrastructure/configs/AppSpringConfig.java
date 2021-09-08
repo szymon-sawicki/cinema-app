@@ -117,9 +117,10 @@ public class AppSpringConfig {
                 create table if not exists users (
                 id integer primary key auto_increment,
                 username varchar(20) not null,
-                password varchar(30) not null,
+                password varchar(100) not null,
                 name varchar(30) not null,
                 mail varchar(50) not null,
+                role varchar(10) not null,
                 birth_date date,
                 creation_date date not null,
                 gender varchar(15))

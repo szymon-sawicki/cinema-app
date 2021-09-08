@@ -1,10 +1,12 @@
 package com.cinema.app.application.service;
 
+import com.cinema.app.application.service.configs.AppPasswordEncoder;
 import com.cinema.app.application.service.exception.TicketsServiceException;
 import com.cinema.app.application.service.exception.UsersServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.user.UserUtils;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
+import com.cinema.app.domain.user.dto.CreateUserResponseDto;
 import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.dto.validator.CreateUpdateUserDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.UserEntityDao;
@@ -31,7 +33,7 @@ public class UsersService {
      * @return created user
      */
 
-    public GetUserDto createUser(CreateUpdateUserDto createUpdateUserDto) {
+    public CreateUserResponseDto createUser(CreateUpdateUserDto createUpdateUserDto) {
         Validator.validate(new CreateUpdateUserDtoValidator(),createUpdateUserDto);
         checkMailAndUsernameAvailability(createUpdateUserDto);
 
@@ -39,13 +41,17 @@ public class UsersService {
             throw new TicketsServiceException("password and confirmation doesn't match");
         }
 
-        return userEntityDao.save(createUpdateUserDto
-                        .toUser()
-                        .withCreationDate(LocalDate.now())
-                        .toEntity())
+
+        var userToInsert = createUpdateUserDto.toUser()
+                .withCreationDate(LocalDate.now())
+                .withPassword(AppPasswordEncoder.encode(createUpdateUserDto.getPassword()))
+                .toEntity();
+
+
+        return userEntityDao.save(userToInsert)
                 .orElseThrow(() -> new UsersServiceException("cannot add new user"))
                 .toUser()
-                .toGetUserDto();
+                .toCreateUserResponseDto();
 
     }
 
@@ -68,6 +74,7 @@ public class UsersService {
         var userToUpdate = userEntityDao.findById(userId)
                 .orElseThrow(() -> new UsersServiceException("cannot find user"))
                 .toUser();
+
 
         return userEntityDao.update(userId,createUpdateUserDto
                         .toUser()

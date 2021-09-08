@@ -37,6 +37,7 @@
         <guava.version>30.0-jre</guava.version>
         <evo-inflector.version>1.2.2</evo-inflector.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <bcrypt.version>0.9.0</bcrypt.version>
     </properties>
 
     <dependencies>
@@ -144,6 +145,11 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
             <version>${spark-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>${bcrypt.version}</version>
         </dependency>
     </dependencies>
 

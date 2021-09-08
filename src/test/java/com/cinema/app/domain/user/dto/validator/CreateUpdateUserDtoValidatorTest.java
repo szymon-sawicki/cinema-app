@@ -4,6 +4,7 @@ import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.configs.validator.ValidatorException;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -284,6 +285,7 @@ public class CreateUpdateUserDtoValidatorTest {
                 .username("aleksandro")
                 .password("eeeeellss")
                 .name("peterinko")
+                .role(Role.USER)
                 .mail("aleksandro@peterinko.pl")
                 .gender(Gender.MALE)
                 .build();
@@ -292,6 +294,22 @@ public class CreateUpdateUserDtoValidatorTest {
 
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(()->Validator.validate(validator,user));
 
+    }
+
+    @Test
+    @DisplayName("when role is null")
+    public void test19() {
+
+        var user = CreateUpdateUserDto.builder()
+                .role(null)
+                .build();
+
+        var createUserDtoValidator = new CreateUpdateUserDtoValidator();
+
+        Assertions.assertThatThrownBy(() -> Validator.validate(createUserDtoValidator,user))
+                .isInstanceOf(ValidatorException.class)
+                .hasMessageStartingWith("[VALIDATION ERRORS]:")
+                .hasMessageContaining("role: is null");
     }
 
 }

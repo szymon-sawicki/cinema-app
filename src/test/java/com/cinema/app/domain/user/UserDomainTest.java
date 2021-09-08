@@ -1,5 +1,6 @@
 package com.cinema.app.domain.user;
 
+import com.cinema.app.domain.user.dto.CreateUserResponseDto;
 import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.type.Gender;
 import org.junit.jupiter.api.DisplayName;
@@ -83,6 +84,78 @@ public class UserDomainTest {
 
         assertThat(user.withCreationDate(today))
                 .isEqualTo(expectedUser);
+    }
 
+    @Test
+    @DisplayName("when new password is given")
+    public void test3() {
+        var id = 3L;
+        var username = "Leon";
+        var mail = "leon@okomo.com";
+        var name = "Leon Harris";
+        var password = "elcjdc";
+        var newPassword = "kcsdnlc";
+        var birthDate = LocalDate.now().minusYears(30);
+        var gender = Gender.MALE;
+        var today = LocalDate.now();
+
+        var user = User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .password(password)
+                .creationDate(today)
+                .birthDate(birthDate)
+                .gender(gender)
+                .build();
+
+
+        var expectedUser = User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .password(newPassword)
+                .birthDate(birthDate)
+                .creationDate(today)
+                .gender(gender)
+                .build();
+
+        assertThat(user.withPassword(newPassword))
+                .isEqualTo(expectedUser);
+    }
+
+    @Test
+    @DisplayName("when coversion to CreateUserResponseDto is correct")
+    public void test4() {
+        var id = 3L;
+        var username = "Leon";
+        var mail = "leon@okomo.com";
+        var name = "Leon Harris";
+        var password = "elcjdc";
+        var newPassword = "kcsdnlc";
+        var birthDate = LocalDate.now().minusYears(30);
+        var gender = Gender.MALE;
+        var today = LocalDate.now();
+
+        var user = User.builder()
+                .id(id)
+                .username(username)
+                .mail(mail)
+                .name(name)
+                .password(password)
+                .creationDate(today)
+                .birthDate(birthDate)
+                .gender(gender)
+                .build();
+
+        var expectedDto = CreateUserResponseDto.builder()
+                .id(id)
+                .username(username)
+                .build();
+
+        assertThat(user.toCreateUserResponseDto())
+                .isEqualTo(expectedDto);
     }
 }

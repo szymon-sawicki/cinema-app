@@ -196,10 +196,10 @@ public class ScreeningsService {
 
     public GetScreeningDto updateScreening(Long screeningId) {
 
-        if(screeningId == null) {
+        if (screeningId == null) {
             throw new ScreeningsServiceException("screening id is null");
         }
-        if(screeningId <= 0) {
+        if (screeningId <= 0) {
             throw new ScreeningsServiceException("screening id is 0 or negative");
         }
 
@@ -207,4 +207,5 @@ public class ScreeningsService {
                 .orElseThrow(() -> new ScreeningsServiceException("cannot delete screening"))
                 .toScreening()
                 .toGetScreeningDto();
+    }
 }

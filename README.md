@@ -37,9 +37,9 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~80%  
-Lines of code: 7700
-Classes: 127
-Unit test: 121  
+Lines of code: 8000
+Classes: 131
+Unit test: 130  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -89,7 +89,7 @@ Tickets service:
 
 Users service:  
 
-- creating new user  
+- creating new user with password encryption
 - updating user  
 - deleting user  
 
@@ -97,5 +97,5 @@ Users service:
 
 - implement all missing methods in services and test them  
 - write all javadoc stubs  
-- REST Api  
+- REST API with security
 - postman documentation
