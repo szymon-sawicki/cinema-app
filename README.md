@@ -37,9 +37,9 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~80%  
-Lines of code: 8000
+Lines of code: 8100
 Classes: 131
-Unit test: 130  
+Unit test: 140  
 Test-coverage: ~65% 
 
 ## Implemented domain objects
@@ -96,7 +96,7 @@ Users service:
 ## NEXT TASKS TO DO  
 
 - fix deleting cinema !!
-- implement all missing methods in services and test them  
+- write all tests of users service 
 - write all javadoc stubs  
 - REST API with security
 - postman documentation

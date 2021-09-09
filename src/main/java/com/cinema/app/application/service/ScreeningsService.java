@@ -182,7 +182,19 @@ public class ScreeningsService {
             throw new ScreeningsServiceException("screening id is 0 or negative");
         }
 
-        return screeningEntityDao.update(screeningId,createUpdateScreeningDto.toScreening().toEntity())
+        var movieDto = createUpdateScreeningDto.getCreateUpdateMovieDto();
+
+        var movieFromDb = movieEntityDao.findByTitle(movieDto.getTitle())
+                .orElseGet(() -> movieEntityDao
+                        .save(movieDto.toMovie().toEntity())
+                        .orElseThrow(() -> new ScreeningsServiceException("cannot add new movie")))
+                .toMovie();
+
+
+        return screeningEntityDao.update(screeningId, createUpdateScreeningDto
+                        .toScreening()
+                        .withMovieId(MovieUtils.toId.apply(movieFromDb))
+                        .toEntity())
                 .orElseThrow(() -> new ScreeningsServiceException("cannot update screening"))
                 .toScreening()
                 .toGetScreeningDto();
@@ -194,7 +206,7 @@ public class ScreeningsService {
      * @return deleted screening
      */
 
-    public GetScreeningDto updateScreening(Long screeningId) {
+    public GetScreeningDto deleteScreening(Long screeningId) {
 
         if (screeningId == null) {
             throw new ScreeningsServiceException("screening id is null");
