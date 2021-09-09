@@ -12,10 +12,7 @@ import com.cinema.app.domain.cinema_room.dto.validator.CreateCinemaRoomDtoValida
 import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
-import com.cinema.app.infrastructure.persistence.dao.AddressEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.CinemaEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +33,7 @@ public class CinemasService {
     private final CinemaRoomEntityDao cinemaRoomEntityDao;
     private final AddressEntityDao addressEntityDao;
     private final SeatEntityDao seatEntityDao;
+    private final ScreeningEntityDao screeningEntityDao;
 
 
     /**
@@ -141,8 +139,8 @@ public class CinemasService {
 
     /**
      *
-     * @param city
-     * @return list of cinemas in taht city
+     * @param city to be search
+     * @return list of cinemas in that city
      */
 
     public List<GetCinemaDto> findByCity(String city) {
@@ -163,7 +161,7 @@ public class CinemasService {
 
     /**
      *
-     * @param name name of cinema ro search
+     * @param name name of cinema to search
      * @return cinema with that name
      */
 
@@ -180,5 +178,39 @@ public class CinemasService {
                 .toCinema()
                 .toGetCinemaDto();
     }
+
+    /**
+     * method deleting cinema with all cinema rooms and seats
+     * @param cinemaId cinema to be deleted
+     * @return deleted cinema
+     */
+
+   /* public GetCinemaDto deleteCinema(Long cinemaId) {
+        if(cinemaId == null) {
+            throw new CinemaServiceException("id is null");
+        }
+        if(cinemaId <= 0) {
+            throw new CinemaServiceException("id is 0 or negative");
+        }
+
+        var cinemaRoomsIds = cinemaRoomEntityDao.findAllIdsFromCinema(cinemaId);
+
+
+        cinemaRoomsIds.forEach(cinemaRoomId->{
+            var seatIdsToDelete = seatEntityDao.findIdsByCinemaRoom(cinemaRoomId);
+            seatEntityDao.deleteAllById(seatIdsToDelete);
+            var screeningsIdsToDelete = screeningEntityDao.findAllIdsByCinemaRoom(cinemaRoomId);
+                screeningEntityDao.deleteAllById(screeningsIdsToDelete);
+
+        });
+
+        cinemaRoomEntityDao.deleteAllById(cinemaRoomsIds);
+
+        return cinemaEntityDao.deleteById(cinemaId)
+                .orElseThrow(() -> new CinemaServiceException("cannot delete cinema"))
+                .toCinema()
+                .toGetCinemaDto();
+
+    }*/
 
 }

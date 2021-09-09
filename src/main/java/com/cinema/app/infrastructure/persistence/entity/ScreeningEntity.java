@@ -1,10 +1,7 @@
 package com.cinema.app.infrastructure.persistence.entity;
 
 import com.cinema.app.domain.screening.Screening;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SuperBuilder
 @Setter
+@Getter
 @EqualsAndHashCode
 
 public class ScreeningEntity {

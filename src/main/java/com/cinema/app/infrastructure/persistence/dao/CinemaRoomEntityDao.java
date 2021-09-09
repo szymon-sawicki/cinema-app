@@ -9,5 +9,6 @@ import java.util.List;
 public interface CinemaRoomEntityDao extends CrudDao<CinemaRoomEntity, Long> {
 
     List<CinemaRoomEntity> findAllRoomsFromCinema(Long cinemaId);
+    List<Long> findAllIdsFromCinema(Long cinemaId);
 
 }

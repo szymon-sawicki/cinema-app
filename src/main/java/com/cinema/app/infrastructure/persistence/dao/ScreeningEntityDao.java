@@ -11,5 +11,6 @@ public interface ScreeningEntityDao extends CrudDao<ScreeningEntity,Long> {
 
     List<ScreeningEntity> findAllByMovieId(Long movieId);
     List<ScreeningEntity> findAllByCinemaRoomAndDate(Long cinemaRoomId, LocalDate date);
+    List<Long> findAllIdsByCinemaRoom(Long cinemaRoomId);
 
 }

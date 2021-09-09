@@ -20,7 +20,6 @@ public class CinemaRouting {
 
     public void routes() {
 
-        // TODO jak udokumentować API
 
         path("/cinemas", () -> {
 

@@ -40,6 +40,8 @@ public class App {
         var ticketsService = context.getBean("ticketsService", TicketsService.class);
         var usersService = context.getBean("usersService", UsersService.class);
         var userEntityDaoImpl = context.getBean("userEntityDaoImpl", UserEntityDaoImpl.class);
+        var cinemaRoomEntityDao = context.getBean("cinemaRoomEntityDaoImpl",CinemaRoomEntityDaoImpl.class);
+        var seatEntityDao = context.getBean("seatEntityDaoImpl",SeatEntityDaoImpl.class);
 
         // SAMPLE DATA TO TEST
 
@@ -232,7 +234,7 @@ public class App {
 
   //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
 //        System.out.println(usersService.createUser(user1));
-        System.out.println(usersService.createUser(user2));
+
 
 
  //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());

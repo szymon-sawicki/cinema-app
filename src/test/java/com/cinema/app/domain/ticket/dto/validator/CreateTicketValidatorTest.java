@@ -7,6 +7,7 @@ import com.cinema.app.domain.ticket.dto.CreateTicketDto;
 import com.cinema.app.domain.ticket.type.Status;
 import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -109,7 +110,7 @@ public class CreateTicketValidatorTest {
         assertThatThrownBy(() -> Validator.validate(createTicketValidator, ticket))
                 .isInstanceOf(ValidatorException.class)
                 .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("seat id", "is null");
+                .hasMessageContaining("seats", "is null");
     }
 
     @Test
@@ -201,6 +202,7 @@ public class CreateTicketValidatorTest {
         var user = CreateUpdateUserDto.builder()
                 .birthDate(LocalDate.now().minusYears(30))
                 .username("aleksandro")
+                .role(Role.USER)
                 .password("eeeeellss")
                 .name("peterinko")
                 .mail("aleksandro@peterinko.pl")

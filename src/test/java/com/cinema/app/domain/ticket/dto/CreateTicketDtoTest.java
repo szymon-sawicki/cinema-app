@@ -36,7 +36,6 @@ public class CreateTicketDtoTest {
                 .price(price)
                 .discount(discount)
                 .screeningId(screeningId)
-                .seatId(seatId)
                 .status(status)
                 .build();
 

@@ -95,6 +95,7 @@ Users service:
 
 ## NEXT TASKS TO DO  
 
+- fix deleting cinema !!
 - implement all missing methods in services and test them  
 - write all javadoc stubs  
 - REST API with security

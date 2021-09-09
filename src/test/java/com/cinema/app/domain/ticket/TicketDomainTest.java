@@ -126,10 +126,8 @@ public class TicketDomainTest {
         var discount = 20;
         var screeningId = 4L;
         var seatId = 5L;
-        var newSeatId = 3L;
         var status = Status.CONFIRMED;
         var userId = 3L;
-        var createUserDto = CreateUpdateUserDto.builder().build();
 
         var ticket = Ticket.builder()
                 .price(price)
@@ -145,7 +143,7 @@ public class TicketDomainTest {
                 .discount(discount)
                 .screeningId(screeningId)
                 .status(status)
-                .seatId(newSeatId)
+                .seatId(seatId)
                 .userId(userId)
                 .build();
 

@@ -3,6 +3,7 @@ package com.cinema.app.application.service;
 import com.cinema.app.application.service.exception.MoviesServiceException;
 import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
+import com.cinema.app.domain.movie.dto.GetMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.entity.MovieEntity;
@@ -185,6 +186,76 @@ public class MoviesServiceTest {
         assertThatThrownBy(() -> moviesService.findByGenre(null))
                 .isInstanceOf(MoviesServiceException.class)
                 .hasMessageContaining("genre is null");
+
+    }
+
+    @Test
+    @DisplayName("when movie is deleted")
+    public void test9() {
+
+        var id = 5L;
+        var title = "New movie";
+        var length = 23;
+        var movieGenre = MovieGenre.ACTION;
+        var premiereDate = LocalDate.now().minusYears(3);
+
+        var movieToDelete = MovieEntity.builder()
+                .title(title)
+                .length(length)
+                .movieGenre(movieGenre)
+                .premiereDate(premiereDate)
+                .build();
+
+        var expectedDto = GetMovieDto.builder()
+                .title(title)
+                .length(length)
+                .movieGenre(movieGenre)
+                .premiereDate(premiereDate)
+                .build();
+
+        when(movieEntityDao.deleteById(id))
+                .thenReturn(Optional.of(movieToDelete));
+
+        assertThat(moviesService.deleteMovie(id))
+                .isEqualTo(expectedDto);
+
+    }
+
+    @Test
+    @DisplayName("when movie is updated")
+    public void test10() {
+
+        var id = 5L;
+        var title = "New movie";
+        var newTitle = "new title";
+        var length = 23;
+        var movieGenre = MovieGenre.ACTION;
+        var premiereDate = LocalDate.now().minusYears(3);
+
+        var updateDto = CreateUpdateMovieDto.builder()
+                .title(title)
+                .length(length)
+                .movieGenre(movieGenre)
+                .premiereDate(premiereDate)
+                .build();
+
+        var updatedMovie = GetMovieDto.builder()
+                .title(title)
+                .length(length)
+                .movieGenre(movieGenre)
+                .premiereDate(premiereDate)
+                .build();
+
+        var movieEntity = updateDto.toMovie().toEntity();
+
+
+        when(movieEntityDao.update(id,movieEntity))
+                .thenReturn(Optional.of(movieEntity));
+
+        assertThat(moviesService.updateMovie(id,updateDto))
+                .isEqualTo(updatedMovie);
+
+
 
     }
 

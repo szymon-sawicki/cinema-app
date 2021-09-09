@@ -22,4 +22,15 @@ public class CinemaRoomEntityDaoImpl extends AbstractCrudDao<CinemaRoomEntity,Lo
                 .list()
         );
     }
+
+    @Override
+    public List<Long> findAllIdsFromCinema(Long cinemaId) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select id from cinema_rooms where cinema_id = :cinema_id")
+                .bind("cinema_id", cinemaId)
+                .mapTo(Long.class)
+                .list());
+    }
+
+
 }

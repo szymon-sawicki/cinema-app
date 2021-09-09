@@ -19,7 +19,7 @@ public class ScreeningEntityDaoImpl extends AbstractCrudDao<ScreeningEntity, Lon
     @Override
     public List<ScreeningEntity> findAllByMovieId(Long movieId) {
         return jdbi.withHandle(handle -> handle
-                .createQuery("select * from cinemas where movie_id = :movie_id")
+                .createQuery("select * from screenings where movie_id = :movie_id")
                 .bind("movie_id", movieId)
                 .mapToBean(ScreeningEntity.class)
                 .list());
@@ -32,6 +32,16 @@ public class ScreeningEntityDaoImpl extends AbstractCrudDao<ScreeningEntity, Lon
                 .bind("cinemaRoomId",cinemaRoomId)
                 .bind("date",date)
                 .mapToBean(ScreeningEntity.class)
+                .list()
+        );
+    }
+
+    @Override
+    public List<Long> findAllIdsByCinemaRoom(Long cinemaRoomId) {
+        return jdbi.withHandle(handle -> handle
+                .createQuery("select id from screenings where cinema_room_id = :cinemaRoomId")
+                .bind("cinemaRoomId",cinemaRoomId)
+                .mapTo(Long.class)
                 .list()
         );
     }

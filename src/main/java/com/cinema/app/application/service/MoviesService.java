@@ -83,6 +83,51 @@ public class MoviesService {
                 .toList();
     }
 
+    /**
+     * method deleting movie
+     * @param id movie to delete
+     * @return deleted movie
+     */
+
+    public GetMovieDto deleteMovie(Long id) {
+        if(id == null) {
+            throw new MoviesServiceException("id is null");
+        }
+        if(id <= 0) {
+            throw new MoviesServiceException("id is 0 or negative");
+        }
+
+        return movieEntityDao.deleteById(id)
+                .orElseThrow(() -> new MoviesServiceException("movie cannot be deleted"))
+                .toMovie()
+                .toGetMovieDto();
+    }
+
+    /**
+     * method updating movie
+     * @param id movie to update
+     * @param createUpdateMovieDto updating data
+     * @return updated movie
+     */
+
+    public GetMovieDto updateMovie(Long id, CreateUpdateMovieDto createUpdateMovieDto) {
+        Validator.validate(new CreateUpdateMovieDtoValidator(),createUpdateMovieDto);
+
+        if(id == null) {
+            throw new MoviesServiceException("id is null");
+        }
+        if(id <= 0) {
+            throw new MoviesServiceException("id is 0 or negative");
+        }
+
+        var movieToUpdate = createUpdateMovieDto.toMovie().toEntity();
+
+        return movieEntityDao.update(id,movieToUpdate)
+                .orElseThrow(() -> new MoviesServiceException("cannot update movie"))
+                .toMovie()
+                .toGetMovieDto();
+    }
+
 
 
 }
