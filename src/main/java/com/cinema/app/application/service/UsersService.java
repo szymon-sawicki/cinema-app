@@ -112,7 +112,7 @@ public class UsersService {
         if(userEntityDao.findByUsername(username).isPresent()) {
             throw new UsersServiceException("user " + username + " is already present in database");
         }
-        if(userEntityDao.findByUsername(mail).isPresent()) {
+        if(userEntityDao.findByMail(mail).isPresent()) {
             throw new UsersServiceException("user with mail " + mail + " is already present in database");
         }
     }

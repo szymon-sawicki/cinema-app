@@ -1,15 +1,18 @@
 package com.cinema.app.infrastructure.routing;
 
 import com.cinema.app.application.service.CinemasService;
+import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.infrastructure.configs.JsonTransformer;
+import com.cinema.app.infrastructure.routing.dto.ResponseDto;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 
 import static spark.Spark.*;
 
 @RequiredArgsConstructor
-
+@Controller
 
 public class CinemaRouting {
 
@@ -26,12 +29,67 @@ public class CinemaRouting {
                     post("",
                             (request, response) -> {
                                 var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
+                                response.header("Content-Type", "application/json;charset=utf-8");
+                              //  return ResponseDto.toResponse(cinemasService.addCinema(createCinemaDto));
                                 return cinemasService.addCinema(createCinemaDto);
                             }, new JsonTransformer());
 
+                    get("/city/:city",
+                            ((request, response) -> {
+                                var city = request.params(":city");
+                                response.header("Content-Type", "application/json;charset=utf-8");
+                                return ResponseDto.toResponse(cinemasService.findByCity(city));
+                            }
+                            ));
+
+                    get("/name/:name",
+                            ((request, response) -> {
+                                var name = request.params(":name");
+                                response.header("Content-Type", "application/json;charset=utf-8");
+                                return ResponseDto.toResponse(cinemasService.findByName(name));
+                            }
+                            ));
+
+
+
                 });
+
+
+
+        exception(CinemaServiceException.class, (exception, request, response) -> {
+            response.redirect("/error/" + exception.getMessage(), 301);
+        });
+
+        path("/error/", () -> {
+            get("/:message",
+                    (request, response) -> {
+                        var message = request.params(":message");
+                        response.header("Content-type", "application/json;charset=utf-8");
+                        response.status(500);
+                        var responseBody = ResponseDto.toError(message);
+                        return gson.toJson(responseBody);
+                    }, new JsonTransformer()
+            );
+        });
+
+        internalServerError((request, response) -> {
+            response.header("Content-Type", "application/json;charset=utf-8");
+            var responseBody = ResponseDto.toError("Unknown internal server error");
+            return gson.toJson(responseBody);
+        });
+
+        notFound((request, response) -> {
+            response.header("Content-type", "application/json;charset=utf-8");
+            response.status(404);
+            var responseBody = ResponseDto.toError("Not found");
+            return gson.toJson(responseBody);
+        });
+
     }
-}
+
+    }
+
+
 
 /*
 
@@ -46,48 +104,13 @@ public class CinemaRouting {
                             new JsonTransformer());
 */
 
-        /**
+        /*
          * exception handling
          */
 
-/*
-        exception(CinemaServiceException.class, (exception, request, response) -> {
-            response.redirect("/error/" + exception.getMessage(), 301);
-        });
-
-        path("/error/", () -> {
-            get("/:message",
-                    (request, response) -> {
-                        var message = request.params(":message");
-                        response.header("Content-type", "application/json;charset=utf-8");
-                        response.status(500);
-                        var responseBody = ResponseDto.toError(message);
-                        return toJson(responseBody);
-                    }, new JsonTransformer()
-            );
-        });
-
-        internalServerError((request, response) -> {
-            response.header("Content-Type", "application/json;charset=utf-8");
-            var responseBody = ResponseDto.toError("Unknown internal server error");
-            return toJson(responseBody);
-        });
-
-        notFound((request, response) -> {
-            response.header("Content-type", "application/json;charset=utf-8");
-            response.status(404);
-            var responseBody = ResponseDto.toError("Not found");
-            return toJson(responseBody);
-        });
-
-    }
 
 
-    private static <T> String toJson(T data) {
-        var gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(data);
 
-    }
 
-*/
+
 

@@ -33,6 +33,7 @@ public class User {
                 .username(username)
                 .mail(mail)
                 .name(name)
+                .role(role)
                 .birthDate(birthDate)
                 .creationDate(creationDate)
                 .gender(gender)

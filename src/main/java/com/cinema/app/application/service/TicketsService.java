@@ -113,7 +113,7 @@ public class TicketsService {
         return seatEntityDao.findSeatsByCinemaRoom(getScreeningDto.getCinemaRoomId())
                 .stream()
                 .map(seat -> seat.toSeat().toGetSeatDto())
-                .collect(Collectors.toMap(seat -> seat.getId(), getSeatDto -> {
+                .collect(Collectors.toMap(GetSeatDto::getId, getSeatDto -> {
                     return ticketEntityDao.findByScreeningAndSeat(getScreeningDto.getId(), getSeatDto.getId()).isPresent();
                 }));
     }

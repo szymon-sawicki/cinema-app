@@ -17,8 +17,11 @@ import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
+import com.cinema.app.infrastructure.routing.CinemaRouting;
+import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import spark.Spark;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -242,6 +245,8 @@ public class App {
 
 
 /*        // creating cinemas (with rooms and seats)
+
+
         System.out.println(cinemaService.addCinema(createCinemaDto1));
         System.out.println(cinemaService.addCinema(createCinemaDto2));
         System.out.println(cinemaService.addCinema(createCinemaDto3));
@@ -259,10 +264,12 @@ public class App {
 
 */
 
+
 /*ticketsService.mapSeatsOfScreening(getScreeningDto)
         .entrySet()
         .stream()
-        .forEach(entry -> System.out.println(entry.getKey().getId() + " : " + entry.getValue()));*/
+        .forEach(entry -> System.out.println(entry.getKey() + " : " + entry.getValue()));*/
+
    //     System.out.println(screeningInfoDao.findByKeyword("Zombie 12"));
 
     /*
@@ -273,6 +280,27 @@ public class App {
      /*
         System.out.println(moviesService.addMovie(movie));
         System.out.println(moviesService.addMovie(movie2));*/
+
+        // ROUTING
+
+        var gson = context.getBean("gson", Gson.class);
+
+        System.out.println(gson.toJson(createCinemaDto1));
+
+        Spark.initExceptionHandler(e-> System.out.println(e.getMessage()));
+
+        Spark.port(8000);
+
+        var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
+
+        cinemaRouting.routes();
+
+
     }
+
+
+
+
+
 
 }

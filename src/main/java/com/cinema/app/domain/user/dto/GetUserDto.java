@@ -1,6 +1,7 @@
 package com.cinema.app.domain.user.dto;
 
 import com.cinema.app.domain.user.type.Gender;
+import com.cinema.app.domain.user.type.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class GetUserDto {
     String name;
     LocalDate birthDate;
     LocalDate creationDate;
+    Role role;
     Gender gender;
 
 }
