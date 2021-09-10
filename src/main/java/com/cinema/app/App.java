@@ -15,9 +15,11 @@ import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
 import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
+import com.cinema.app.infrastructure.configs.JsonTransformer;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
 import com.cinema.app.infrastructure.routing.CinemaRouting;
+import com.cinema.app.infrastructure.routing.ScreeningRouting;
 import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -171,7 +173,7 @@ public class App {
                         .premiereDate(LocalDate.of(2020,5,5))
                         .movieGenre(MovieGenre.ACTION)
                         .build())
-                .dateTime(LocalDateTime.of(2021,10,1,21,30))
+                .dateTime(LocalDateTime.of(2021,11,1,21,30))
                 .build();
 
         var screening2 = CreateUpdateScreeningDto.builder()
@@ -264,6 +266,9 @@ public class App {
 
 */
 
+       var gson = context.getBean("gson",Gson.class);
+        System.out.println(gson.toJson(screening1));
+
 
 /*ticketsService.mapSeatsOfScreening(getScreeningDto)
         .entrySet()
@@ -283,17 +288,20 @@ public class App {
 
         // ROUTING
 
-        var gson = context.getBean("gson", Gson.class);
-
-        System.out.println(gson.toJson(createCinemaDto1));
 
         Spark.initExceptionHandler(e-> System.out.println(e.getMessage()));
+
+        Spark.exception(Exception.class, (exception, request, response) -> {
+            exception.printStackTrace();
+        });
 
         Spark.port(8000);
 
         var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
+        var screeningRouting = context.getBean("screeningRouting", ScreeningRouting.class);
 
         cinemaRouting.routes();
+        screeningRouting.routes();
 
 
     }

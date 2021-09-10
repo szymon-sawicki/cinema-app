@@ -6,13 +6,12 @@ import com.cinema.app.domain.movie.MovieUtils;
 import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
 import com.cinema.app.domain.screening.dto.GetScreeningDto;
 import com.cinema.app.domain.screening.dto.validator.CreateUpdateScreeningDtoValidator;
-import com.cinema.app.domain.user.dto.validator.CreateUpdateUserDtoValidator;
 import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.MovieEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningInfoDao;
 import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
-import com.cinema.app.screening.dto.GetScreeningInfoDto;
+import com.cinema.app.domain.screening.dto.GetScreeningInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +82,7 @@ public class ScreeningsService {
             var endOfScreening = screeningTime.plusMinutes(movieEntityDao
                     .findById(getScreeningDto.getMovieId()).orElseThrow().toMovie().toGetMovieDto().getLength());
 // TODO compare
-            if ((screeningTime.isBefore(timeToCheck) && endOfScreening.isAfter(timeToCheck)) || (screeningTime.isAfter(timeToCheck) && timeToCheck.plusMinutes(movieDuration).isAfter(screeningTime))) {
+            if (screeningTime.equals(timeToCheck) || (screeningTime.isBefore(timeToCheck) && endOfScreening.isAfter(timeToCheck)) || (screeningTime.isAfter(timeToCheck) && timeToCheck.plusMinutes(movieDuration).isAfter(screeningTime))) {
                 throw new ScreeningsServiceException("cannot add screening - that time is already booked");
             }
         });
@@ -181,6 +180,8 @@ public class ScreeningsService {
         if(screeningId <= 0) {
             throw new ScreeningsServiceException("screening id is 0 or negative");
         }
+
+        // TODO check time
 
         var movieDto = createUpdateScreeningDto.getCreateUpdateMovieDto();
 

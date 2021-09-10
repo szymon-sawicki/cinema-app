@@ -1,9 +1,6 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.exception.ScreeningsServiceException;
-import com.cinema.app.domain.address.Address;
-import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
-import com.cinema.app.domain.movie.Movie;
 import com.cinema.app.domain.movie.dto.CreateUpdateMovieDto;
 import com.cinema.app.domain.movie.type.MovieGenre;
 import com.cinema.app.domain.screening.dto.CreateUpdateScreeningDto;
@@ -13,8 +10,7 @@ import com.cinema.app.infrastructure.persistence.dao.ScreeningEntityDao;
 import com.cinema.app.infrastructure.persistence.dao.ScreeningInfoDao;
 import com.cinema.app.infrastructure.persistence.entity.*;
 import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
-import com.cinema.app.screening.dto.GetScreeningInfoDto;
-import org.assertj.core.api.Assertions;
+import com.cinema.app.domain.screening.dto.GetScreeningInfoDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

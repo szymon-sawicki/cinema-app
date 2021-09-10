@@ -59,14 +59,22 @@ Test-coverage: ~65%
 
 ## Working features at the moment
 
-REST Api (port 8000):
+### REST Api (port 8000):
 
-CinemaRouting:
+Cinema routing:
 
 - adding new cinema (POST method, url - /cinemas/)  
 - finding cinemas by city (GET, url - /cinemas/city/:city)  
 - finding cinema by name (GET, url - /cinemas/name/:name)
 
+Screening routing:
+
+- adding new screening  
+- finding screenings by date  
+- updating existing service  
+- searchin
+
+### Services
 
 Cinemas service:
 
@@ -108,7 +116,6 @@ Users service:
 ## NEXT TASKS TO DO  
 
 - fix deleting cinema !!
-- write all tests of users service 
 - write all javadoc stubs  
 - REST API with security
 - postman documentation

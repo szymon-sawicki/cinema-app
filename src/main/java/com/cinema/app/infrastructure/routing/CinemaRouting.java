@@ -29,8 +29,8 @@ public class CinemaRouting {
                     post("",
                             (request, response) -> {
                                 var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
-                                response.header("Content-Type", "application/json;charset=utf-8");
-                              //  return ResponseDto.toResponse(cinemasService.addCinema(createCinemaDto));
+                                //response.header("Content-Type", "application/json;charset=utf-8");
+                               // return ResponseDto.toResponse(cinemasService.addCinema(createCinemaDto));
                                 return cinemasService.addCinema(createCinemaDto);
                             }, new JsonTransformer());
 
@@ -40,15 +40,15 @@ public class CinemaRouting {
                                 response.header("Content-Type", "application/json;charset=utf-8");
                                 return ResponseDto.toResponse(cinemasService.findByCity(city));
                             }
-                            ));
+                            ), new JsonTransformer());
 
                     get("/name/:name",
                             ((request, response) -> {
                                 var name = request.params(":name");
                                 response.header("Content-Type", "application/json;charset=utf-8");
                                 return ResponseDto.toResponse(cinemasService.findByName(name));
-                            }
-                            ));
+                            }),
+                            new JsonTransformer());
 
 
 

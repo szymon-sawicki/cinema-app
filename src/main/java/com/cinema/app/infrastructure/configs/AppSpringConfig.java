@@ -9,6 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Configuration
 @ComponentScan("com.cinema.app")
@@ -27,7 +30,12 @@ public class AppSpringConfig {
 
     @Bean
     public Gson gson() {
-        return new GsonBuilder().setPrettyPrinting().create();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        return gsonBuilder.setPrettyPrinting().create();
     }
 
     @Bean
