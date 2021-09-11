@@ -19,6 +19,8 @@ import com.cinema.app.infrastructure.configs.JsonTransformer;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
 import com.cinema.app.infrastructure.routing.CinemaRouting;
+import com.cinema.app.infrastructure.routing.ErrorsRouting;
+import com.cinema.app.infrastructure.routing.MoviesRouting;
 import com.cinema.app.infrastructure.routing.ScreeningRouting;
 import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
@@ -298,10 +300,14 @@ public class App {
         Spark.port(8000);
 
         var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
+        var errorsRouting = context.getBean("errorsRouting", ErrorsRouting.class);
         var screeningRouting = context.getBean("screeningRouting", ScreeningRouting.class);
+        var moviesRouting = context.getBean("moviesRouting", MoviesRouting.class);
 
+        errorsRouting.routes();
         cinemaRouting.routes();
         screeningRouting.routes();
+        moviesRouting.routes();
 
 
     }
