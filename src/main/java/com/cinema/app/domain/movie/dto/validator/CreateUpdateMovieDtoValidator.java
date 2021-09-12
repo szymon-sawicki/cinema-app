@@ -30,9 +30,8 @@ public class CreateUpdateMovieDtoValidator implements Validator<CreateUpdateMovi
 
         if (createUpdateMovieDto.getPremiereDate() == null) {
             errors.put("premiere date", "is null");
-        } else if (createUpdateMovieDto.getPremiereDate().isAfter(LocalDate.now())) {
-            errors.put("premiere date", "is in the future");
         }
+
         if (createUpdateMovieDto.getLength() == null) {
             errors.put("length","is null");
         } else if (createUpdateMovieDto.getLength() <= 0) {

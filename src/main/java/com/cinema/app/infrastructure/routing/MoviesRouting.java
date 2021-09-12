@@ -21,6 +21,7 @@ public class MoviesRouting {
 
     private final MoviesService moviesService;
     private final Gson gson;
+    private final JsonTransformer jsonTransformer;
 
     public void routes() {
 
@@ -31,35 +32,47 @@ public class MoviesRouting {
 
         path("/movies", () -> {
 
-            post("", (request, response) -> {
+            post("",
+                    (request, response) -> {
                 var createMovieDto = gson.fromJson(request.body(), CreateUpdateMovieDto.class);
                 response.header("Content-Type", "application/json;charset=utf-8");
                 return toResponse(moviesService.addMovie(createMovieDto));
-            }, new JsonTransformer());
+            },jsonTransformer);
 
-            get("/:title", (request, response) -> {
+            get("",
+                    (request, response) -> {
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(moviesService.findAll());
+                    }, jsonTransformer);
+
+            get("/:title",
+                    (request, response) -> {
                 var title = request.params(":title");
-                return toResponse(moviesService.findByTitle(":title"));
-            }, new JsonTransformer());
+                response.header("Content-Type", "application/json;charset=utf-8");
+                return toResponse(moviesService.findByTitle(title));
+            }, jsonTransformer);
 
-            get("/genre/:genre", (request, response) -> {
+            get("/genre/:genre",
+                    (request, response) -> {
                 var genre = MovieGenre.valueOf(request.params(":genre").toUpperCase(Locale.ROOT));
                 response.header("Content-Type", "application/json;charset=utf-8");
                 return toResponse(moviesService.findByGenre(genre));
-            },new JsonTransformer());
+            },jsonTransformer);
 
-            delete("/:id",(request, response) -> {
+            delete("/:id",
+                    (request, response) -> {
                 var id = Long.valueOf(request.params(":id"));
                 response.header("Content-Type", "application/json;charset=utf-8");
                 return toResponse(moviesService.deleteMovie(id));
             });
 
-            put("/:id",(request, response) -> {
+            put("/:id",
+                    (request, response) -> {
                 var id = Long.valueOf(request.params(":id"));
                 var createUpdateDto = gson.fromJson(request.body(),CreateUpdateMovieDto.class);
                 response.header("Content-Type", "application/json;charset=utf-8");
                 return toResponse(moviesService.updateMovie(id,createUpdateDto));
-            }, new JsonTransformer());
+            }, jsonTransformer);
 
         });
 

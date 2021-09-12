@@ -21,6 +21,7 @@ public class ScreeningRouting {
 
     private final ScreeningsService screeningsService;
     private final Gson gson;
+    private final JsonTransformer jsonTransformer;
 
 
     public void routes() {
@@ -39,7 +40,7 @@ public class ScreeningRouting {
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.createScreeening(createScreeningDto));
                     }
-                    , new JsonTransformer());
+                    , jsonTransformer);
 
             get("/:keyword",
                     ((request, response) -> {
@@ -47,14 +48,14 @@ public class ScreeningRouting {
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.findByKeyword(keyword));
                     }
-                    ), new JsonTransformer());
+                    ), jsonTransformer);
 
             get("/date/:date",
                     (request, response) -> {
                         var date = LocalDate.parse(request.params(":date"));
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.findByDate(date));
-                    }, new JsonTransformer());
+                    }, jsonTransformer);
 
             put("/:id",
                     (request, response) -> {
@@ -62,14 +63,14 @@ public class ScreeningRouting {
                         var id = Long.valueOf(request.params(":id"));
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.updateScreening(id, screeningToUpdate));
-                    }, new JsonTransformer());
+                    }, jsonTransformer);
 
             delete("/:id",
                     (request, response) -> {
                         var id = Long.valueOf(request.params(":id"));
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.deleteScreening(id));
-                    }, new JsonTransformer()
+                    }, jsonTransformer
             );
         });
     }

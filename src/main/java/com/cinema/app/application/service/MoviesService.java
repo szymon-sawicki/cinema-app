@@ -56,7 +56,7 @@ public class MoviesService {
         if (title == null) {
             throw new MoviesServiceException("title is null");
         }
-        if(!title.matches("[\\w\\s\\-']{3,30}+")) {
+        if(!title.matches("[\\w\\s\\-'.,]{2,50}+")) {
             throw new MoviesServiceException("title have wrong format");
         }
         return  movieEntityDao
@@ -64,6 +64,18 @@ public class MoviesService {
                 .orElseThrow(() -> new MoviesServiceException("cannot find movie with title: " + title))
                 .toMovie()
                 .toGetMovieDto();
+    }
+
+    /**
+     * finding all movies
+     * @return list with all movies
+     */
+
+    public List<GetMovieDto> findAll() {
+        return movieEntityDao.findAll()
+                .stream()
+                .map(movieEntity -> movieEntity.toMovie().toGetMovieDto())
+                .toList();
     }
 
     /**

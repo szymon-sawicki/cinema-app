@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import static com.cinema.app.infrastructure.routing.dto.ResponseDto.*;
 import static spark.Spark.*;
 
 
@@ -16,7 +17,7 @@ import static spark.Spark.*;
 public class ErrorsRouting {
 
     private final Gson gson;
-
+    private final JsonTransformer jsonTransformer;
 
     public void routes() {
 
@@ -27,23 +28,24 @@ public class ErrorsRouting {
                         var message = request.params(":message");
                         response.header("Content-type", "application/json;charset=utf-8");
                         response.status(500);
-                        var responseBody = ResponseDto.toError(message);
-                        return gson.toJson(responseBody);
-                    }, new JsonTransformer()
+                        var responseBody = toError(message);
+                        return toError(gson.toJson(responseBody));
+                    }, jsonTransformer
             );
         });
 
         internalServerError((request, response) -> {
             response.header("Content-Type", "application/json;charset=utf-8");
-            var responseBody = ResponseDto.toError("Unknown internal server error");
-            return gson.toJson(responseBody);
+            var responseBody = toError("Unknown internal server error");
+            return toError(gson.toJson(gson.toJson(responseBody)));
         });
 
         notFound((request, response) -> {
             response.header("Content-type", "application/json;charset=utf-8");
             response.status(404);
-            var responseBody = ResponseDto.toError("Not found");
-            return gson.toJson(responseBody);
+            var responseBody = toError("Not found");
+           // return gson.toJson(responseBody);
+            return toError(gson.toJson(responseBody));
         });
 
 

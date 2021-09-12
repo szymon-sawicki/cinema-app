@@ -1,6 +1,6 @@
 # cinema app
 ### Backend system for managing network of cinemas with multiple rooms.  
-#### Project is in last phase of in development, planned finish - 17 september
+#### Project is almost ready, planned finish - 20 september
 
 The data is stored in MySQL database, communication with frontend will be achieved through REST API.  
 Till end of the year I will make complete frontend layer (actually I make Javascript course) and deployment on AWS.
@@ -63,7 +63,8 @@ Test-coverage: ~65%
 
 Cinema routing:
 
-- adding new cinema (POST method, url - /cinemas/)  
+- adding new cinema (POST method, url - /cinemas)  
+- finding all cinemas (GET method, urls - /cinemas)
 - finding cinemas by city (GET, url - /cinemas/city/:city)  
 - finding cinema by name (GET, url - /cinemas/name/:name)
 
@@ -72,7 +73,25 @@ Screening routing:
 - adding new screening  
 - finding screenings by date  
 - updating existing service  
-- searchin
+- searching screenings by keyword
+
+Movies  
+  
+- adding new movie  
+- displaying all movies  
+- finding movies by genre  
+- deleting movie  
+- updating movie  
+- finding movie by title  
+
+Users
+
+- creating new user  
+- displaying all users
+- updating user  
+- deleting user  
+- finding user by mail  
+- finding user by username  
 
 ### Services
 
@@ -115,7 +134,9 @@ Users service:
 
 ## NEXT TASKS TO DO  
 
+- add tickets routing 
 - fix deleting cinema !!
+- some rafctorings (look at TODO in project)
 - write all javadoc stubs  
-- REST API with security
+- security of REST API
 - postman documentation

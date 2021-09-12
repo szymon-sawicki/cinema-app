@@ -1,6 +1,7 @@
 package com.cinema.app.application.service;
 
 import com.cinema.app.application.service.configs.AppPasswordEncoder;
+import com.cinema.app.application.service.exception.CinemaServiceException;
 import com.cinema.app.application.service.exception.TicketsServiceException;
 import com.cinema.app.application.service.exception.UsersServiceException;
 import com.cinema.app.domain.configs.validator.Validator;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +58,18 @@ public class UsersService {
     }
 
     /**
+     * method returning all users in db
+     * @return list of all users
+     */
+
+    public List<GetUserDto> findAll() {
+        return userEntityDao.findAll()
+                .stream()
+                .map(userEntity -> userEntity.toUser().toGetUserDto())
+                .toList();
+    }
+
+    /**
      * method that updates existing user
      * @param userId id of user to be updated
      * @param createUpdateUserDto data to update
@@ -86,6 +100,50 @@ public class UsersService {
     }
 
     /**
+     * finding user by username
+     * @param username username to find
+     * @return user with given username or exception
+     */
+
+    //TODO test !
+
+    public GetUserDto findByUsername(String username) {
+        if(username == null) {
+            throw new UsersServiceException("username is null");
+        }
+        if(!username.matches("[\\w\\s\\-_.]{5,20}+")) {
+            throw new UsersServiceException("username have wrong format");
+        }
+
+        return userEntityDao.findByUsername(username)
+                .orElseThrow(() -> new CinemaServiceException("cannot find user"))
+                .toUser()
+                .toGetUserDto();
+    }
+
+    /**
+     * finding user by mail
+     * @param mail mail to find
+     * @return user with given username or exception
+     */
+
+    // TODO test !
+
+    public GetUserDto findByMail(String mail) {
+        if(mail == null) {
+            throw new UsersServiceException("mail is null");
+        }
+        if(!mail.matches("[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")) {
+            throw new UsersServiceException("mail have wrong format");
+        }
+
+        return userEntityDao.findByMail(mail)
+                .orElseThrow(() -> new CinemaServiceException("cannot find user"))
+                .toUser()
+                .toGetUserDto();
+    }
+
+    /**
      * method used to delete user
      * @param userId id of user to be deleted
      * @return deleted user
@@ -109,6 +167,7 @@ public class UsersService {
     private void checkMailAndUsernameAvailability(CreateUpdateUserDto createUpdateUserDto) {
         var username = createUpdateUserDto.getUsername();
         var mail = createUpdateUserDto.getMail();
+
         if(userEntityDao.findByUsername(username).isPresent()) {
             throw new UsersServiceException("user " + username + " is already present in database");
         }

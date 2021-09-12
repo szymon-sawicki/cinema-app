@@ -19,6 +19,7 @@ public class CinemaRouting {
 
     private final CinemasService cinemasService;
     private final Gson gson;
+    private final JsonTransformer jsonTransformer;
 
 
     public void routes() {
@@ -30,28 +31,35 @@ public class CinemaRouting {
 
         path("/cinemas", () -> {
 
-                    post("",
-                            (request, response) -> {
-                                var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
-                                response.header("Content-Type", "application/json;charset=utf-8");
-                                return toResponse(cinemasService.addCinema(createCinemaDto));
-                                }, new JsonTransformer());
+            post("",
+                    (request, response) -> {
+                        var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(cinemasService.addCinema(createCinemaDto));
+                    }, jsonTransformer);
 
-                    get("/city/:city",
-                            ((request, response) -> {
-                                var city = request.params(":city");
-                                response.header("Content-Type", "application/json;charset=utf-8");
-                                return toResponse(cinemasService.findByCity(city));
-                            }
-                            ), new JsonTransformer());
+            get("",
+                    ((request, response) -> {
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(cinemasService.findAll());
+                    }
+                    ), jsonTransformer);
 
-                    get("/name/:name",
-                            ((request, response) -> {
-                                var name = request.params(":name");
-                                response.header("Content-Type", "application/json;charset=utf-8");
-                                return toResponse(cinemasService.findByName(name));
-                            }),
-                            new JsonTransformer());
-                });
+            get("/city/:city",
+                    ((request, response) -> {
+                        var city = request.params(":city");
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(cinemasService.findByCity(city));
+                    }
+                    ), jsonTransformer);
+
+            get("/name/:name",
+                    ((request, response) -> {
+                        var name = request.params(":name");
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(cinemasService.findByName(name));
+                    }),
+                    jsonTransformer);
+        });
     }
-    }
+}

@@ -121,6 +121,20 @@ public class CinemasService {
 
     }
 
+    /**
+     * method finding all cinemas in db
+     * @return list with all cinemas
+     */
+
+    // TODO create cinema view with address and cinema rooms ?
+
+    public List<GetCinemaDto> findAll() {
+        return cinemaEntityDao.findAll()
+                .stream()
+                .map(cinemaEntity -> cinemaEntity.toCinema().toGetCinemaDto())
+                .toList();
+    }
+
     private void addSeatsToCinemaRoom(GetCinemaRoomDto getCinemaRoomDto) {
 
         for (int row = 1; row < getCinemaRoomDto.getRowsNum()+1;row++) {
