@@ -55,23 +55,6 @@ public class CreateUpdateMovieDtoValidatorTest {
                 .hasMessageContaining("movie genre: is null");
     }
 
-    @Test
-    @DisplayName("when premiere date is in the future")
-    public void test4() {
-
-        var createMovieDtoValidator = new CreateUpdateMovieDtoValidator();
-
-        var futureDate = LocalDate.now().plusMonths(5);
-
-        var createMovieDto = CreateUpdateMovieDto.builder()
-                .premiereDate(futureDate)
-                .build();
-
-        Assertions.assertThatThrownBy(() -> Validator.validate(createMovieDtoValidator,createMovieDto))
-                .isInstanceOf(ValidatorException.class)
-                .hasMessageStartingWith("[VALIDATION ERRORS]:")
-                .hasMessageContaining("premiere date: is in the future");
-    }
 
     @Test
     @DisplayName("when movie is too length")

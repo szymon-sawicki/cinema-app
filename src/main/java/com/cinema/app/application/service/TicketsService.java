@@ -69,13 +69,12 @@ public class TicketsService {
 
         // checking availability of all seats from create dto and returning list with checked seats
 
-        var ticketsToInsert = checkSeatAndGenerateTickets(createTicketDto.getSeats(), getScreeningDto)
+        var ticketsToInsert = checkSeatAndGenerateTickets(createTicketDto.getSeats(), screeningId)
                 .stream()
                 .map(seat -> createTicketDto.toTicket()
                         .withSeatId(seat.getId())
                         .withUserId(userId).toEntity())
                 .toList();
-
 
         return ticketEntityDao.saveAll(ticketsToInsert)
                 .stream().map(ticketEntity -> ticketEntity.toTicket().toGetTicketDto())
@@ -84,9 +83,9 @@ public class TicketsService {
     }
     // private method to check availability of all seats in ticket
 
-    private List<GetSeatDto> checkSeatAndGenerateTickets(List<GetSeatDto> seatsToBook, GetScreeningDto getScreeningDto) {
+    private List<GetSeatDto> checkSeatAndGenerateTickets(List<GetSeatDto> seatsToBook, Long screeningId) {
 
-        var bookingsMap = mapSeatsOfScreening(getScreeningDto);
+        var bookingsMap = mapSeatsOfScreening(screeningId);
         var result = new ArrayList<TicketEntity>();
 
         seatsToBook.forEach(seat -> {
@@ -101,14 +100,17 @@ public class TicketsService {
     }
 
     /**
-     * @param getScreeningDto screening to be checked
+     * @param screeningId screening to be checked
      * @return map with get seat dto as key and boolean as value. True - seat is already booked, false - seat is not booked
      */
 
-    public Map<Long, Boolean> mapSeatsOfScreening(GetScreeningDto getScreeningDto) {
-        if (getScreeningDto == null) {
-            throw new TicketsServiceException("get screening dto is null");
+    public Map<Long, Boolean> mapSeatsOfScreening(Long screeningId) {
+        if (screeningId == null) {
+            throw new TicketsServiceException("screening id is null");
         }
+
+        var getScreeningDto = screeningEntityDao.findById(screeningId)
+                .orElseThrow(() -> new TicketsServiceException("cannot find screening"));
 
         return seatEntityDao.findSeatsByCinemaRoom(getScreeningDto.getCinemaRoomId())
                 .stream()
@@ -167,8 +169,6 @@ public class TicketsService {
                 .toTicket()
                 .toGetTicketDto();
 
-
     }
-
 }
 

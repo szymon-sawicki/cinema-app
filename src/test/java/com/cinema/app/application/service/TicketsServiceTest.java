@@ -113,7 +113,7 @@ public class TicketsServiceTest {
         expectedHashMap.put(2L, false);
         expectedHashMap.put(3L, true);
 
-        assertThat(ticketsService.mapSeatsOfScreening(getScreeningDto))
+        assertThat(ticketsService.mapSeatsOfScreening(screeningId))
                 .hasSize(3)
                 .containsAllEntriesOf(expectedHashMap);
 

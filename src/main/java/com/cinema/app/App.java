@@ -15,11 +15,9 @@ import com.cinema.app.domain.user.dto.CreateUpdateUserDto;
 import com.cinema.app.domain.user.type.Gender;
 import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.configs.AppSpringConfig;
-import com.cinema.app.infrastructure.configs.JsonTransformer;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.impl.*;
 import com.cinema.app.infrastructure.routing.*;
-import com.google.gson.Gson;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import spark.Spark;
@@ -39,13 +37,13 @@ public class App {
         var cinemaService = context.getBean("cinemasService", CinemasService.class);
         var moviesService = context.getBean("moviesService", MoviesService.class);
         var screeningsService = context.getBean("screeningsService", ScreeningsService.class);
-        var screeningInfoDao = context.getBean("screeningInfoDaoImpl",ScreeningInfoDaoImpl.class);
-        var screeningDao = context.getBean("screeningEntityDaoImpl",ScreeningEntityDaoImpl.class);
+        var screeningInfoDao = context.getBean("screeningInfoDaoImpl", ScreeningInfoDaoImpl.class);
+        var screeningDao = context.getBean("screeningEntityDaoImpl", ScreeningEntityDaoImpl.class);
         var ticketsService = context.getBean("ticketsService", TicketsService.class);
         var usersService = context.getBean("usersService", UsersService.class);
         var userEntityDaoImpl = context.getBean("userEntityDaoImpl", UserEntityDaoImpl.class);
-        var cinemaRoomEntityDao = context.getBean("cinemaRoomEntityDaoImpl",CinemaRoomEntityDaoImpl.class);
-        var seatEntityDao = context.getBean("seatEntityDaoImpl",SeatEntityDaoImpl.class);
+        var cinemaRoomEntityDao = context.getBean("cinemaRoomEntityDaoImpl", CinemaRoomEntityDaoImpl.class);
+        var seatEntityDao = context.getBean("seatEntityDaoImpl", SeatEntityDaoImpl.class);
 
         // SAMPLE DATA TO TEST
 
@@ -141,7 +139,6 @@ public class App {
                 .build();
 
 
-
         var user1 = CreateUpdateUserDto.builder()
                 .name("Andreas")
                 .gender(Gender.MALE)
@@ -169,29 +166,29 @@ public class App {
                 .createUpdateMovieDto(CreateUpdateMovieDto.builder()
                         .title("Andreas Abenteuer")
                         .length(66)
-                        .premiereDate(LocalDate.of(2020,5,5))
+                        .premiereDate(LocalDate.of(2020, 5, 5))
                         .movieGenre(MovieGenre.ACTION)
                         .build())
-                .dateTime(LocalDateTime.of(2021,11,1,21,30))
+                .dateTime(LocalDateTime.of(2021, 11, 1, 21, 30))
                 .build();
 
         var screening2 = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(3L)
                 .createUpdateMovieDto(movie)
-                .dateTime(LocalDateTime.of(2021,10,1,18,30))
+                .dateTime(LocalDateTime.of(2021, 10, 1, 18, 30))
                 .build();
 
         var screening3 = CreateUpdateScreeningDto.builder()
                 .cinemaRoomId(3L)
                 .createUpdateMovieDto(movie2)
-                .dateTime(LocalDateTime.of(2021,10,1,15,0))
+                .dateTime(LocalDateTime.of(2021, 10, 1, 15, 0))
                 .build();
 
         var getScreeningDto = GetScreeningDto.builder()
                 .id(1L)
                 .cinemaRoomId(3L)
                 .movieId(1L)
-                .dateTime(LocalDateTime.of(2021,10,1,21,30))
+                .dateTime(LocalDateTime.of(2021, 10, 1, 21, 30))
                 .build();
 
         var getSeatDto1 = GetSeatDto.builder()
@@ -212,8 +209,8 @@ public class App {
         var ticket1 = CreateTicketDto.builder()
                 .createUserDto(user1)
                 .discount(0)
-                .screeningId(1L)
-                .seats(List.of(getSeatDto3,getSeatDto2,getSeatDto1))
+                .screeningId(3L)
+                .seats(List.of(getSeatDto3, getSeatDto2, getSeatDto1))
                 .status(Status.CONFIRMED)
                 .price(new BigDecimal("25"))
                 .build();
@@ -236,12 +233,11 @@ public class App {
                 .price(new BigDecimal("25"))
                 .build();
 
-  //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
+        //      System.out.println(userEntityDaoImpl.save(user1.toUser().withCreationDateToday().toEntity()));
 //        System.out.println(usersService.createUser(user1));
 
 
-
- //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());
+        //       System.out.println(ticketsService.mapSeatsOfScreening(getScreeningDto).entrySet().stream().filter(Map.Entry::getValue).toList());
 
 
 
@@ -261,55 +257,17 @@ public class App {
         System.out.println(ticketsService.createTicket(ticket2));
         System.out.println(ticketsService.createTicket(ticket3));
         System.out.println(ticketsService.getSeatsOfScreening(screeningDao.findById(1L).orElseThrow().toScreening().toGetScreeningDto()));
-
-
 */
 
-        /*ticketsService.mapSeatsOfScreening(getScreeningDto)
-        .entrySet()
-        .stream()
-        .forEach(entry -> System.out.println(entry.getKey() + " : " + entry.getValue()));*/
-
-   //     System.out.println(screeningInfoDao.findByKeyword("Zombie 12"));
-
-    /*
-        System.out.println(cinemaService.addCinema(createCinemaDto2));
-        System.out.println(cinemaService.addCinema(createCinemaDto3));
-
-        System.out.println(cinemaService.findByCity("Berlin"));*/
-     /*
-        System.out.println(moviesService.addMovie(movie));
-        System.out.println(moviesService.addMovie(movie2));*/
 
         // ROUTING
 
+        var routing = context.getBean("routingInitializer", RoutingInitializer.class);
 
-        Spark.initExceptionHandler(e-> System.out.println(e.getMessage()));
-
-        Spark.exception(Exception.class, (exception, request, response) -> {
-            exception.printStackTrace();
-        });
-
-        Spark.port(8000);
-
-        var cinemaRouting = context.getBean("cinemaRouting", CinemaRouting.class);
-        var errorsRouting = context.getBean("errorsRouting", ErrorsRouting.class);
-        var screeningRouting = context.getBean("screeningRouting", ScreeningRouting.class);
-        var moviesRouting = context.getBean("moviesRouting", MoviesRouting.class);
-        var usersRouting = context.getBean("usersRouting", UsersRouting.class);
-
-        errorsRouting.routes();
-        cinemaRouting.routes();
-        screeningRouting.routes();
-        moviesRouting.routes();
-        usersRouting.routes();
+        routing.init();
 
 
     }
-
-
-
-
 
 
 }
