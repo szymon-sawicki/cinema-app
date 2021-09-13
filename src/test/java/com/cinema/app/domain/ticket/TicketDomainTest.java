@@ -15,7 +15,7 @@ public class TicketDomainTest {
 
     @Test
     @DisplayName("when conversion to get ticket dto is correct")
-            public void test1() {
+    public void test1() {
 
         var price = new BigDecimal("25");
         var discount = 20;
@@ -92,7 +92,7 @@ public class TicketDomainTest {
         var seatId = 5L;
         var status = Status.CONFIRMED;
         var userId = 3L;
-        var newUserId=7L;
+        var newUserId = 7L;
         var createUserDto = CreateUpdateUserDto.builder().build();
 
         var createTicketDto = Ticket.builder()
@@ -149,7 +149,40 @@ public class TicketDomainTest {
 
         assertThat(ticket.toEntity())
                 .isEqualTo(expectedTicketEntity);
-
-
     }
+
+    @Test
+    @DisplayName("when status of ticket is changed")
+    public void test5() {
+
+        var price = new BigDecimal("25");
+        var discount = 20;
+        var screeningId = 4L;
+        var seatId = 5L;
+        var status = Status.CONFIRMED;
+        var newStatus = Status.UNCONFIRMED;
+        var userId = 3L;
+
+        var createTicketDto = Ticket.builder()
+                .price(price)
+                .discount(discount)
+                .screeningId(screeningId)
+                .status(status)
+                .seatId(seatId)
+                .userId(userId)
+                .build();
+
+        var expectedTicket = Ticket.builder()
+                .price(price)
+                .discount(discount)
+                .screeningId(screeningId)
+                .status(newStatus)
+                .seatId(seatId)
+                .userId(userId)
+                .build();
+
+        assertThat(createTicketDto.withStatus(newStatus))
+                .isEqualTo(expectedTicket);
+    }
+
 }

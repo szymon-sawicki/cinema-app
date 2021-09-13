@@ -14,7 +14,7 @@ public class ScreeningInfoDaoImpl implements ScreeningInfoDao {
 
     private final Jdbi jdbi;
 
-    private String selectAndJoinExpression = """
+    private final String selectAndJoinExpression = """
                 select s.id as id, c.name as cinemaName, a.street as street, a.house_number as houseNumber, a.city as city, cr.name as cinemaRoomName, m.title as movieTitle, m.length as length, s.date_time as dateTime
                 from addresses a 
                 join cinemas c on a.id = c.address_id 

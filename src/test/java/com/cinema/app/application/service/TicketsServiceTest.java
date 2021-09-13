@@ -18,6 +18,7 @@ import com.cinema.app.infrastructure.persistence.entity.SeatEntity;
 import com.cinema.app.infrastructure.persistence.entity.TicketEntity;
 import com.cinema.app.infrastructure.persistence.entity.UserEntity;
 import org.assertj.core.api.Assertions;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,7 +64,7 @@ public class TicketsServiceTest {
 
         var screeningId = 2L;
 
-        var getScreeningDto = GetScreeningDto.builder()
+        var screeningEntity = ScreeningEntity.builder()
                 .id(screeningId)
                 .cinemaRoomId(1L)
                 .build();
@@ -100,6 +101,8 @@ public class TicketsServiceTest {
                 .screeningId(screeningId)
                 .build();
 
+        when(screeningEntityDao.findById(screeningId))
+                .thenReturn(Optional.of(screeningEntity));
         when(seatEntityDao.findSeatsByCinemaRoom(1L))
                 .thenReturn(List.of(seat1, seat2, seat3));
         when(ticketEntityDao.findByScreeningAndSeat(screeningId, 1L))

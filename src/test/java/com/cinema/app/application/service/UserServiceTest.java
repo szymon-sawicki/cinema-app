@@ -204,10 +204,10 @@ public class UserServiceTest {
                 .thenReturn(Optional.of(userEntity));
 
 
-        when(userEntityDao.update(id,userEntity))
+        when(userEntityDao.update(id, userEntity))
                 .thenReturn(Optional.of(userEntity));
 
-        assertThat(usersService.updateUser(id,userToUpdate))
+        assertThat(usersService.updateUser(id, userToUpdate))
                 .isEqualTo(expectedDto);
 
 
@@ -252,6 +252,90 @@ public class UserServiceTest {
 
         assertThat(usersService.deleteUser(id))
                 .isEqualTo(deletedUser);
+
+    }
+
+    @Test
+    @DisplayName("when user is searched by username")
+    public void test6() {
+
+        var id = 3L;
+        var username = "Alfred";
+        var mail = "alfred@alfredo.pl";
+        var password = "123456";
+        var name = "Alfredo Bueno";
+        var role = Role.USER;
+        var birtDate = LocalDate.now().minusYears(30);
+        var gender = Gender.MALE;
+
+        var userEntity = UserEntity.builder()
+                .username(username)
+                .password(password)
+                .id(id)
+                .mail(mail)
+                .name(name)
+                .role(role)
+                .birthDate(birtDate)
+                .gender(gender)
+                .build();
+
+        var expectedUser = GetUserDto.builder()
+                .username(username)
+                .id(id)
+                .mail(mail)
+                .name(name)
+                .role(role)
+                .birthDate(birtDate)
+                .gender(gender)
+                .build();
+
+        when(userEntityDao.findByUsername(username))
+                .thenReturn(Optional.of(userEntity));
+
+        assertThat(usersService.findByUsername(username))
+                .isEqualTo(expectedUser);
+
+    }
+
+    @Test
+    @DisplayName("when user is searched by mail")
+    public void test7() {
+
+        var id = 3L;
+        var username = "Alfred";
+        var mail = "alfred@alfredo.pl";
+        var password = "123456";
+        var name = "Alfredo Bueno";
+        var role = Role.USER;
+        var birtDate = LocalDate.now().minusYears(30);
+        var gender = Gender.MALE;
+
+        var userEntity = UserEntity.builder()
+                .username(username)
+                .password(password)
+                .id(id)
+                .mail(mail)
+                .name(name)
+                .role(role)
+                .birthDate(birtDate)
+                .gender(gender)
+                .build();
+
+        var expectedUser = GetUserDto.builder()
+                .username(username)
+                .id(id)
+                .mail(mail)
+                .name(name)
+                .role(role)
+                .birthDate(birtDate)
+                .gender(gender)
+                .build();
+
+        when(userEntityDao.findByMail(mail))
+                .thenReturn(Optional.of(userEntity));
+
+        assertThat(usersService.findByMail(mail))
+                .isEqualTo(expectedUser);
 
     }
 

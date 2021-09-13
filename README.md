@@ -1,6 +1,7 @@
 # cinema app
 ### Backend system for managing network of cinemas with multiple rooms.  
-#### Project is almost ready, planned finish - 20 september
+#### Project is almost ready, some refactorings must be done, security layer in API and proper documentation
+### Planned finish - 20 september  
 
 The data is stored in MySQL database, communication with frontend will be achieved through REST API.  
 Till end of the year I will make complete frontend layer (actually I make Javascript course) and deployment on AWS.
@@ -40,10 +41,10 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~80%  
-Lines of code: 9000
-Classes: 132
-Unit test: 146  
-Test-coverage: ~65% 
+Lines of code: 9600  
+Classes: 145  
+Unit test: 148  
+Test-coverage: ~65%  
 
 ## Implemented domain objects
 

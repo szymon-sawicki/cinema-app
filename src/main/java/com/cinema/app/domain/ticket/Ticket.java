@@ -35,7 +35,6 @@ public class Ticket {
                 .build();
     }
 
-    // TODO test  !!!!!!!!!!!!!!!!!!!!
 
     public Ticket withSeatId(Long newSeatId) {
         return Ticket.builder()

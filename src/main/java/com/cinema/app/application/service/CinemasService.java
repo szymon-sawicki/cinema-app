@@ -5,6 +5,7 @@ import com.cinema.app.domain.address.AddressUtils;
 import com.cinema.app.domain.cinema.CinemaUtils;
 import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
+import com.cinema.app.domain.cinema.dto.GetCinemaInfoDto;
 import com.cinema.app.domain.cinema.dto.validator.CreateUpdateCinemaDtoValidator;
 import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
 import com.cinema.app.domain.cinema_room.dto.GetCinemaRoomDto;
@@ -13,10 +14,12 @@ import com.cinema.app.domain.configs.validator.Validator;
 import com.cinema.app.domain.seat.Seat;
 import com.cinema.app.domain.seat.type.SeatType;
 import com.cinema.app.infrastructure.persistence.dao.*;
+import com.cinema.app.infrastructure.persistence.entity.view.CinemaInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +37,7 @@ public class CinemasService {
     private final AddressEntityDao addressEntityDao;
     private final SeatEntityDao seatEntityDao;
     private final ScreeningEntityDao screeningEntityDao;
+    private final CinemaInfoDao cinemaInfoDao;
 
 
     /**
@@ -126,7 +130,6 @@ public class CinemasService {
      * @return list with all cinemas
      */
 
-    // TODO create cinema view with address and cinema rooms ?
 
     public List<GetCinemaDto> findAll() {
         return cinemaEntityDao.findAll()
@@ -157,19 +160,16 @@ public class CinemasService {
      * @return list of cinemas in that city
      */
 
-    public List<GetCinemaDto> findByCity(String city) {
+    public List<GetCinemaInfoDto> findByCity(String city) {
         if (city == null) {
             throw new CinemaServiceException("city is null");
         }
         if(!city.matches("[\\w\\s\\-]{3,30}+")) {
         throw new CinemaServiceException("city have wrong format");
     }
-        return addressEntityDao.findAllIdsFromCity(city).stream()
-                .map(addressId -> cinemaEntityDao
-                        .findByAddress(addressId)
-                        .orElseThrow(() -> new CinemaServiceException("cannot find element"))
-                        .toCinema()
-                        .toGetCinemaDto())
+        return cinemaInfoDao.findByCity(city)
+                .stream()
+                .map(CinemaInfo::toGetCinemaInfoDto)
                 .toList();
     }
 
@@ -179,18 +179,16 @@ public class CinemasService {
      * @return cinema with that name
      */
 
-    public GetCinemaDto findByName(String name) {
+    public GetCinemaInfoDto findByName(String name) {
         if (name == null) {
             throw new CinemaServiceException("name is null");
         }
         if(!name.matches("[\\w\\s\\-]{3,30}+")) {
             throw new CinemaServiceException("name have wrong format");
         }
-        return cinemaEntityDao
-                .findByName(name)
-                .orElseThrow(() -> new CinemaServiceException("Cannot find cinema with name: " + name))
-                .toCinema()
-                .toGetCinemaDto();
+        return cinemaInfoDao.findByName(name)
+                .orElseThrow(() -> new CinemaServiceException("cannot find cinema by name"))
+                .toGetCinemaInfoDto();
     }
 
     /**

@@ -105,7 +105,6 @@ public class UsersService {
      * @return user with given username or exception
      */
 
-    //TODO test !
 
     public GetUserDto findByUsername(String username) {
         if(username == null) {
@@ -127,7 +126,6 @@ public class UsersService {
      * @return user with given username or exception
      */
 
-    // TODO test !
 
     public GetUserDto findByMail(String mail) {
         if(mail == null) {
