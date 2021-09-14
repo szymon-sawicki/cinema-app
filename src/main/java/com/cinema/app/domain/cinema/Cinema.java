@@ -37,6 +37,7 @@ public class Cinema {
                 .build();
     }
 
+
     public CinemaEntity toEntity() {
         return CinemaEntity.builder()
                 .id(id)

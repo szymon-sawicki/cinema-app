@@ -18,7 +18,7 @@ public class CinemaInfoDaoImpl implements CinemaInfoDao {
     private final Jdbi jdbi;
 
     private final String selectAndJoinExpression = """
-            SELECT c.name as name, a.street as street, a.house_number as houseNumber, a.city as city FROM
+            SELECT c.name as name, a.street as street, a.house_number as houseNumber, a.city as city, a.zip_code as zipCode FROM
             addresses a join cinemas c on a.id = c.address_id
             """;
 

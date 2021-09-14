@@ -6,13 +6,12 @@ import com.cinema.app.domain.address.dto.CreateUpdateAddressDto;
 import com.cinema.app.domain.cinema.Cinema;
 import com.cinema.app.domain.cinema.dto.CreateUpdateCinemaDto;
 import com.cinema.app.domain.cinema.dto.GetCinemaDto;
+import com.cinema.app.domain.cinema.dto.GetCinemaInfoDto;
 import com.cinema.app.domain.cinema_room.dto.CreateUpdateCinemaRoomDto;
-import com.cinema.app.infrastructure.persistence.dao.AddressEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.CinemaEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.CinemaRoomEntityDao;
-import com.cinema.app.infrastructure.persistence.dao.SeatEntityDao;
+import com.cinema.app.infrastructure.persistence.dao.*;
 import com.cinema.app.infrastructure.persistence.entity.AddressEntity;
 import com.cinema.app.infrastructure.persistence.entity.CinemaEntity;
+import com.cinema.app.infrastructure.persistence.entity.view.CinemaInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,6 +45,9 @@ public class CinemasServiceTest {
 
     @Mock
     private SeatEntityDao seatEntityDao;
+
+    @Mock
+    private CinemaInfoDao cinemaInfoDao;
 
     @InjectMocks
     private CinemasService cinemasService;
@@ -86,25 +88,32 @@ public class CinemasServiceTest {
                         Address.builder().city("berlin").street("kurzweg").zipCode("67-200").houseNumber("567").build()
                 ));
 */
-        var id = 3L;
-        var name = "Gutkino";
-        var addressId = 5L;
+        var city = "Salzburg";
+        var street = "Main Street";
+        var houseNumber = "130";
+        var zipCode = "34-456";
+        var name = "Nice cinema";
 
-        when(cinemaEntityDao.findByName("Gutkino"))
-                .thenReturn(Optional.of(CinemaEntity.builder()
-                        .id(3L)
-                        .name("Gutkino")
-                        .addressId(5L)
-                        .build()
-                ));
-
-        var expectedGetCinemaDto = GetCinemaDto.builder()
-                .id(id)
+        var cinema = CinemaInfo.builder()
                 .name(name)
-                .addressId(addressId)
+                .city(city)
+                .street(street)
+                .houseNumber(houseNumber)
+                .zipCode(zipCode)
                 .build();
 
-        assertThat(cinemasService.findByName("Gutkino"))
+        when(cinemaInfoDao.findByName(name))
+                .thenReturn(Optional.of(cinema));
+
+        var expectedGetCinemaDto = GetCinemaInfoDto.builder()
+                .name(name)
+                .city(city)
+                .street(street)
+                .houseNumber(houseNumber)
+                .zipCode(zipCode)
+                .build();
+
+        assertThat(cinemasService.findByName(name))
                 .isEqualTo(expectedGetCinemaDto);
     }
 
@@ -257,58 +266,51 @@ public class CinemasServiceTest {
 
         var searchedCity = "Salzburg";
 
-        var address1 = Address.builder()
-                .id(1L)
-                .city("Salzburg")
-                .street("Lange Strasse")
-                .houseNumber("345/7")
+        var city1 = "Salzburg";
+        var street1 = "Main Street";
+        var houseNumber1 = "130";
+        var zipCode1 = "34-456";
+        var name1 = "Nice cinema";
+
+        var cinema1 = CinemaInfo.builder()
+                .name(name1)
+                .city(city1)
+                .street(street1)
+                .houseNumber(houseNumber1)
+                .zipCode(zipCode1)
                 .build();
 
-        var address2 = Address.builder()
-                .id(2L)
-                .city("Salzburg")
-                .street("Strass")
-                .houseNumber("3")
+        var getCinemaInfoDto1 = GetCinemaInfoDto.builder()
+                .name(name1)
+                .city(city1)
+                .street(street1)
+                .houseNumber(houseNumber1)
+                .zipCode(zipCode1)
                 .build();
 
-        var address3 = Address.builder()
-                .id(3L)
-                .city("Wien")
-                .street("Wagramer Strasse")
-                .houseNumber("205")
+        var cinema2 = CinemaInfo.builder()
+                .name(name1)
+                .city(city1)
+                .street(street1)
+                .houseNumber(houseNumber1)
+                .zipCode(zipCode1)
                 .build();
 
-        var cinema1 = Cinema.builder()
-                .name("Cineplexxx")
-                .addressId(1L)
+        var getCinemaInfoDto2 = GetCinemaInfoDto.builder()
+                .name(name1)
+                .city(city1)
+                .street(street1)
+                .houseNumber(houseNumber1)
+                .zipCode(zipCode1)
                 .build();
 
-        var cinema2 = Cinema.builder()
-                .name("Cineplexxx2")
-                .addressId(2L)
-                .build();
-
-        var cinema3 = Cinema.builder()
-                .name("Cineplexxx3")
-                .addressId(3L)
-                .build();
-
-        when(addressEntityDao.findAllIdsFromCity(searchedCity))
-                .thenReturn(List.of(1L,2L));
-
-        when(cinemaEntityDao.findByAddress(1L))
-                .thenReturn(Optional.of(cinema1.toEntity()));
-
-        when(cinemaEntityDao.findByAddress(2L))
-                .thenReturn(Optional.of(cinema2.toEntity()));
-
-        when(cinemaEntityDao.findByAddress(3L))
-                .thenReturn(Optional.of(cinema3.toEntity()));
+        when(cinemaInfoDao.findByCity(searchedCity))
+                .thenReturn(List.of(cinema1,cinema2));
 
         assertThat(cinemasService.findByCity(searchedCity))
                 .isNotEmpty()
                 .hasSize(2)
-                .containsAll(List.of(cinema1.toGetCinemaDto(), cinema2.toGetCinemaDto()));
+                .containsAll(List.of(getCinemaInfoDto1,getCinemaInfoDto2));
     }
 
     @Test
@@ -337,28 +339,34 @@ public class CinemasServiceTest {
     @DisplayName("when searching by name is succesfull")
     public void test10() {
 
-        var id = 1L;
-        var addressId = 2L;
+        var city = "Salzburg";
+        var street = "Main Street";
+        var houseNumber = "130";
+        var zipCode = "34-456";
         var name = "Nice cinema";
 
-        var cinema = Cinema.builder()
-                .id(id)
+        var cinema = CinemaInfo.builder()
                 .name(name)
-                .addressId(addressId)
+                .city(city)
+                .street(street)
+                .houseNumber(houseNumber)
+                .zipCode(zipCode)
                 .build();
 
-        var getCinemaDto = GetCinemaDto.builder()
-                .id(id)
+        var getCinemaInfoDto = GetCinemaInfoDto.builder()
                 .name(name)
-                .addressId(addressId)
+                .city(city)
+                .street(street)
+                .houseNumber(houseNumber)
+                .zipCode(zipCode)
                 .build();
 
 
-        when(cinemaEntityDao.findByName(name))
-                .thenReturn(Optional.of(cinema.toEntity()));
+        when(cinemaInfoDao.findByName(name))
+                .thenReturn(Optional.of(cinema));
 
         assertThat(cinemasService.findByName(name))
-                .isEqualTo(getCinemaDto);
+                .isEqualTo(getCinemaInfoDto);
 
     }
 }
