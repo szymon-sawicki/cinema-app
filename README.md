@@ -1,13 +1,14 @@
 # cinema app
 ### Backend system for managing network of cinemas with multiple rooms.  
-#### Project is almost ready, some refactorings must be done, security layer in API and proper documentation
+#### Project is almost ready, some refactorings must be done, security layer in API and proper documentation also
 ### Planned finish - 20 september  
 
 The data is stored in MySQL database, communication with frontend will be achieved through REST API.  
 Till end of the year I will make complete frontend layer (actually I make Javascript course) and deployment on AWS.
 
+After starting of application, sample data can be loaded into database with GET request to http://localhost:8000/initializer
 
-Technology stack:  
+#### Technology stack:  
 
 - Java 16
 - Spring framework
@@ -18,6 +19,8 @@ Technology stack:
 - Google Guava
 
 Build tool: Maven
+
+Docker (compose with two images - cinema-app and mysql)
 
 Testing:
 
@@ -41,7 +44,7 @@ In the future App class will be starting rest api controllers.
 ## Some statistics
 
 Progress in development: ~80%  
-Lines of code: 9600  
+Lines of code: 9700 
 Classes: 145  
 Unit test: 148  
 Test-coverage: ~65%  
@@ -135,9 +138,7 @@ Users service:
 
 ## NEXT TASKS TO DO  
 
-- add tickets routing 
 - fix deleting cinema !!
-- some rafctorings (look at TODO in project)
 - write all javadoc stubs  
 - security of REST API
 - postman documentation

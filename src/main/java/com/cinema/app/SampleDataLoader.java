@@ -138,7 +138,7 @@ public class SampleDataLoader {
         var user1 = CreateUpdateUserDto.builder()
                 .name("Andreas")
                 .gender(Gender.MALE)
-                .birthDate(LocalDate.now().minusYears(30))
+                .birthDate(LocalDate.now().minusYears(30).minusDays(50))
                 .mail("andi@andi.com")
                 .role(Role.USER)
                 .username("andielo")
@@ -229,10 +229,35 @@ public class SampleDataLoader {
                 .price(new BigDecimal("25"))
                 .build();
 
+        StringBuilder result = new StringBuilder();
 
-        // TODO methods loading sample data
+        cinemasService.addCinema(createCinemaDto1);
+        cinemasService.addCinema(createCinemaDto2);
+        cinemasService.addCinema(createCinemaDto3);
 
-        return "sample data is loaded into db";
+        result.append("Cinemas created. ");
+
+        usersService.createUser(user1);
+        usersService.createUser(user2);
+
+        result.append("Users created. ");
+
+        moviesService.addMovie(movie);
+        moviesService.addMovie(movie2);
+
+        result.append("Movies created. ");
+
+        screeningsService.createScreeening(screening1);
+        screeningsService.createScreeening(screening2);
+        screeningsService.createScreeening(screening3);
+
+        result.append("Screenings created. ");
+
+        ticketsService.createTickets(ticket1);
+
+        result.append("Ticket created");
+
+        return result.append(" Whole sample data created successfully !").toString();
 
     }
 }

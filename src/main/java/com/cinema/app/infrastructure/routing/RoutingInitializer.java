@@ -1,31 +1,38 @@
 package com.cinema.app.infrastructure.routing;
 
+import com.cinema.app.SampleDataLoader;
 import com.cinema.app.domain.configs.validator.ValidatorException;
-import com.cinema.app.domain.user.User;
 import com.cinema.app.infrastructure.configs.JsonTransformer;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.jetty.util.DateCache;
 import org.springframework.stereotype.Controller;
 import spark.Spark;
 
 import static com.cinema.app.infrastructure.routing.dto.ResponseDto.toError;
+import static com.cinema.app.infrastructure.routing.dto.ResponseDto.toResponse;
 import static spark.Spark.*;
 
 
 @RequiredArgsConstructor
 @Controller
 
+/**
+ * class responsible for handling exceptions, starting Spark and initializing all controllers
+ * @Author Szymon Sawicki
+ */
+
 public class RoutingInitializer {
 
     private final Gson gson;
     private final JsonTransformer jsonTransformer;
+
     private final CinemaRouting cinemaRouting;
     private final MoviesRouting moviesRouting;
     private final ScreeningRouting screeningRouting;
     private final TicketsRouting ticketsRouting;
     private final UsersRouting usersRouting;
 
+    private final SampleDataLoader sampleDataLoader;
 
     public void init() {
 
@@ -45,6 +52,15 @@ public class RoutingInitializer {
 
         exception(ValidatorException.class, (exception, request, response) -> {
             response.redirect("/error/" + exception.getMessage(), 301);
+        });
+
+        path("/initializer", () -> {
+            get("",
+                    (request, response) -> {
+                        response.header("Content-type", "application/json;charset=utf-8");
+                        return toResponse(sampleDataLoader.loadSampleData());
+                    }, jsonTransformer
+            );
         });
 
         path("/error/", () -> {

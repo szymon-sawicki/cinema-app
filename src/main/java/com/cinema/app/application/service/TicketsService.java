@@ -59,13 +59,8 @@ public class TicketsService {
                         .save(user.toUser().withCreationDate(LocalDate.now()).toEntity())
                         .orElseThrow(() -> new ScreeningsServiceException("cannot add new user")));
 
-        var userId = userFromDb.toUser().toGetUserDto().getId();
+        var userDto = userFromDb.toUser().toGetUserDto();
         var screeningId = createTicketDto.getScreeningId();
-
-        var getScreeningDto = screeningEntityDao.findById(screeningId)
-                .orElseThrow(() -> new ScreeningsServiceException("cannot find screening"))
-                .toScreening()
-                .toGetScreeningDto();
 
         // checking availability of all seats from create dto and returning list with checked seats
 
@@ -73,7 +68,7 @@ public class TicketsService {
                 .stream()
                 .map(seat -> createTicketDto.toTicket()
                         .withSeatId(seat.getId())
-                        .withUserId(userId).toEntity())
+                        .withUserId(userDto.getId()).toEntity())
                 .toList();
 
         return ticketEntityDao.saveAll(ticketsToInsert)

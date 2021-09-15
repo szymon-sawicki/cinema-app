@@ -36,23 +36,14 @@ public class ScreeningsService {
      */
 
     public GetScreeningDto createScreeening(CreateUpdateScreeningDto createUpdateScreeningDto) {
+
         Validator.validate(new CreateUpdateScreeningDtoValidator(), createUpdateScreeningDto);
+        checkTimeAvailability(createUpdateScreeningDto);
 
         var dateTime = createUpdateScreeningDto.getDateTime();
-        var time = dateTime.toLocalTime();
         var createMovieDto = createUpdateScreeningDto.getCreateUpdateMovieDto();
-        var duration = createMovieDto.getLength();
         var movieEntity = createMovieDto.toMovie().toEntity();
-        var cinemaRoomId = createUpdateScreeningDto.getCinemaRoomId();
 
-        var screeningsFromDay = screeningEntityDao.findAllByCinemaRoomAndDate(cinemaRoomId, dateTime.toLocalDate())
-                .stream()
-                .map(screeningEntity -> screeningEntity.toScreening().toGetScreeningDto())
-                .toList();
-// TODO pobrac liste godzin
-        if (!screeningsFromDay.isEmpty()) {
-            checkTimeAvailability(time, duration, screeningsFromDay);
-        }
 
         var movieFromDb = movieEntityDao.findByTitle(createMovieDto.getTitle())
                 .orElseGet(() -> movieEntityDao
@@ -75,17 +66,31 @@ public class ScreeningsService {
 
     // private method checking availibility of given screening's time in GetScrreningDto list
 
-    private void checkTimeAvailability(LocalTime timeToCheck, Integer movieDuration, List<GetScreeningDto> getScreeningDtos) {
-        getScreeningDtos.stream().forEach(getScreeningDto -> {
+    private void checkTimeAvailability(CreateUpdateScreeningDto createUpdateScreeningDto) {
 
-            var screeningTime = getScreeningDto.getDateTime().toLocalTime();
-            var endOfScreening = screeningTime.plusMinutes(movieEntityDao
-                    .findById(getScreeningDto.getMovieId()).orElseThrow().toMovie().toGetMovieDto().getLength());
+        var dateTime = createUpdateScreeningDto.getDateTime();
+        var timeToCheck = dateTime.toLocalTime();
+        var dateToCheck = dateTime.toLocalDate();
+        var duration = createUpdateScreeningDto.getCreateUpdateMovieDto().getLength();
+
+        var getScreeningDtos = screeningEntityDao.findAllByCinemaRoomAndDate(createUpdateScreeningDto.getCinemaRoomId(), dateTime.toLocalDate())
+                .stream()
+                .map(screeningEntity -> screeningEntity.toScreening().toGetScreeningDto())
+                .toList();
+
+        if (!getScreeningDtos.isEmpty()) {
+
+            getScreeningDtos.stream().forEach(getScreeningDto -> {
+
+                var screeningTime = getScreeningDto.getDateTime().toLocalTime();
+                var endOfScreening = screeningTime.plusMinutes(movieEntityDao
+                        .findById(getScreeningDto.getMovieId()).orElseThrow().toMovie().toGetMovieDto().getLength());
 // TODO compare
-            if (screeningTime.equals(timeToCheck) || (screeningTime.isBefore(timeToCheck) && endOfScreening.isAfter(timeToCheck)) || (screeningTime.isAfter(timeToCheck) && timeToCheck.plusMinutes(movieDuration).isAfter(screeningTime))) {
-                throw new ScreeningsServiceException("cannot add screening - that time is already booked");
-            }
-        });
+                if (screeningTime.equals(timeToCheck) || (screeningTime.isBefore(timeToCheck) && endOfScreening.isAfter(timeToCheck)) || (screeningTime.isAfter(timeToCheck) && timeToCheck.plusMinutes(duration).isAfter(screeningTime))) {
+                    throw new ScreeningsServiceException("cannot add screening - that time is already booked");
+                }
+            });
+        }
     }
 
     /**
@@ -172,7 +177,9 @@ public class ScreeningsService {
      */
 
     public GetScreeningDto updateScreening(Long screeningId, CreateUpdateScreeningDto createUpdateScreeningDto) {
+
         Validator.validate(new CreateUpdateScreeningDtoValidator(),createUpdateScreeningDto);
+        checkTimeAvailability(createUpdateScreeningDto);
 
         if(screeningId == null) {
             throw new ScreeningsServiceException("screening id is null");
@@ -180,8 +187,6 @@ public class ScreeningsService {
         if(screeningId <= 0) {
             throw new ScreeningsServiceException("screening id is 0 or negative");
         }
-
-        // TODO check time
 
         var movieDto = createUpdateScreeningDto.getCreateUpdateMovieDto();
 
