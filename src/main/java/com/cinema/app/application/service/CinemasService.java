@@ -167,10 +167,16 @@ public class CinemasService {
         if(!city.matches("[\\w\\s\\-]{3,30}+")) {
         throw new CinemaServiceException("city have wrong format");
     }
-        return cinemaInfoDao.findByCity(city)
+        var result = cinemaInfoDao.findByCity(city)
                 .stream()
                 .map(CinemaInfo::toGetCinemaInfoDto)
                 .toList();
+
+        if(result.isEmpty()) {
+            throw new CinemaServiceException("cannot find any cinemas in given city");
+        }
+
+        return result;
     }
 
     /**

@@ -31,6 +31,12 @@ public class UsersService {
 
     /**
      * method used to creating new user. Username and mail must be unique
+     * Password must meets that rules:
+     * - Should contain at least a capital letter
+     * - Should contain at least a small letter
+     * - Should contain at least a number
+     * - Should contain at least a special character
+     * - And minimum length is 8
      * @param createUpdateUserDto user to create
      * @return created user
      */

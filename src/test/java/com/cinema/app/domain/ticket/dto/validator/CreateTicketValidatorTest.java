@@ -203,7 +203,7 @@ public class CreateTicketValidatorTest {
                 .birthDate(LocalDate.now().minusYears(30))
                 .username("aleksandro")
                 .role(Role.USER)
-                .password("eeeeellss")
+                .password("aAlo.1sffv$")
                 .name("peterinko")
                 .mail("aleksandro@peterinko.pl")
                 .gender(Gender.MALE)

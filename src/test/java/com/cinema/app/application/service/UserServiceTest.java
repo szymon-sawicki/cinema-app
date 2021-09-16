@@ -43,7 +43,7 @@ public class UserServiceTest {
         var id = 5L;
         var username = "Alfred";
         var mail = "alfred@alfredo.pl";
-        var password = "123456";
+        var password = "aAlo.1sffv$";
         var name = "Alfredo Bueno";
         var role = Role.USER;
         var birtDate = LocalDate.now().minusYears(30);
@@ -80,7 +80,7 @@ public class UserServiceTest {
         var id = 5L;
         var username = "Alfred";
         var mail = "alfred@alfredo.pl";
-        var password = "123456";
+        var password = "aAlo.1sff$v";
         var name = "Alfredo Bueno";
         var role = Role.USER;
         var birtDate = LocalDate.now().minusYears(30);
@@ -118,7 +118,7 @@ public class UserServiceTest {
         var id = 5L;
         var username = "Alfred";
         var mail = "alfred@alfredo.pl";
-        var password = "123456";
+        var password = "aAlo.1$sffv";
         var name = "Alfredo Bueno";
         var role = Role.USER;
         var birtDate = LocalDate.now().minusYears(30);
@@ -171,7 +171,7 @@ public class UserServiceTest {
         var id = 5L;
         var username = "Alfred";
         var mail = "alfred@alfredo.pl";
-        var password = "123456";
+        var password = "aAlo.1$sffv";
         var name = "Alfredo Bueno";
         var role = Role.USER;
         var birtDate = LocalDate.now().minusYears(30);

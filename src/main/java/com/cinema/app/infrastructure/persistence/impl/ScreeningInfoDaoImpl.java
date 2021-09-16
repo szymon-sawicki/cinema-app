@@ -27,6 +27,8 @@ public class ScreeningInfoDaoImpl implements ScreeningInfoDao {
         this.jdbi = jdbi;
     }
 
+    // TODO how to include wildcard ??
+
     @Override
     public List<ScreeningInfo> findByKeyword(String keyword) {
         var sql = selectAndJoinExpression + """

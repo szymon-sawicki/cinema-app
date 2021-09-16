@@ -1,14 +1,12 @@
-# cinema app
-### Backend system for managing network of cinemas with multiple rooms.  
-#### Project is almost ready, some refactorings must be done, security layer in API and proper documentation also
-### Planned finish - 20 september  
 
-The data is stored in MySQL database, communication with frontend will be achieved through REST API.  
-Till end of the year I will make complete frontend layer (actually I make Javascript course) and deployment on AWS.
+# Cinema App
 
-After starting of application, sample data can be loaded into database with GET request to http://localhost:8000/initializer
+Backend system for managing network of cinemas. Allows you to create cinemas with multiple rooms, movies, screenings and ticket bookings.
+Data is stored in MySQL database, secured communication achieved with REST API
 
-#### Technology stack:  
+![Domain Classes](domain_classes.jpg)
+
+## Technology stack
 
 - Java 16
 - Spring framework
@@ -22,123 +20,329 @@ Build tool: Maven
 
 Docker (compose with two images - cinema-app and mysql)
 
-Testing:
+Testing: Junit 5, AssertJ, Mockito
 
-- Junit 5
-- AssertJ
-- Mockito
 
-## Building and running of project
+## Installation and starting
 
-What you need: Java 16, Maven, Docker  
-  
+Install my-project with npm
+
+What you need: Java 16, Maven, Docker
+
 After downloading of source files, project must be compiled to jar file with command "mvn clean install".
-Whole environment (app + MySQL database) can be build with docker compose with command:  
+Whole environment (app + MySQL database) is build with docker compose with command:
 
 - docker compose up -d --build
 
-By starting of containers main class App is launched. At the moment main class loaded sample data to database that is used to test new features.  
-In the future App class will be starting rest api controllers.
+By starting of containers main class App is launched and API under port 8000 available (see API reference).   
+Sample data can be loaded to database with GET request to http://localhost:8000/initializer.
 
 
-## Some statistics
 
-Progress in development: ~80%  
-Lines of code: 9700 
-Classes: 145  
-Unit test: 148  
-Test-coverage: ~65%  
+## API Reference
 
-## Implemented domain objects
+### Cinema
 
-- Address  
-- Cinema  
-- Cinema Room  
-- Movie  
-- Screening  
-- Seat  
-- Ticket  
-- User  
+#### Create new cinema
+
+```http
+  POST /cinemas
+```
+
+Request body - CreateUpdateCinemaDto - contains all data needed to create new cinema
 
 
-## Working features at the moment
+#### Find cinemas by city
 
-### REST Api (port 8000):
+```http
+  GET /cinemas/city/:city
+```
 
-Cinema routing:
+| Parameter | Type     | Description                           |
+| :-------- | :------- | :--------------------------------     |
+| `:city`   | `string` | **Required**. Name of city to search  |
 
-- adding new cinema (POST method, url - /cinemas)  
-- finding all cinemas (GET method, urls - /cinemas)
-- finding cinemas by city (GET, url - /cinemas/city/:city)  
-- finding cinema by name (GET, url - /cinemas/name/:name)
+#### Find cinema by name
 
-Screening routing:
+```http
+  GET /cinemas/name/:name
+```
 
-- adding new screening  
-- finding screenings by date  
-- updating existing service  
-- searching screenings by keyword
+| Parameter | Type     | Description                             |
+| :-------- | :------- | :--------------------------------       |
+| `:name`   | `string` | **Required**. Name of cinema to search  |
 
-Movies  
+
+#### Find all cinemas
+
+```http
+  GET /cinemas
+```
+
+### Screenings
+
+#### Create new screening
+
+```http
+  POST /screenings
+```
+
+Request body - CreateUpdateScreeningDto - contains all data of screening to create
+
+
+#### Update existing screening
+
+```http
+  PUT /screenings/:id
+```
+
+Request body - CreateUpdateScreeningDto - contains all data of screening to update
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `:id`     | `string` | **Required**. Id of screening to update  |  
+
+#### Delete screening
+
+```http
+  DELETE /screenings/:id
+```
+
+Request body - CreateUpdateScreeningDto - contains all data of screening to update
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `:id`     | `string` | **Required**. Id of screening to delete  |  
+
+#### Find all screenings
+
+```http
+  GET /screenings
+```
+
+#### Find screenings by keyword
+
+```http
+  GET /screenings/:keyword
+```
+
+Searching in all screenings by given keyword. Searched is by cinema name, cinema room's name, city, street, or movie's titles.
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:keyword`| `string` | **Required**. Keyword to find     |
+
+
+#### Find screenings by date
+
+```http
+  GET /screenings/date/:date
+```
+
+Searching all screening from given date.
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:date    | `string`    | **Required**. Date to find     |
+
+
+#### Find screenings by date and cinema
+
+```http
+  GET /screenings/:cinema/:date
+```
+
+Searching all screening from given date and cinema
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:cinema` | `string` | **Required**. Cinema to find      |
+| `:date`   | `string` | **Required**. Date to find        |
+
+### Users
+
+#### Create new user
+
+```http
+  POST /users
+```
+
+Request body - CreateUpdateUserDto - contains all data of user to create
+
+
+#### Update existing user
+
+```http
+  PUT /users/:id
+```
+
+Request body - CreateUpdateUserDto - contains all data of user to update
+
+| Parameter | Type     | Description                         |
+| :-------- | :------- | :--------------------------------   |
+| `:id`     | `string` | **Required**. Id of user to update  |  
+
+
+### Delete user
+
+```http
+  DELETE /users/:id
+```
+
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `:id`     | `string` | **Required**. Id of user to delete       |  
+
+#### Find all users
+
+```http
+  GET /users
+```
+
+#### Find user by username
+
+```http
+  GET /users/:username
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:username`| `string` | **Required**. Username to find   |
+
+
+#### Find user by mail
+
+```http
+  GET /users/:mail
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:mail`| `string`    | **Required**. mail to find        |
+
+### Movies
+
+#### Create new movie
+
+```http
+  POST /movies
+```
+
+Request body - CreateUpdateScreeningDto - contains all data of movie to create
+
+
+#### Update existing movie
+
+```http
+  PUT /movies/:id
+```
+
+Request body - CreateUpdateMovieDto - contains all data of movie to update
+
+| Parameter | Type     | Description                         |
+| :-------- | :------- | :--------------------------------   |
+| `:id`     | `string` | **Required**. Id of movie to update |  
+
+
+### Delete movie
+
+```http
+  DELETE /movies/:id
+```
+
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `:id`     | `string` | **Required**. Id of movie to delete      |  
+
+#### Find all movies
+
+```http
+  GET /movies
+```
+
+#### Find movie by title
+
+```http
+  GET /movies/:title
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:title`| `string`   | **Required**. Title to find       |
+
+
+#### Find movies by genre
+
+```http
+  GET /movies/:genre
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:genre`| `string`    | **Required**. genre to find      |
+
+
+### Tickets
+
+#### Create new ticket
+
+```http
+  POST /tickets
+```
+
+Request body - CreateUpdateTicketDto - contains all data of ticket to create
+
+
+#### Update status of existing ticket
+
+```http
+  PUT /tickets/:id/:status
+```
+
+
+| Parameter | Type     | Description                              |
+| :-------- | :------- | :--------------------------------        |
+| `:id`     | `string` | **Required**. Id of ticket to update     |  
+| `:status` | `string` | **Required**. Status of ticket to update |  
+
+
+### Delete ticket
+
+```http
+  DELETE /tickets/:id
+```
+
+
+| Parameter | Type     | Description                             |
+| :-------- | :------- | :--------------------------------       |
+| `:id`     | `string` | **Required**. Id of ticket to delete    |  
+
+#### Find all tickets
+
+```http
+  GET /tickets
+```
+
+#### Getting map with seats with reservations of given screening
+
+```http
+  GET /tickets/bookings/:id
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |  
+| `:id`     | `string`   | **Required**. Screening to find |
+
+
+
+
+
+
+
+
+
+
+
   
-- adding new movie  
-- displaying all movies  
-- finding movies by genre  
-- deleting movie  
-- updating movie  
-- finding movie by title  
-
-Users
-
-- creating new user  
-- displaying all users
-- updating user  
-- deleting user  
-- finding user by mail  
-- finding user by username  
-
-### Services
-
-Cinemas service:
-
-- creating new cinema with multiple rooms
-- adding new rooms to existing cinema
-- searching cinema by name
-- searching all cinemas from city
-
-Movies service:
-
-- adding new movie
-- searching movie by name
-- finding all movies from given genre
-
-Screenings service:  
-
-Finding of screening operates on view that contains most important info about screening fetched from tables using join statement.   
-
-- adding new screening with availability checking
-- finding screening by keyword
-- finding screening by movie
-- finding screening by date  
-- finding screening by cinema  
-- deleting screening  
-- updating screening  
-
-Tickets service:  
-
-- creating tickets with availability checking for given screening
-- generating map with booked seat of given screening
-- deleting ticket  
-
-Users service:  
-
-- creating new user with password encryption
-- updating user  
-- deleting user  
-
-## NEXT TASKS TO DO  
-
-- fix deleting cinema !!
-- write all javadoc stubs  
-- security of REST API
-- postman documentation

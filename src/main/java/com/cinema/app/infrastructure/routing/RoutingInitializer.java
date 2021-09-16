@@ -38,9 +38,7 @@ public class RoutingInitializer {
 
         Spark.initExceptionHandler(e -> System.out.println(e.getMessage()));
 
-        Spark.exception(Exception.class, (exception, request, response) -> {
-            exception.printStackTrace();
-        });
+
 
         Spark.port(8000);
 
@@ -69,24 +67,20 @@ public class RoutingInitializer {
                         var message = request.params(":message");
                         response.header("Content-type", "application/json;charset=utf-8");
                         response.status(500);
-                        var responseBody = toError(message);
-                        return toError(gson.toJson(responseBody));
+                        return toError(message);
                     }, jsonTransformer
             );
         });
 
         internalServerError((request, response) -> {
             response.header("Content-Type", "application/json;charset=utf-8");
-            var responseBody = toError("Unknown internal server error");
-            return toError(gson.toJson(gson.toJson(responseBody)));
+            return toError("Unknown internal server error");
         });
 
         notFound((request, response) -> {
             response.header("Content-type", "application/json;charset=utf-8");
             response.status(404);
-            var responseBody = toError("Not found");
-            // return gson.toJson(responseBody);
-            return toError(gson.toJson(responseBody));
+            return toError("Not found");
         });
 
 

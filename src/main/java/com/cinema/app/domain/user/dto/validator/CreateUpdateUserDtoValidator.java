@@ -31,7 +31,7 @@ public class CreateUpdateUserDtoValidator implements Validator<CreateUpdateUserD
 
         if (createUserDto.getPassword() == null) {
             errors.put("password", "is null");
-        } else if (!createUserDto.getPassword().matches("[\\S]{6,30}+")) {
+        } else if (!createUserDto.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*]).{8,}$")) {
             errors.put("password", "have wrong format");
         }
 

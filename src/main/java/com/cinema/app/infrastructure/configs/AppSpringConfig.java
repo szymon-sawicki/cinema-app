@@ -79,7 +79,7 @@ public class AppSpringConfig {
                     rows_num integer not null,
                     place_number integer not null,
                     cinema_id integer not null,
-                    foreign key (cinema_id) references cinemas (id) on delete cascade on update cascade
+                    foreign key (cinema_id) references cinemas (id) on delete cascade on update cascade 
                 );
                 """;
 
@@ -117,7 +117,7 @@ public class AppSpringConfig {
                     status varchar(15),
                     foreign key (screening_id) references screenings(id) on delete cascade on update cascade,
                     foreign key (user_id) references users(id) on delete cascade on update cascade,
-                    foreign key (seat_id) references seats(id) on delete cascade on update cascade
+                    foreign key (seat_id) references seats(id) on delete no action on update no action
                 );
                 """;
 

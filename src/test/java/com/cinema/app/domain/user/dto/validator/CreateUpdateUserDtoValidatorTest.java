@@ -283,7 +283,7 @@ public class CreateUpdateUserDtoValidatorTest {
         var user = CreateUpdateUserDto.builder()
                 .birthDate(LocalDate.now().minusYears(30))
                 .username("aleksandro")
-                .password("eeeeellss")
+                .password("aAlo.1sffv$$")
                 .name("peterinko")
                 .role(Role.USER)
                 .mail("aleksandro@peterinko.pl")

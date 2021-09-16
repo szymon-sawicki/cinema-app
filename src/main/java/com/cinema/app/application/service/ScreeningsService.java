@@ -65,12 +65,12 @@ public class ScreeningsService {
     }
 
     // private method checking availibility of given screening's time in GetScrreningDto list
+    // it fetches all screenings in cinema room at given date and compares with time of screening to create/update
 
     private void checkTimeAvailability(CreateUpdateScreeningDto createUpdateScreeningDto) {
 
         var dateTime = createUpdateScreeningDto.getDateTime();
         var timeToCheck = dateTime.toLocalTime();
-        var dateToCheck = dateTime.toLocalDate();
         var duration = createUpdateScreeningDto.getCreateUpdateMovieDto().getLength();
 
         var getScreeningDtos = screeningEntityDao.findAllByCinemaRoomAndDate(createUpdateScreeningDto.getCinemaRoomId(), dateTime.toLocalDate())
@@ -90,6 +90,7 @@ public class ScreeningsService {
                     throw new ScreeningsServiceException("cannot add screening - that time is already booked");
                 }
             });
+
         }
     }
 
@@ -226,4 +227,6 @@ public class ScreeningsService {
                 .toScreening()
                 .toGetScreeningDto();
     }
+
+    // TODO make method finding screenign from given cinema and date
 }

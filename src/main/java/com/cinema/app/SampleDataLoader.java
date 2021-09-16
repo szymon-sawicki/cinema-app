@@ -136,25 +136,25 @@ public class SampleDataLoader {
 
 
         var user1 = CreateUpdateUserDto.builder()
-                .name("Andreas")
+                .name("Andreas Gross")
                 .gender(Gender.MALE)
                 .birthDate(LocalDate.now().minusYears(30).minusDays(50))
                 .mail("andi@andi.com")
                 .role(Role.USER)
                 .username("andielo")
-                .password("123467899")
-                .passwordConfirmation("123467899")
+                .password("TurboAndi12.$")
+                .passwordConfirmation("TurboAndi12.$")
                 .build();
 
         var user2 = CreateUpdateUserDto.builder()
-                .name("Michael")
+                .name("Michael Paddington")
                 .gender(Gender.MALE)
                 .role(Role.ADMIN)
                 .birthDate(LocalDate.now().minusYears(30))
                 .mail("michi@ole.com")
                 .username("michi123")
-                .password("123467899")
-                .passwordConfirmation("123467899")
+                .password("Michael12.$")
+                .passwordConfirmation("Michael12.$")
                 .build();
 
         var screening1 = CreateUpdateScreeningDto.builder()
