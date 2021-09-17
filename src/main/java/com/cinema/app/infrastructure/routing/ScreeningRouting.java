@@ -76,6 +76,12 @@ public class ScreeningRouting {
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.findByDate(date));
                     }, jsonTransformer);
+
+            get("",
+                    (request, response) -> {
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(screeningsService.findAll());
+                    }, jsonTransformer);
         });
     }
 

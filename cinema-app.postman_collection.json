@@ -1,0 +1,765 @@
+{
+	"info": {
+		"_postman_id": "d50803e6-602d-4504-accf-0dfe6acea699",
+		"name": "cinema-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "cinemas",
+			"item": [
+				{
+					"name": "find cinemas by city",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/cinemas/city/Zurich",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"cinemas",
+								"city",
+								"Zurich"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find cinema by name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxODY3MjQ3LCJpYXQiOjE2MzE4NjY5NDd9.G7RPMlRVDQ9AimpexWrFDPWZF2KL-A0Ch8R-Tg6M1U4gjI83szleaD93kNkGEPXI-rFhXOxhQYqsfqoBDAFEuw",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/cinemas/name/Berliner Cinema",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"cinemas",
+								"name",
+								"Berliner Cinema"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "creating new cinema",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTA3MTkzLCJpYXQiOjE2MzE5MDY4OTN9.TgO4Rzdz12WbrWB4w6jYFggnWWzfYmXB-HI4mUfKx3nmImmSqDK7tePAZIRU7oWX1mfbGxhhHbPEUkd2dMpt8A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Great Cinema of Munchenn\",\r\n  \"createAddressDto\": {\r\n    \"street\": \"Main Street\",\r\n    \"houseNumber\": \"234\",\r\n    \"city\": \"Munchen\",\r\n    \"zipCode\": \"62-200\"\r\n  },\r\n  \"cinemaRoomDtos\": [\r\n    {\r\n      \"name\": \"great cinema room2\",\r\n      \"rowsNum\": 15,\r\n      \"placeNumber\": 10\r\n    },\r\n    {\r\n      \"name\": \"extra cinema room2\",\r\n      \"rowsNum\": 12,\r\n      \"placeNumber\": 8\r\n    },\r\n    {\r\n      \"name\": \"turbo cinema room2\",\r\n      \"rowsNum\": 4,\r\n      \"placeNumber\": 5\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/cinemas/management",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"cinemas",
+								"management"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "screenings",
+			"item": [
+				{
+					"name": "find screenign by keyword",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/screenings/Zurich",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"screenings",
+								"Zurich"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "creating new screening",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"createUpdateMovieDto\": {\r\n    \"title\": \"Jumanji\",\r\n    \"movieGenre\": \"ACTION\",\r\n    \"premiereDate\": \"2020-05-05\",\r\n    \"length\": 66\r\n  },\r\n  \"cinemaRoomId\": 3,\r\n  \"dateTime\": \"2021-12-12 09:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/management/screenings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"management",
+								"screenings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding screenings by date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/screenings/date/2021-10-01",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"screenings",
+								"date",
+								"2021-10-01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updating screening",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"createUpdateMovieDto\": {\r\n    \"title\": \"Andreas Abenteuer\",\r\n    \"movieGenre\": \"ACTION\",\r\n    \"premiereDate\": \"2020-05-05\",\r\n    \"length\": 66\r\n  },\r\n  \"cinemaRoomId\": 5,\r\n  \"dateTime\": \"2021-12-04 10:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/screenings/management/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"screenings",
+								"management",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleting screenings",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/screenings/management/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"screenings",
+								"management",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding all screenings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/screenings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"screenings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "movies",
+			"item": [
+				{
+					"name": "finding movies by genre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/movies/genre/horror",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies",
+								"genre",
+								"horror"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "creating new movie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTA5OTg2LCJpYXQiOjE2MzE5MDk2ODZ9.uOL-v80kTH2dyy-IcptFjPYccBOzdWVeZK2S2h4tZmvjYXFmnNs4nKJEY58PMH6ULxT7bDzBEOCz7lDrgKLCPA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Haus des Geldes\",\r\n    \"movieGenre\": \"ACTION\",\r\n    \"premiereDate\": \"2019-06-05\",\r\n    \"length\": 66\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/movies/management",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies",
+								"management"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding movie by title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/movies/Haus des Geldes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies",
+								"Haus des Geldes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updating movie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTA5NjIwLCJpYXQiOjE2MzE5MDkzMjB9.dQmwxsN0hbIxhqSFcCkzugUmP1I35bzM1LzUNNEH8iaVN2u93_G3Fth5pgACM8DLicoYW5k7eRPCard02H4DcQ",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Friends\",\r\n    \"movieGenre\": \"COMEDY\",\r\n    \"premiereDate\": \"2017-06-05\",\r\n    \"length\": 66\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/movies/management/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies",
+								"management",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleting movie",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/movies/management/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies",
+								"management",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "creating new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"hannibal\",\r\n  \"password\": \"aaAA12.$cdascs\",\r\n  \"passwordConfirmation\": \"aaAA12.$cdascs\",\r\n  \"role\": \"USER\",\r\n  \"mail\": \"hannibal@eat.you\",\r\n  \"name\": \"Hanni\",\r\n  \"birthDate\": \"1981-09-12\",\r\n  \"gender\": \"MALE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTEwNDMzLCJpYXQiOjE2MzE5MTAxMzN9.NCLhXVSZmyZDnBqN4X1yrLaOgx19u_Na8bdMNkmXD-7dRqCZrW-J0ZIAqgMc8uL1S4wKqaAVXq5571hmaNTIpg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding user by mail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users/mail/hannibal@eat.you",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"mail",
+								"hannibal@eat.you"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finding user by username",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users/username/hannibal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"username",
+								"hannibal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleting user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/users/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updating user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"herbert\",\r\n  \"password\": \"clnsdjvk2344\",\r\n  \"passwordConfirmation\": \"clnsdjvk2344\",\r\n  \"role\": \"USER\",\r\n  \"mail\": \"herbert@gamil.com\",\r\n  \"name\": \"Hanni\",\r\n  \"birthDate\": \"1981-09-12\",\r\n  \"gender\": \"MALE\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tickets",
+			"item": [
+				{
+					"name": "creating new tickets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTExMjkzLCJpYXQiOjE2MzE5MTA5OTN9.CcK5w7DbYMd5c9fAhK0wVDjBQ0nXQWSFxa-g8kB88kDHGNNo_BDw9pvjEItPjQXIQvhrw_PdYxG1zTFzbIXNPA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"screeningId\": 3,\r\n  \"seats\": [\r\n    {\r\n      \"id\": 15,\r\n      \"isBooked\": false,\r\n      \"cinemaRoomId\": 3\r\n    },\r\n    {\r\n      \"id\": 14,\r\n      \"isBooked\": false,\r\n      \"cinemaRoomId\": 3\r\n    },\r\n    {\r\n      \"id\": 13,\r\n      \"isBooked\": false,\r\n      \"cinemaRoomId\": 3\r\n    }\r\n  ],\r\n  \"createUserDto\": {\r\n    \"username\": \"andielo\",\r\n    \"password\": \"aaAAee.$12\",\r\n    \"passwordConfirmation\": \"aaAAee.$12\",\r\n    \"role\": \"USER\",\r\n    \"mail\": \"andi@andi.com\",\r\n    \"name\": \"Andreas\",\r\n    \"birthDate\": \"1991-09-13\",\r\n    \"gender\": \"MALE\"\r\n  },\r\n  \"price\": 25,\r\n  \"discount\": 0,\r\n  \"status\": \"CONFIRMED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/tickets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleting ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/tickets/management/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"tickets",
+								"management",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getting map with all seats availability for given screening",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/tickets/bookings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"tickets",
+								"bookings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updating status of ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/tickets/managements/status/3/unconfirmed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"tickets",
+								"managements",
+								"status",
+								"3",
+								"unconfirmed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sample data initializer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/initializer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"initializer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNjMxOTA5NjIwLCJpYXQiOjE2MzE5MDkzMjB9.dQmwxsN0hbIxhqSFcCkzugUmP1I35bzM1LzUNNEH8iaVN2u93_G3Fth5pgACM8DLicoYW5k7eRPCard02H4DcQ",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"andielo\",\r\n    \"password\": \"TurboAndi12.$\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

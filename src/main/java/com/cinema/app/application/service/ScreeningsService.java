@@ -31,6 +31,7 @@ public class ScreeningsService {
 
     /**
      * method creating new movie's screening in given cinema room
+     *
      * @param createUpdateScreeningDto screening to be created
      * @return screening inserted into db
      */
@@ -96,6 +97,7 @@ public class ScreeningsService {
 
     /**
      * method finding all screenings of given movie
+     *
      * @param movieId movie to be searched
      * @return list with searched movies
      */
@@ -117,6 +119,7 @@ public class ScreeningsService {
 
     /**
      * method finding all screenings in given date
+     *
      * @param date to be searched
      * @return list of ScreeningInfo view with given date
      */
@@ -134,7 +137,27 @@ public class ScreeningsService {
     }
 
     /**
+     * method finding all screenings
+     * @return list fo screenings
+     */
+
+    public List<GetScreeningInfoDto> findAll() {
+
+        var result = screeningInfoDao.findAll()
+                .stream()
+                .map(ScreeningInfo::toGetScreeningInfoDto)
+                .toList();
+
+        if(result.isEmpty()) {
+            throw new ScreeningsServiceException("cannot find any screenings");
+        }
+        return result;
+
+     }
+
+    /**
      * method finding all screenings of given cinema
+     *
      * @param cinemaId to be searched
      * @return list of screenings in given cinema
      */
@@ -155,12 +178,13 @@ public class ScreeningsService {
     /**
      * method used to finding screening by given keyword.
      * searching goes through fields: street, city, cinema name, cinema room name, movie title
+     *
      * @param keyword to be searched
      * @return screenings matching keyword
      */
 
     public List<GetScreeningInfoDto> findByKeyword(String keyword) {
-        if(keyword == null) {
+        if (keyword == null) {
             throw new ScreeningsServiceException("keyword is null");
         }
 
@@ -172,20 +196,21 @@ public class ScreeningsService {
 
     /**
      * method updating screening in database
-     * @param screeningId screening to update
+     *
+     * @param screeningId              screening to update
      * @param createUpdateScreeningDto updating data
      * @return updated screening
      */
 
     public GetScreeningDto updateScreening(Long screeningId, CreateUpdateScreeningDto createUpdateScreeningDto) {
 
-        Validator.validate(new CreateUpdateScreeningDtoValidator(),createUpdateScreeningDto);
+        Validator.validate(new CreateUpdateScreeningDtoValidator(), createUpdateScreeningDto);
         checkTimeAvailability(createUpdateScreeningDto);
 
-        if(screeningId == null) {
+        if (screeningId == null) {
             throw new ScreeningsServiceException("screening id is null");
         }
-        if(screeningId <= 0) {
+        if (screeningId <= 0) {
             throw new ScreeningsServiceException("screening id is 0 or negative");
         }
 
@@ -209,6 +234,7 @@ public class ScreeningsService {
 
     /**
      * method used to  delete given screening
+     *
      * @param screeningId screening to delete
      * @return deleted screening
      */

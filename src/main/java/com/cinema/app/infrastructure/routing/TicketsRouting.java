@@ -38,13 +38,6 @@ public class TicketsRouting {
 
             path("/management",() -> {
 
-                post("",
-                        (request, response) -> {
-                            var createTicketsDto = gson.fromJson(request.body(), CreateTicketDto.class);
-                            response.header("Content-Type", "application/json;charset=utf-8");
-                            return toResponse(ticketsService.createTickets(createTicketsDto));
-                        }
-                        , jsonTransformer);
 
                 put("/status/:id/:status",
                         (request, response) -> {
@@ -62,7 +55,17 @@ public class TicketsRouting {
                         }, jsonTransformer
                 );
 
+
+
             });
+
+            post("",
+                    (request, response) -> {
+                        var createTicketsDto = gson.fromJson(request.body(), CreateTicketDto.class);
+                        response.header("Content-Type", "application/json;charset=utf-8");
+                        return toResponse(ticketsService.createTickets(createTicketsDto));
+                    }
+                    , jsonTransformer);
 
             get("/bookings/:id",(request, response) -> {
                 var id = Long.valueOf(request.params(":id"));

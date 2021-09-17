@@ -103,11 +103,12 @@ public class RoutingInitializer {
 
         before((request, response) -> {
 
-            if (request.url().contains("management") || (!request.url().contains("creator") && request.url().contains("users"))) {
+            var url = request.url();
+
+            if (url.contains("management") || (url.contains("users") && url.contains("creator"))) {
                 var header = request.headers("Authorization");
                 var authorizationDto = appTokensService.parseAccessToken(header);
-                var url = request.url();
-                if(authorizationDto.getRole() != Role.ADMIN) {
+                if (authorizationDto.getRole() != Role.ADMIN) {
                     throw new AuthorizatonException("access not permitted");
                 }
             }

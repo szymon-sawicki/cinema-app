@@ -12,7 +12,7 @@ You don't need authorization to create new user, but all other operations on use
 You can get token with POST request to http://localhost:8080/login, in request body you must put Json with username and password of user having admin role.  
   
 In sample data set admin user have login "AndiGross" and password "TurboAndi12.$". You can load sample data set with  GET request to http://localhost:8000/initializer.
-You can find prepared login request in postman collection (in main folder of project)
+You find prepared login request in postman collection (in main folder of project)
 
 ![Domain Classes](domain_classes.jpg)
 
@@ -37,7 +37,6 @@ Testing: Junit 5, AssertJ, Mockito
 
 ## Installation and starting
 
-Install my-project with npm
 
 What you need: Java 16, Maven, Docker
 

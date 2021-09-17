@@ -3,6 +3,7 @@ package com.cinema.app.infrastructure.persistence.impl;
 import com.cinema.app.infrastructure.persistence.dao.CinemaInfoDao;
 import com.cinema.app.infrastructure.persistence.entity.view.CinemaInfo;
 import com.cinema.app.infrastructure.persistence.entity.view.ScreeningInfo;
+import com.cinema.app.infrastructure.persistence.generic.AbstractCrudDao;
 import lombok.RequiredArgsConstructor;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
@@ -11,11 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
+public class CinemaInfoDaoImpl extends AbstractCrudDao<CinemaInfo,Long> implements CinemaInfoDao {
 
-public class CinemaInfoDaoImpl implements CinemaInfoDao {
-
-    private final Jdbi jdbi;
+    protected CinemaInfoDaoImpl(Jdbi jdbi) { super(jdbi); }
 
     private final String selectAndJoinExpression = """
             SELECT c.name as name, a.street as street, a.house_number as houseNumber, a.city as city, a.zip_code as zipCode FROM

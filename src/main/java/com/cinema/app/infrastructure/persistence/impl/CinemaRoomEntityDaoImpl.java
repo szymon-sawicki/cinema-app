@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CinemaRoomEntityDaoImpl extends AbstractCrudDao<CinemaRoomEntity,Long> implements CinemaRoomEntityDao {
+public class CinemaRoomEntityDaoImpl extends AbstractCrudDao<CinemaRoomEntity, Long> implements CinemaRoomEntityDao {
 
-    protected CinemaRoomEntityDaoImpl(Jdbi jdbi) { super(jdbi); }
+    protected CinemaRoomEntityDaoImpl(Jdbi jdbi) {
+        super(jdbi);
+    }
 
     @Override
     public List<CinemaRoomEntity> findAllRoomsFromCinema(Long cinemaId) {
