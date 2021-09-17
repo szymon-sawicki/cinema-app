@@ -28,7 +28,7 @@ public class UsersRouting {
 
         path("/users", () -> {
 
-            post("",
+            post("/creator",
                     (request, response) -> {
                         var createUpdateUserDto = gson.fromJson(request.body(), CreateUpdateUserDto.class);
                         response.header("Content-Type", "application/json;charset=utf-8");

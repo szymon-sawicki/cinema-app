@@ -1,10 +1,21 @@
 
 # Cinema App
 
-Backend system for managing network of cinemas. Allows you to create cinemas with multiple rooms, movies, screenings and ticket bookings.
-Data is stored in MySQL database, secured communication achieved with REST API
+Backend system for managing network of cinemas. It allows you to create cinemas with multiple rooms, movies, screenings and ticket bookings.
+Data is stored in MySQL database, communication achieved with REST API (secured by JWT tokens)
+
+## Security
+
+If you want to perform create, update or delete operation (urls with "management") you need valid access token in HTTP Authorization header.  
+You don't need authorization to create new user, but all other operations on users are allowed only to admins.  
+
+You can get token with POST request to http://localhost:8080/login, in request body you must put Json with username and password of user having admin role.  
+  
+In sample data set admin user have login "AndiGross" and password "TurboAndi12.$". You can load sample data set with  GET request to http://localhost:8000/initializer.
+You can find prepared login request in postman collection (in main folder of project)
 
 ![Domain Classes](domain_classes.jpg)
+
 
 ## Technology stack
 
@@ -13,6 +24,7 @@ Data is stored in MySQL database, secured communication achieved with REST API
 - Jdbi
 - MySQL
 - Spark web framework
+- JWT
 - Lombok
 - Google Guava
 
@@ -46,7 +58,7 @@ Sample data can be loaded to database with GET request to http://localhost:8000/
 #### Create new cinema
 
 ```http
-  POST /cinemas
+  POST /cinemas/management
 ```
 
 Request body - CreateUpdateCinemaDto - contains all data needed to create new cinema
@@ -84,7 +96,7 @@ Request body - CreateUpdateCinemaDto - contains all data needed to create new ci
 #### Create new screening
 
 ```http
-  POST /screenings
+  POST /screenings/management
 ```
 
 Request body - CreateUpdateScreeningDto - contains all data of screening to create
@@ -93,7 +105,7 @@ Request body - CreateUpdateScreeningDto - contains all data of screening to crea
 #### Update existing screening
 
 ```http
-  PUT /screenings/:id
+  PUT /screenings/management/:id
 ```
 
 Request body - CreateUpdateScreeningDto - contains all data of screening to update
@@ -105,7 +117,7 @@ Request body - CreateUpdateScreeningDto - contains all data of screening to upda
 #### Delete screening
 
 ```http
-  DELETE /screenings/:id
+  DELETE /screenings/management/:id
 ```
 
 Request body - CreateUpdateScreeningDto - contains all data of screening to update
@@ -164,7 +176,7 @@ Searching all screening from given date and cinema
 #### Create new user
 
 ```http
-  POST /users
+  POST /users/creator
 ```
 
 Request body - CreateUpdateUserDto - contains all data of user to create
@@ -226,7 +238,7 @@ Request body - CreateUpdateUserDto - contains all data of user to update
 #### Create new movie
 
 ```http
-  POST /movies
+  POST /movies/management
 ```
 
 Request body - CreateUpdateScreeningDto - contains all data of movie to create
@@ -235,7 +247,7 @@ Request body - CreateUpdateScreeningDto - contains all data of movie to create
 #### Update existing movie
 
 ```http
-  PUT /movies/:id
+  PUT /movies/management/:id
 ```
 
 Request body - CreateUpdateMovieDto - contains all data of movie to update
@@ -248,7 +260,7 @@ Request body - CreateUpdateMovieDto - contains all data of movie to update
 ### Delete movie
 
 ```http
-  DELETE /movies/:id
+  DELETE /movies/management/:id
 ```
 
 
@@ -289,7 +301,7 @@ Request body - CreateUpdateMovieDto - contains all data of movie to update
 #### Create new ticket
 
 ```http
-  POST /tickets
+  POST /tickets/management
 ```
 
 Request body - CreateUpdateTicketDto - contains all data of ticket to create
@@ -298,7 +310,7 @@ Request body - CreateUpdateTicketDto - contains all data of ticket to create
 #### Update status of existing ticket
 
 ```http
-  PUT /tickets/:id/:status
+  PUT /tickets/management/:id/:status
 ```
 
 
@@ -311,7 +323,7 @@ Request body - CreateUpdateTicketDto - contains all data of ticket to create
 ### Delete ticket
 
 ```http
-  DELETE /tickets/:id
+  DELETE /tickets/management/:id
 ```
 
 
@@ -319,11 +331,6 @@ Request body - CreateUpdateTicketDto - contains all data of ticket to create
 | :-------- | :------- | :--------------------------------       |
 | `:id`     | `string` | **Required**. Id of ticket to delete    |  
 
-#### Find all tickets
-
-```http
-  GET /tickets
-```
 
 #### Getting map with seats with reservations of given screening
 

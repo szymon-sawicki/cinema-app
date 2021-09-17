@@ -36,21 +36,33 @@ public class TicketsRouting {
 
         path("/tickets", () -> {
 
-            post("",
-                    (request, response) -> {
-                        var createTicketsDto = gson.fromJson(request.body(), CreateTicketDto.class);
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(ticketsService.createTickets(createTicketsDto));
-                    }
-                    , jsonTransformer);
+            path("/management",() -> {
 
-            put("/status/:id/:status",
-                    (request, response) -> {
-                        var id = Long.valueOf(request.params(":id"));
-                        var newStatus = Status.valueOf(request.params(":status").toUpperCase(Locale.ROOT));
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(ticketsService.updateTicketsStatus(id,newStatus));
-                    }, jsonTransformer);
+                post("",
+                        (request, response) -> {
+                            var createTicketsDto = gson.fromJson(request.body(), CreateTicketDto.class);
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(ticketsService.createTickets(createTicketsDto));
+                        }
+                        , jsonTransformer);
+
+                put("/status/:id/:status",
+                        (request, response) -> {
+                            var id = Long.valueOf(request.params(":id"));
+                            var newStatus = Status.valueOf(request.params(":status").toUpperCase(Locale.ROOT));
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(ticketsService.updateTicketsStatus(id,newStatus));
+                        }, jsonTransformer);
+
+                delete("/:id",
+                        (request, response) -> {
+                            var id = Long.valueOf(request.params(":id"));
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(ticketsService.deleteTicket(id));
+                        }, jsonTransformer
+                );
+
+            });
 
             get("/bookings/:id",(request, response) -> {
                 var id = Long.valueOf(request.params(":id"));
@@ -58,14 +70,6 @@ public class TicketsRouting {
                 return toResponse(ticketsService.mapSeatsOfScreening(id));
             },jsonTransformer);
 
-
-            delete("/:id",
-                    (request, response) -> {
-                        var id = Long.valueOf(request.params(":id"));
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(ticketsService.deleteTicket(id));
-                    }, jsonTransformer
-            );
         });
 
 

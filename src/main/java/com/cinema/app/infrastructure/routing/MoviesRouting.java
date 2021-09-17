@@ -32,12 +32,30 @@ public class MoviesRouting {
 
         path("/movies", () -> {
 
-            post("",
-                    (request, response) -> {
-                var createMovieDto = gson.fromJson(request.body(), CreateUpdateMovieDto.class);
-                response.header("Content-Type", "application/json;charset=utf-8");
-                return toResponse(moviesService.addMovie(createMovieDto));
-            },jsonTransformer);
+            path("/management",() -> {
+                post("",
+                        (request, response) -> {
+                            var createMovieDto = gson.fromJson(request.body(), CreateUpdateMovieDto.class);
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(moviesService.addMovie(createMovieDto));
+                        },jsonTransformer);
+
+                delete("/:id",
+                        (request, response) -> {
+                            var id = Long.valueOf(request.params(":id"));
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(moviesService.deleteMovie(id));
+                        });
+
+                put("/:id",
+                        (request, response) -> {
+                            var id = Long.valueOf(request.params(":id"));
+                            var createUpdateDto = gson.fromJson(request.body(),CreateUpdateMovieDto.class);
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(moviesService.updateMovie(id,createUpdateDto));
+                        }, jsonTransformer);
+
+            });
 
             get("",
                     (request, response) -> {
@@ -58,21 +76,6 @@ public class MoviesRouting {
                 response.header("Content-Type", "application/json;charset=utf-8");
                 return toResponse(moviesService.findByGenre(genre));
             },jsonTransformer);
-
-            delete("/:id",
-                    (request, response) -> {
-                var id = Long.valueOf(request.params(":id"));
-                response.header("Content-Type", "application/json;charset=utf-8");
-                return toResponse(moviesService.deleteMovie(id));
-            });
-
-            put("/:id",
-                    (request, response) -> {
-                var id = Long.valueOf(request.params(":id"));
-                var createUpdateDto = gson.fromJson(request.body(),CreateUpdateMovieDto.class);
-                response.header("Content-Type", "application/json;charset=utf-8");
-                return toResponse(moviesService.updateMovie(id,createUpdateDto));
-            }, jsonTransformer);
 
         });
 

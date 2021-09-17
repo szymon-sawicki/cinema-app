@@ -2,6 +2,8 @@ package com.cinema.app.infrastructure.configs;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import javax.crypto.SecretKey;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -147,5 +150,10 @@ public class AppSpringConfig {
 
         return jdbi;
 
+    }
+
+    @Bean
+    public SecretKey secretKey() {
+        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 }

@@ -5,6 +5,7 @@ import com.cinema.app.domain.user.dto.GetUserDto;
 import com.cinema.app.domain.user.type.Gender;
 import com.cinema.app.domain.user.type.Role;
 import com.cinema.app.infrastructure.persistence.entity.UserEntity;
+import com.cinema.app.infrastructure.security.dto.AuthorizationDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -86,6 +87,14 @@ public class User {
                 .birthDate(birthDate)
                 .creationDate(creationDate)
                 .gender(gender)
+                .build();
+    }
+
+    public AuthorizationDto toAuthorizationDto() {
+        return AuthorizationDto.builder()
+                .id(id)
+                .username(username)
+                .role(role)
                 .build();
     }
 

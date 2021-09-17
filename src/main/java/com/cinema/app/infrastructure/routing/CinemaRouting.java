@@ -31,7 +31,7 @@ public class CinemaRouting {
 
         path("/cinemas", () -> {
 
-            post("",
+            post("/management",
                     (request, response) -> {
                         var createCinemaDto = gson.fromJson(request.body(), CreateUpdateCinemaDto.class);
                         response.header("Content-Type", "application/json;charset=utf-8");

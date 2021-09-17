@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.cinema.app.application.service.configs.AppPasswordEncoder.*;
+
 @Service
 @RequiredArgsConstructor
 
@@ -52,7 +54,7 @@ public class UsersService {
 
         var userToInsert = createUpdateUserDto.toUser()
                 .withCreationDate(LocalDate.now())
-                .withPassword(AppPasswordEncoder.encode(createUpdateUserDto.getPassword()))
+                .withPassword(encode(createUpdateUserDto.getPassword()))
                 .toEntity();
 
 

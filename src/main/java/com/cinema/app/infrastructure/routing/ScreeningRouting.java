@@ -34,13 +34,33 @@ public class ScreeningRouting {
 
         path("/screenings", () -> {
 
-            post("",
-                    (request, response) -> {
-                        var createScreeningDto = gson.fromJson(request.body(), CreateUpdateScreeningDto.class);
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(screeningsService.createScreeening(createScreeningDto));
-                    }
-                    , jsonTransformer);
+            path("/management",()-> {
+
+                post("",
+                        (request, response) -> {
+                            var createScreeningDto = gson.fromJson(request.body(), CreateUpdateScreeningDto.class);
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(screeningsService.createScreeening(createScreeningDto));
+                        }, jsonTransformer);
+
+                put("/:id",
+                        (request, response) -> {
+                            var screeningToUpdate = gson.fromJson(request.body(), CreateUpdateScreeningDto.class);
+                            var id = Long.valueOf(request.params(":id"));
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(screeningsService.updateScreening(id, screeningToUpdate));
+                        }, jsonTransformer);
+
+                delete("/:id",
+                        (request, response) -> {
+                            var id = Long.valueOf(request.params(":id"));
+                            response.header("Content-Type", "application/json;charset=utf-8");
+                            return toResponse(screeningsService.deleteScreening(id));
+                        }, jsonTransformer);
+
+
+            });
+
 
             get("/:keyword",
                     ((request, response) -> {
@@ -56,22 +76,6 @@ public class ScreeningRouting {
                         response.header("Content-Type", "application/json;charset=utf-8");
                         return toResponse(screeningsService.findByDate(date));
                     }, jsonTransformer);
-
-            put("/:id",
-                    (request, response) -> {
-                        var screeningToUpdate = gson.fromJson(request.body(), CreateUpdateScreeningDto.class);
-                        var id = Long.valueOf(request.params(":id"));
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(screeningsService.updateScreening(id, screeningToUpdate));
-                    }, jsonTransformer);
-
-            delete("/:id",
-                    (request, response) -> {
-                        var id = Long.valueOf(request.params(":id"));
-                        response.header("Content-Type", "application/json;charset=utf-8");
-                        return toResponse(screeningsService.deleteScreening(id));
-                    }, jsonTransformer
-            );
         });
     }
 
