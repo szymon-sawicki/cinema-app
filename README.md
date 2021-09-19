@@ -37,11 +37,9 @@ Testing: Junit 5, AssertJ, Mockito
 
 ## Installation and starting
 
+What you need - Docker.
 
-What you need: Java 16, Maven, Docker
-
-After downloading of source files, project must be compiled to jar file with command "mvn clean install".
-Whole environment (app + MySQL database) is build with docker compose with command:
+You need to download cinema-app.zip package and unzip it. You can start the containers with command:
 
 - docker compose up -d --build
 
