@@ -7,7 +7,8 @@ module.exports = {
     // Podajesz ktore pliki js maja byc przebudowane przez babel do postaci natywnej
     // Pliki podajesz w postaci par <chunk>: <sciezka>
     entry: {
-        index: './src/js/index.js'
+        index: './src/js/index.js',
+        cinemas: './src/js/cinemas.js'
     },
 
     module: {
@@ -20,6 +21,10 @@ module.exports = {
                 test: /\.(js)$/,
                 exclude: /node_modules/,
                 use: ['babel-loader']
+            },
+            {
+                test: /\.(scss|css)$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             }
         ]
     },
@@ -42,8 +47,18 @@ module.exports = {
             template: path.resolve(__dirname, './src/index.html'),
             // Teraz mowimy ktory plik lub pliki js ma byc dolaczony do pliku html
             chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'cinemas.html',
+            title: 'CINEMAS',
+            template: path.resolve(__dirname, './src/cinemas.html'),
+            chunks: ['cinemas']
+        }),
+        new CleanWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: './css/[name].css'
         })
     ],
-
-    mode: "development"
+    mode: "development",
+    devtool: 'eval-source-map'
 }
